@@ -1,0 +1,47 @@
+---
+layout: default
+---
+
+<div class="menu-page">
+  <header class="menu-header">
+    <h1>{{ page.title }}</h1>
+    {% if page.description %}
+      <p class="section-subtitle">{{ page.description }}</p>
+    {% endif %}
+    <div class="divider-sage"></div>
+  </header>
+
+  {% if page.menu_items %}
+    <div class="menu-items">
+      {% for item in page.menu_items %}
+        {% if item.link %}
+          <a href="{{ item.link }}" class="menu-item-link">
+        {% endif %}
+        <div class="menu-item-card">
+          <div class="menu-item-img-wrapper">
+            <img src="{{ item.image }}" alt="{{ item.name }}" class="menu-item-img {% if item.sold_out %}sold-out{% endif %}">
+            {% if item.sold_out %}
+              <div class="sold-out-overlay">Sold Out</div>
+            {% endif %}
+          </div>
+          <div class="menu-item-details">
+            <h2>{{ item.name }}</h2>
+            <p>{{ item.description }}</p>
+            <p class="menu-item-price">{{ item.price }}</p>
+          </div>
+        </div>
+        {% if item.link %}
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="menu-image">
+      <img src="{{ page.header-img }}" alt="{{ page.title }}" class="full-menu-img">
+    </div>
+  {% endif %}
+
+  <div class="additional-content">
+    {{ content }}
+  </div>
+</div>

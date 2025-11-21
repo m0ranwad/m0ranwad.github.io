@@ -128,18 +128,19 @@ navbar-var-length: true
 ######################################
 
 # Personalize the colours in your website. Colour values can be any valid CSS colour
+# Joanna Gaines Inspired Color Palette - Warm, Farmhouse Modern
 
-navbar-col: "#4A5A4F"
-navbar-text-col: "#FFFFFF"
-navbar-border-col: "#DDDDDD"
-page-col: "#FFFFFF"
-text-col: "#404040"
-link-col: "#008AFF"
-hover-col: "#0085A1"
-footer-col: "#4A5A4F"
-footer-text-col: "#777777"
-footer-link-col: "#FFFFFF"
-footer-hover-col: "#0085A1"
+navbar-col: "#FFFFFF"
+navbar-text-col: "#3E3E3E"
+navbar-border-col: "#D4E5D0"
+page-col: "#FAF9F6"
+text-col: "#8B8B83"
+link-col: "#9CAF88"
+hover-col: "#C9826B"
+footer-col: "#3E3E3E"
+footer-text-col: "#FAF9F6"
+footer-link-col: "#9CAF88"
+footer-hover-col: "#C9826B"
 
 # Alternatively, the navbar, footer, and page background can be set to an image
 # instead of colour
@@ -152,8 +153,8 @@ footer-hover-col: "#0085A1"
 #mobile-theme-col: "#0085A1"
 
 # For any extra visual customization, you can include additional CSS files in every page on your site. List any custom CSS files here
-#site-css:
-#  - "/assets/css/custom-styles.css"
+site-css:
+  - "/assets/css/redesign-joanna-gaines.css"
 
 # If you have common JavaScript files that should be included in every page, list them here
 #site-js:
