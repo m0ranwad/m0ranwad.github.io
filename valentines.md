@@ -1,6 +1,8 @@
 ---
 layout: menu
 title: Valentine's Menu
+subtitle: Sweet treats to celebrate love
+permalink: /valentines/
 header-img: /assets/img/valentines/menu1.jpg
 menu_items:
   - name: Lemon Raspberry 

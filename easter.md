@@ -1,6 +1,7 @@
 ---
 layout: menu
 title: Easter Menu
+subtitle: Spring celebrations made sweeter
 header-img: /assets/img/easter/IMG_6388.jpg
 permalink: /easter/
 menu_items:

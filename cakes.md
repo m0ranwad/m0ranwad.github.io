@@ -1,6 +1,8 @@
 ---
 layout: menu
-title: Cake Menu
+title: Custom Cakes
+subtitle: Beautiful cakes designed just for you
+permalink: /cakes/
 header-img: /assets/img/thumbprint.jpg
 menu_items:
   - name: Birthday Cake

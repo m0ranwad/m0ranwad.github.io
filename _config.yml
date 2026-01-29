@@ -20,12 +20,10 @@ title: Thymeless Treats Bakery
 ###############################################
 
 navbar-links:
-  #About Me: "about"
-  Order: "thanksgiving"
-  Contact Me: "contact"
-  Menu: "menu"
-    # - Seasonal Menu: "mothersday"
-#  Author's home: "https://deanattali.com"
+  Order: "/inquiry/"
+  Menus: "/menu/"
+  Gallery: "/gallery/"
+  Contact: "/contact/"
 
 ################
 # --- Logo --- #
@@ -154,7 +152,7 @@ footer-hover-col: "#C9826B"
 
 # For any extra visual customization, you can include additional CSS files in every page on your site. List any custom CSS files here
 site-css:
-  - "/assets/css/redesign-joanna-gaines.css"
+  - "/assets/css/optimized-2025.css"
 
 # If you have common JavaScript files that should be included in every page, list them here
 #site-js:

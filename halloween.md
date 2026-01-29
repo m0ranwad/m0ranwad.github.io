@@ -1,6 +1,7 @@
 ---
 layout: menu
 title: Halloween Menu
+subtitle: Spooky-cute treats for Halloween fun
 permalink: /halloween/
 menu_items:
   - name: Spooktacular Boo Box

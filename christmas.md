@@ -1,6 +1,7 @@
 ---
 layout: menu
 title: Christmas Menu
+subtitle: Festive treats for your holiday celebrations
 header-img: /assets/img/headers/home/gingerbread.jpg
 permalink: /christmas/
 menu_items:

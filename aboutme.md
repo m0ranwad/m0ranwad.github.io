@@ -1,35 +1,61 @@
----
+﻿---
 layout: page
-title: About Me
+title: Meet Allie
+subtitle: The heart behind every treat
 permalink: /about/
-show_social_links: false
 ---
 
+<div style="max-width: 900px; margin: 0 auto;">
+  
+  <!-- Intro -->
+  <div style="text-align: center; margin-bottom: 3rem; padding: 2rem 1.5rem; background: linear-gradient(135deg, #E8EFE3 0%, #FBF8F3 100%); border-radius: 12px;">
+    <p style="font-size: 1.125rem; line-height: 1.8; color: #6B6B6B; margin: 0;">
+      I'm Allie, a home baker in North Ridgeville creating buttercream cookies, custom cakes, and seasonal treats. 
+      This is my creative outlet where the familiar comfort of baking meets fresh inspiration.
+    </p>
+  </div>
 
-<div class="about-me-container">
-  <h1>Welcome to Thymeless Treats Bakery</h1><br><br>
-  
-  <div class="section">
-    <h2>A Baker's Canvas</h2>
-    <p>I’m Allie, the hands and heart behind Thymeless Treats Bakery. While I honor the timeless aspects of baking, I am constantly on a quest for fresh inspirations, eager to blend new flavors and textures. This bakery is my creative outlet, a place where the familiar comfort of cookies meets the thrill of culinary creativity.</p>
+  <!-- Two Column Cards -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin: 3rem 0;">
+    
+    <!-- What I Make -->
+    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); text-align: center;">
+      <div style="font-size: 3rem; margin-bottom: 1rem;"></div>
+      <h3 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.5rem; color: #333; margin-bottom: 1rem;">What I Bake</h3>
+      <p style="color: #6B6B6B; line-height: 1.7; margin: 0; font-size: 0.9375rem;">
+        Signature buttercream cookies, custom cakes and cupcakes, seasonal holiday treats, 
+        chocolate-dipped specialties, and dessert breads.
+      </p>
+    </div>
+
+    <!-- My Approach -->
+    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); text-align: center;">
+      <div style="font-size: 3rem; margin-bottom: 1rem;"></div>
+      <h3 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.5rem; color: #333; margin-bottom: 1rem;">My Approach</h3>
+      <p style="color: #6B6B6B; line-height: 1.7; margin: 0; font-size: 0.9375rem;">
+        Small-batch cottage bakery with dye-free options available. 
+        Every order is custom-made with quality ingredients and attention to detail.
+      </p>
+    </div>
+
   </div>
-  
-  <div class="section">
-    <h2>Signature Delights</h2>
-    <p>Buttercream frosting is more than just an ingredient here – it’s a statement of indulgence, lovingly piped onto our signature cookies that have quickly become a local favorite. These cookies, along with an array of dessert breads like the tangy cranberry orange and the classic banana, are the cornerstones of my bakery's menu.</p>
+
+  <!-- Closing -->
+  <div style="text-align: center; margin: 3rem 0;">
+    <p style="font-family: 'Caveat', cursive; font-size: 1.5rem; color: #8FA378; margin: 0;">
+      Thanks for stopping by!
+    </p>
   </div>
-  
-  <div class="section">
-    <h2>Sweet Creations</h2>
-    <p>Cupcakes adorned with swirls of buttercream and petite cakes are crafted not just to satiate your sweet tooth but to dazzle your senses. The bakery also becomes a winter wonderland during the holiday season, offering an assortment of Christmas cookies that are as delightful to look at as they are to devour.</p>
+
+  <!-- CTA -->
+  <div style="background: #FBF8F3; padding: 2rem; border-radius: 12px; text-align: center; border: 2px solid #8FA378;">
+    <p style="font-size: 1.125rem; color: #6B6B6B; margin-bottom: 1.5rem;">
+      Ready to order something special?
+    </p>
+    <div style="display: flex; gap: 1rem; justify-center: center; flex-wrap: wrap;">
+      <a href="/gallery/" class="btn-primary-custom">View Gallery</a>
+      <a href="/inquiry/" class="btn-secondary">Place Order</a>
+    </div>
   </div>
-  
-  <div class="section">
-    <h2>Chocolate-Dipped Indulgences</h2>
-    <p>For those who find their bliss in the rich allure of chocolate, our chocolate-dipped Oreos, cashews, and peanut butter creations are a testament to the simple joy that quality ingredients, when combined thoughtfully, can bring.</p>
-  </div>
-  
-  <p class="footer-signature">Thank you for stepping into my world of baking, where every treat is a work of art, and every flavor tells a story. I invite you to explore, taste, and enjoy the labor of love that is Thymeless Treats Bakery.</p>
-  
-  <p class="footer-signature"><strong>With warmth and whisk in hand,</strong><br>Allie, Thymeless Treats Bakery</p>
+
 </div>

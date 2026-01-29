@@ -1,14 +1,11 @@
 ---
-layout: default
+layout: base
 ---
 
-<div class="menu-page">
-  <header class="menu-header">
-    {% if page.header-img %}
-      <!--<img src="{{ page.header-img }}" alt="Header Image for {{ page.title }}" class="menu-header-img">-->
-    {% endif %}
-    <h1>{{ page.title }}</h1>
-  </header>
+{% include header.html type="page" %}
+
+<main class="container-md">
+  <div class="menu-page">
 
   {% if page.menu_items %}
     <div class="menu-items">
@@ -27,6 +24,11 @@ layout: default
             <h2>{{ item.name }}</h2>
             <p>{{ item.description }}</p>
             <p class="menu-item-price">{{ item.price }}</p>
+            {% unless item.sold_out %}
+            <a href="{{ '/inquiry/' | relative_url }}" class="btn-primary-custom" style="display: inline-block; margin-top: 1rem; padding: 0.625rem 1.5rem; font-size: 0.9375rem;">
+              Order This Item
+            </a>
+            {% endunless %}
           </div>
         </div>
         {% if item.link %}
@@ -44,3 +46,4 @@ layout: default
     {{ content }}
   </div>
 </div>
+</main>

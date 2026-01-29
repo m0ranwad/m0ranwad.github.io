@@ -9,56 +9,95 @@ show_social_links: true
 
 
 <!-- Featured Menu Section -->
-<div class="menu-page">
-  <h2 class="menu-header-featured">Featured Menu</h2>
-  <div style="text-align: center; margin: 40px 0;">
-    <a href="{{ '/thanksgiving/' | relative_url }}">
-      <img src="/assets/img/thanksgivingMenu.jpg" alt="Thanksgiving Menu" class="full-menu-img" style="max-width: 90%; height: auto; border-radius: 15px;">
+<div style="max-width: 1200px; margin: 0 auto 4rem; padding: 0 1rem;">
+  <h2 style="font-family: 'Cormorant Garamond', Georgia, serif; text-align: center; font-size: 2.5rem; color: var(--charcoal); margin-bottom: 2rem;">
+    Featured This Season
+  </h2>
+  <div style="text-align: center; max-width: 900px; margin: 0 auto;">
+    <a href="{{ '/valentines/' | relative_url }}" style="display: block; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 32px rgba(143, 163, 120, 0.25); border: 3px solid var(--sage); transition: all 0.3s ease;">
+      <img src="/assets/img/valentines/menu1.jpg" alt="Valentine's Day Menu - Order Now" style="width: 100%; height: auto; display: block; object-fit: contain; max-height: 600px;">
+    </a>
+    <a href="{{ '/valentines/' | relative_url }}" class="btn-primary-custom" style="margin-top: 1.5rem; display: inline-block;">
+      Order Valentine's Menu
     </a>
   </div>
 </div>
     
-<div class="homepage-category-cards">
-  <div class="category-card">
-    <a href="{{ '/holidays' | relative_url }}">
-      <img src="/assets/img/headers/home/christmasCookies.jpg" alt="Holiday Menu" class="card-img">
-      <div class="card-content">
-        <h2>Holiday Collection</h2>
-      </div>
-    </a>
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+  <h2 style="font-family: 'Cormorant Garamond', Georgia, serif; text-align: center; font-size: 2.5rem; color: var(--charcoal); margin-bottom: 2rem;">
+    Browse Our Menu
+  </h2>
+  
+  <div class="homepage-category-cards">
+    <div class="category-card">
+      <a href="{{ '/holidays/' | relative_url }}">
+        <div class="card-img-wrapper">
+          <img src="/assets/img/headers/home/christmasCookies.jpg" alt="Holiday Menu" class="card-img">
+        </div>
+        <div class="card-content">
+          <h2>Holiday Collection</h2>
+          <p class="card-description">Thanksgiving, Christmas, Easter, and more seasonal treats</p>
+          <span class="card-link">View Holiday Menus →</span>
+        </div>
+      </a>
+    </div>
+    
+    <div class="category-card">
+      <a href="{{ '/cookies/' | relative_url }}">
+        <div class="card-img-wrapper">
+          <img src="/assets/img/homepageCookie.jpg" alt="Cookie Menu" class="card-img">
+        </div>
+        <div class="card-content">
+          <h2>Cookies</h2>
+          <p class="card-description">Buttercream sugar cookies, chocolate chip, and more</p>
+          <span class="card-link">See Cookie Options →</span>
+        </div>
+      </a>
+    </div>
+    
+    <div class="category-card">
+      <a href="{{ '/cakes/' | relative_url }}">
+        <div class="card-img-wrapper">
+          <img src="/assets/img/homepageCake.jpg" alt="Custom Cakes" class="card-img">
+        </div>
+        <div class="card-content">
+          <h2>Custom Cakes</h2>
+          <p class="card-description">Beautiful cakes for birthdays and celebrations</p>
+          <span class="card-link">View Cake Gallery →</span>
+        </div>
+      </a>
+    </div>
+    
+    <div class="category-card">
+      <a href="{{ '/gifts/' | relative_url }}">
+        <div class="card-img-wrapper">
+          <img src="/assets/img/teacher-box.jpg" alt="Gift Boxes" class="card-img">
+        </div>
+        <div class="card-content">
+          <h2>Gifts & Party Favors</h2>
+          <p class="card-description">Teacher boxes and party favor packs</p>
+          <span class="card-link">Browse Gift Ideas →</span>
+        </div>
+      </a>
+    </div>
   </div>
-  <div class="category-card">
-    <a href="{{ '/cookies' | relative_url }}">
-      <img src="/assets/img/homepageCookie.jpg" alt="Cookie Menu" class="card-img">
-      <div class="card-content">
-        <h2>Cookies</h2>
-      </div>
-    </a>
+  
+  <!-- CTA Section -->
+  <div style="background: linear-gradient(135deg, var(--sage) 0%, #7A8F6A 100%); padding: 3rem 2rem; border-radius: 16px; text-align: center; margin: 4rem 0; box-shadow: 0 8px 32px rgba(143, 163, 120, 0.3);">
+    <h2 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 2rem; color: white; margin-bottom: 1rem;">
+      Ready to Order?
+    </h2>
+    <p style="font-size: 1.125rem; color: rgba(255,255,255,0.95); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+      Browse our gallery or start a custom order inquiry!
+    </p>
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <a href="{{ '/gallery/' | relative_url }}" style="display: inline-block; padding: 1rem 2rem; background: white; color: var(--sage); text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.05em;">
+        View Gallery
+      </a>
+      <a href="{{ '/inquiry/' | relative_url }}" style="display: inline-block; padding: 1rem 2rem; background: transparent; color: white; text-decoration: none; border: 2px solid white; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.05em;">
+        Place Order
+      </a>
+    </div>
   </div>
-  <div class="category-card">
-    <a href="{{ '/cakes' | relative_url }}">
-      <img src="/assets/img/homepageCake.jpg" alt="Cupcake Menu" class="card-img">
-      <div class="card-content">
-        <h2>Cakes</h2>
-      </div>
-    </a>
-  </div>
-  <div class="category-card">
-    <a href="{{ '/gifts' | relative_url }}">
-      <img src="/assets/img/teacher-box.jpg" alt="Teacher Boxes" class="card-img">
-      <div class="card-content">
-        <h2>Gifts</h2>
-      </div>
-    </a>
-  </div>
-  <div class="category-card">
-    <a href="{{ '/catering' | relative_url }}">
-      <img src="/assets/img/bridalShower.jpg" alt="Special Occasions" class="card-img">
-      <div class="card-content">
-        <h2>Special Occasions</h2>
-      </div>
-    </a>
-  </div>
-  <!-- Add more cards as needed -->
 </div>
 

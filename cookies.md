@@ -1,6 +1,8 @@
 ---
 layout: menu
 title: Cookie Menu
+subtitle: Handcrafted cookies for every occasion
+permalink: /cookies/
 header-img: /assets/img/thumbprint.jpg
 menu_items:
   - name: No-Bake Cookies

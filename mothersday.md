@@ -1,6 +1,7 @@
 ---
 layout: menu
 title: Mother's Day Menu
+subtitle: Honor Mom with elegant treats
 header-img: /assets/img/mothersday/1.jpg
 permalink: /mothersday/
 menu_items:
