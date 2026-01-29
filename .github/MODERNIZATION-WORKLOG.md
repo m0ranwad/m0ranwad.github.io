@@ -18,7 +18,7 @@
 
 | Phase | Status | Tasks Completed |
 |-------|--------|-----------------|
-| Phase 1: Quick Wins | 🟡 In Progress | 5.5/8 |
+| Phase 1: Quick Wins | 🟡 In Progress | 6/8 |
 | Phase 2: Framework Evaluation | ⚪ Not Started | 0/4 |
 | Phase 3: Enhanced Features | ⚪ Not Started | 0/5 |
 
@@ -194,10 +194,11 @@
 ---
 
 ### Task 1.6: Accessibility Pass
-**Status**: 🟡 In Progress (pending button contrast decision)  
+**Status**: ✅ Complete  
 **Estimated Time**: 45 minutes  
 **Risk Level**: Low  
-**Started**: January 29, 2026
+**Started**: January 29, 2026  
+**Completed**: January 29, 2026
 
 **What was done**:
 - [x] Audited images for alt text - most already have descriptive alt text
@@ -207,23 +208,19 @@
 - [x] Added skip-to-content link in `base.html`
 - [x] Enhanced focus states for buttons, links, and cards
 - [x] Changed lightbox/gallery buttons from `<span>` to `<button>` for proper semantics
+- [x] Fixed button color contrast: #607A4D (4.79:1) passes WCAG AA
 
 **Color Contrast Analysis**:
 - ✅ Body text (warm-gray on cream): 5.07:1 - PASSES AA
 - ✅ Headings (charcoal on cream): 13.18:1 - PASSES AA
-- ⚠️ Buttons (white on sage): 2.74:1 - FAILS AA (needs 4.5:1)
-
-**Pending Decision**: Button color contrast
-- Current sage (#8FA378) with white text fails WCAG AA
-- Options: Darken to #607A4D (passes) or keep current for aesthetic
-- **Awaiting user feedback before making color change**
+- ✅ Buttons (white on #607A4D): 4.79:1 - PASSES AA
 
 **Files modified**:
 - `gallery.md` - Added aria-labels to lightbox buttons
 - `_layouts/carousel.html` - Added aria-labels to nav buttons
 - `_layouts/lightbox.html` - Added aria-label and role to modal
 - `_layouts/base.html` - Added skip-to-content link, wrapped content in `<main>`
-- `assets/css/optimized-2025.css` - Added skip-link styles, enhanced focus states
+- `assets/css/optimized-2025.css` - Skip-link styles, enhanced focus states, accessible button colors
 
 **Verification**: ✅ Jekyll build successful
 

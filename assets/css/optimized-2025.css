@@ -191,7 +191,7 @@ strong {
 .btn-primary-custom {
   display: inline-block;
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, var(--sage) 0%, #7A8F6A 100%);
+  background: linear-gradient(135deg, #607A4D 0%, #526B42 100%);
   color: var(--white);
   text-decoration: none;
   border-radius: 8px;
@@ -204,7 +204,7 @@ strong {
   overflow: hidden;
   font-family: 'Inter', sans-serif;
   text-transform: uppercase;
-  border: 2px solid var(--sage);
+  border: 2px solid #607A4D;
 }
 
 .btn-primary-custom::before {
@@ -221,9 +221,9 @@ strong {
 
 .btn-primary-custom:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(143, 163, 120, 0.4);
+  box-shadow: 0 8px 24px rgba(96, 122, 77, 0.4);
   color: var(--white);
-  background: linear-gradient(135deg, #7A8F6A 0%, var(--sage) 100%);
+  background: linear-gradient(135deg, #526B42 0%, #607A4D 100%);
 }
 
 .btn-primary-custom:hover::before {
