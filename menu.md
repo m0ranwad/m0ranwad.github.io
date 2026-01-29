@@ -21,7 +21,7 @@ permalink: /menu/
     <div class="category-card">
       <a href="{{ '/holidays/' | relative_url }}">
         <div class="card-img-wrapper">
-          <img src="/assets/img/headers/home/christmasCookies.jpg" alt="Seasonal Holiday Menus" class="card-img">
+          <img src="/assets/img/headers/home/christmasCookies.jpg" alt="Seasonal Holiday Menus" class="card-img" loading="lazy">
         </div>
         <div class="card-content">
           <h2>Seasonal Menus</h2>
@@ -37,7 +37,7 @@ permalink: /menu/
     <div class="category-card">
       <a href="{{ '/cookies/' | relative_url }}">
         <div class="card-img-wrapper">
-          <img src="/assets/img/homepageCookie.jpg" alt="Cookie Menu" class="card-img">
+          <img src="/assets/img/homepageCookie.jpg" alt="Cookie Menu" class="card-img" loading="lazy">
         </div>
         <div class="card-content">
           <h2>Cookies</h2>
@@ -53,7 +53,7 @@ permalink: /menu/
     <div class="category-card">
       <a href="{{ '/cakes/' | relative_url }}">
         <div class="card-img-wrapper">
-          <img src="/assets/img/homepageCake.jpg" alt="Custom Cakes" class="card-img">
+          <img src="/assets/img/homepageCake.jpg" alt="Custom Cakes" class="card-img" loading="lazy">
         </div>
         <div class="card-content">
           <h2>Custom Cakes</h2>
@@ -69,7 +69,7 @@ permalink: /menu/
     <div class="category-card">
       <a href="{{ '/gifts/' | relative_url }}">
         <div class="card-img-wrapper">
-          <img src="/assets/img/giftsTeacherBox.jpg" alt="Gift Options" class="card-img">
+          <img src="/assets/img/giftsTeacherBox.jpg" alt="Gift Options" class="card-img" loading="lazy">
         </div>
         <div class="card-content">
           <h2>Gifts & Party Favors</h2>

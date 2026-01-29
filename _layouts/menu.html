@@ -15,7 +15,7 @@ layout: base
         {% endif %}
         <div class="menu-item-card">
           <div class="menu-item-img-wrapper">
-            <img src="{{ item.image }}" alt="{{ item.name }}" class="menu-item-img {% if item.sold_out %}sold-out{% endif %}">
+            <img src="{{ item.image }}" alt="{{ item.name }}" class="menu-item-img {% if item.sold_out %}sold-out{% endif %}" loading="lazy">
             {% if item.sold_out %}
               <div class="sold-out-overlay">Sold Out</div>
             {% endif %}
@@ -38,7 +38,7 @@ layout: base
     </div>
   {% else %}
     <div class="menu-image">
-      <img src="{{ page.header-img }}" alt="{{ page.title }}" class="full-menu-img">
+      <img src="{{ page.header-img }}" alt="{{ page.title }}" class="full-menu-img" loading="lazy">
     </div>
   {% endif %}
 

@@ -10,7 +10,7 @@
 
 | Phase | Status | Tasks Completed |
 |-------|--------|-----------------|
-| Phase 1: Quick Wins | 🟡 In Progress | 3/8 |
+| Phase 1: Quick Wins | 🟡 In Progress | 4/8 |
 | Phase 2: Framework Evaluation | ⚪ Not Started | 0/4 |
 | Phase 3: Enhanced Features | ⚪ Not Started | 0/5 |
 
@@ -114,27 +114,36 @@
 
 ---
 
-### Task 1.4: Image Optimization Audit
-**Status**: ⚪ Not Started  
+### Task 1.4: Image Optimization Audit ✅
+**Status**: ✅ Complete  
 **Estimated Time**: 30 minutes  
-**Risk Level**: Low
+**Risk Level**: Low  
+**Started**: January 29, 2026  
+**Completed**: January 29, 2026
 
-**What to do**:
-- [ ] Inventory all images and their file sizes
-- [ ] Identify images over 500KB that need compression
-- [ ] Add `loading="lazy"` to non-critical images in layouts
-- [ ] Document which images should be converted to WebP
-- [ ] Create optimization recommendations
+**What was done**:
+- [x] Inventoried all 75 images (77.94 MB total!)
+- [x] Identified 34 images over 500KB, 25 over 1MB
+- [x] Added `loading="lazy"` to menu layout images
+- [x] Added `loading="lazy"` to homepage category cards
+- [x] Added `loading="lazy"` to holidays.md and menu.md
+- [x] Created comprehensive optimization plan: `docs/IMAGE_OPTIMIZATION_PLAN.md`
+- [x] Removed orphan files: index-redesign.html, index-optimized.html
 
-**Files to check**:
-- `/assets/img/` (all subdirectories)
-- `_layouts/menu.html` (add lazy loading)
-- `gallery.md` (already has lazy loading via JS)
+**Critical findings**:
+- 3 images over 5MB (valentinesHeader1.png at 9.66 MB!)
+- Total image folder is 78 MB (should be < 20 MB)
+- Many PNG files should be JPG
+- Logo is 1 MB (should be < 50 KB)
 
-**Acceptance Criteria**:
-- Full image inventory document created
-- Lazy loading added to menu layout
-- Optimization plan documented
+**Files modified**:
+- `_layouts/menu.html` - Added loading="lazy"
+- `index.html` - Added loading="lazy" to category cards
+- `holidays.md` - Added loading="lazy"
+- `menu.md` - Added loading="lazy"
+
+**New file created**:
+- `docs/IMAGE_OPTIMIZATION_PLAN.md` - Full optimization recommendations
 
 **To start**: Say "Start Task 1.4: Image Audit"
 

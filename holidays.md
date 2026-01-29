@@ -16,7 +16,7 @@ permalink: /holidays/
   <div class="category-card">
     <a href="{{ '/thanksgiving/' | relative_url }}">
       <div class="card-img-wrapper">
-        <img src="/assets/img/bread.jpg" alt="Thanksgiving Menu - Fresh baked brioche loaves and seasonal treats" class="card-img">
+        <img src="/assets/img/bread.jpg" alt="Thanksgiving Menu - Fresh baked brioche loaves and seasonal treats" class="card-img" loading="lazy">
       </div>
       <div class="card-content">
         <h2>Thanksgiving</h2>
@@ -31,7 +31,7 @@ permalink: /holidays/
   <div class="category-card">
     <a href="{{ '/christmas/' | relative_url }}">
       <div class="card-img-wrapper">
-        <img src="/assets/img/headers/home/christmasCookies.jpg" alt="Christmas Menu - Festive decorated sugar cookies" class="card-img">
+        <img src="/assets/img/headers/home/christmasCookies.jpg" alt="Christmas Menu - Festive decorated sugar cookies" class="card-img" loading="lazy">
       </div>
       <div class="card-content">
         <h2>Christmas</h2>
@@ -46,7 +46,7 @@ permalink: /holidays/
   <div class="category-card">
     <a href="{{ '/valentines/' | relative_url }}">
       <div class="card-img-wrapper">
-        <img src="/assets/img/valentines/chocolateCoveredRaspberry.jpg" alt="Valentine's Menu - Chocolate covered treats and cookies" class="card-img">
+        <img src="/assets/img/valentines/chocolateCoveredRaspberry.jpg" alt="Valentine's Menu - Chocolate covered treats and cookies" class="card-img" loading="lazy">
       </div>
       <div class="card-content">
         <h2>Valentine's Day</h2>
@@ -61,7 +61,7 @@ permalink: /holidays/
   <div class="category-card">
     <a href="{{ '/easter/' | relative_url }}">
       <div class="card-img-wrapper">
-        <img src="/assets/img/easter/IMG_6388.jpg" alt="Easter Menu - Spring-themed decorated cookies" class="card-img">
+        <img src="/assets/img/easter/IMG_6388.jpg" alt="Easter Menu - Spring-themed decorated cookies" class="card-img" loading="lazy">
       </div>
       <div class="card-content">
         <h2>Easter</h2>
@@ -76,7 +76,7 @@ permalink: /holidays/
   <div class="category-card">
     <a href="{{ '/mothersday/' | relative_url }}">
       <div class="card-img-wrapper">
-        <img src="/assets/img/mothersday/1.jpg" alt="Mother's Day Menu - Elegant treats for Mom" class="card-img">
+        <img src="/assets/img/mothersday/1.jpg" alt="Mother's Day Menu - Elegant treats for Mom" class="card-img" loading="lazy">
       </div>
       <div class="card-content">
         <h2>Mother's Day</h2>
@@ -91,7 +91,7 @@ permalink: /holidays/
   <div class="category-card">
     <a href="{{ '/halloween/' | relative_url }}">
       <div class="card-img-wrapper">
-        <img src="/assets/img/headers/home/halloweenCupcakes.jpg" alt="Halloween Menu - Spooky cupcakes and treats" class="card-img">
+        <img src="/assets/img/headers/home/halloweenCupcakes.jpg" alt="Halloween Menu - Spooky cupcakes and treats" class="card-img" loading="lazy">
       </div>
       <div class="card-content">
         <h2>Halloween</h2>
