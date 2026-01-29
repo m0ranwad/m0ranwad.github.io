@@ -918,3 +918,765 @@ footer a:hover {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ==========================================================================
+   TASK 1.3: EXTRACTED INLINE STYLES
+   Consolidated from individual page markdown files for maintainability
+   ========================================================================== */
+
+/* -------------------------------------------------------------------------
+   CONTACT PAGE STYLES
+   ------------------------------------------------------------------------- */
+.contact-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.contact-intro {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, var(--light-sage) 0%, var(--cream) 100%);
+  border-radius: 12px;
+}
+
+.contact-intro p {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--warm-gray);
+  margin: 0;
+}
+
+.contact-methods-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.contact-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  text-align: center;
+  border: 1px solid rgba(143, 163, 120, 0.1);
+}
+
+.contact-card-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.contact-card h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.5rem;
+  color: var(--charcoal);
+  margin-bottom: 0.5rem;
+}
+
+.contact-card p {
+  color: var(--warm-gray);
+  margin-bottom: 1.5rem;
+  font-size: 0.9375rem;
+}
+
+.contact-card .btn-primary-custom {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+/* FAQ Section */
+.faq-section {
+  margin: 4rem 0;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.faq-section h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  text-align: center;
+  font-size: 2rem;
+  color: var(--charcoal);
+  margin-bottom: 2rem;
+}
+
+.faq-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.faq-item {
+  padding: 1.5rem;
+  background: var(--cream);
+  border-radius: 8px;
+  border-left: 4px solid var(--sage);
+}
+
+.faq-item h4 {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 0.5rem;
+}
+
+.faq-item p {
+  color: var(--warm-gray);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Contact CTA Section */
+.contact-cta {
+  text-align: center;
+  margin: 3rem 0;
+}
+
+.contact-cta .signature-text {
+  font-family: 'Caveat', cursive;
+  font-size: 1.75rem;
+  color: var(--sage);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* -------------------------------------------------------------------------
+   HOMEPAGE FEATURED SECTION STYLES
+   ------------------------------------------------------------------------- */
+.featured-section {
+  max-width: 1200px;
+  margin: 0 auto 4rem;
+  padding: 0 1rem;
+}
+
+.featured-section h2,
+.browse-section h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  text-align: center;
+  font-size: 2.5rem;
+  color: var(--charcoal);
+  margin-bottom: 2rem;
+}
+
+.featured-menu-container {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.featured-menu-link {
+  display: block;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(143, 163, 120, 0.25);
+  border: 3px solid var(--sage);
+  transition: all 0.3s ease;
+}
+
+.featured-menu-link:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(143, 163, 120, 0.35);
+}
+
+.featured-menu-link img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  max-height: 600px;
+}
+
+.featured-cta {
+  margin-top: 1.5rem;
+  display: inline-block;
+}
+
+/* Browse Section */
+.browse-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* -------------------------------------------------------------------------
+   GENERIC PAGE COMPONENTS
+   ------------------------------------------------------------------------- */
+/* Page intro box with gradient */
+.page-intro-box {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, var(--light-sage) 0%, var(--cream) 100%);
+  border-radius: 12px;
+}
+
+.page-intro-box p {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--warm-gray);
+  margin: 0;
+}
+
+/* Content card with sage border */
+.content-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  border-left: 4px solid var(--sage);
+  margin-bottom: 2rem;
+}
+
+.content-card h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.5rem;
+  color: var(--charcoal);
+  margin-bottom: 1rem;
+}
+
+/* Section container */
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Centered CTA section */
+.cta-section {
+  text-align: center;
+  margin: 3rem 0;
+  padding: 2.5rem 1.5rem;
+  background: linear-gradient(135deg, var(--light-sage) 0%, var(--cream) 100%);
+  border-radius: 12px;
+}
+
+.cta-section h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.75rem;
+  color: var(--charcoal);
+  margin-bottom: 1rem;
+}
+
+.cta-section p {
+  color: var(--warm-gray);
+  margin-bottom: 1.5rem;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* -------------------------------------------------------------------------
+   RESPONSIVE ADJUSTMENTS FOR EXTRACTED STYLES
+   ------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .contact-methods-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .featured-section h2,
+  .browse-section h2 {
+    font-size: 2rem;
+  }
+  
+  .contact-intro,
+  .page-intro-box {
+    padding: 1.5rem 1rem;
+  }
+  
+  .faq-section {
+    padding: 1.5rem;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   ABOUT PAGE STYLES
+   ------------------------------------------------------------------------- */
+.about-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.about-intro {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, var(--light-sage) 0%, var(--cream) 100%);
+  border-radius: 12px;
+}
+
+.about-intro p {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--warm-gray);
+  margin: 0;
+}
+
+.about-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.about-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.about-card-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.about-card h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.5rem;
+  color: var(--charcoal);
+  margin-bottom: 1rem;
+}
+
+.about-card p {
+  color: var(--warm-gray);
+  line-height: 1.7;
+  margin: 0;
+  font-size: 0.9375rem;
+}
+
+.about-closing {
+  text-align: center;
+  margin: 3rem 0;
+}
+
+.about-closing .signature-text {
+  font-family: 'Caveat', cursive;
+  font-size: 1.5rem;
+  color: var(--sage);
+  margin: 0;
+}
+
+.about-cta {
+  background: var(--cream);
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  border: 2px solid var(--sage);
+}
+
+.about-cta p {
+  font-size: 1.125rem;
+  color: var(--warm-gray);
+  margin-bottom: 1.5rem;
+}
+
+.about-cta .cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* -------------------------------------------------------------------------
+   HOLIDAYS PAGE STYLES
+   ------------------------------------------------------------------------- */
+.holidays-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.holidays-intro {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, var(--light-sage) 0%, var(--cream) 100%);
+  border-radius: 12px;
+}
+
+.holidays-intro p {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--warm-gray);
+  margin: 0;
+}
+
+.holidays-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.holiday-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.holiday-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.holiday-card a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.holiday-card-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.holiday-card-content {
+  padding: 1.5rem;
+}
+
+.holiday-card h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.5rem;
+  color: var(--charcoal);
+  margin-bottom: 0.5rem;
+}
+
+.holiday-card p {
+  color: var(--warm-gray);
+  font-size: 0.9375rem;
+  margin-bottom: 1rem;
+}
+
+.holiday-card .card-link {
+  color: var(--sage);
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .about-cards-grid,
+  .holidays-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .about-cta .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   INQUIRY PAGE STYLES
+   Order form selector and form components
+   ------------------------------------------------------------------------- */
+.inquiry-intro {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  padding: 0 1rem;
+}
+
+.inquiry-intro p {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--warm-gray);
+}
+
+.inquiry-type-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 3rem 0;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.inquiry-card {
+  background: white;
+  border: 2px solid var(--light-sage);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.inquiry-card:hover {
+  border-color: var(--sage);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.inquiry-card.selected {
+  border-color: var(--sage);
+  background: linear-gradient(135deg, var(--light-sage) 0%, var(--cream) 100%);
+}
+
+.inquiry-card .icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.inquiry-card h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.5rem;
+  color: var(--charcoal);
+  margin-bottom: 0.5rem;
+}
+
+.inquiry-card p {
+  color: var(--warm-gray);
+  font-size: 0.9375rem;
+  margin: 0;
+}
+
+.inquiry-form-container {
+  display: none;
+  max-width: 700px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.inquiry-form-container.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Form Fields */
+.form-field {
+  margin-bottom: 1.5rem;
+}
+
+.form-field label {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 0.5rem;
+  font-size: 0.9375rem;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+  width: 100%;
+  padding: 0.875rem;
+  border: 2px solid var(--light-sage);
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9375rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+  outline: none;
+  border-color: var(--sage);
+}
+
+.form-field textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkbox-item input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn-submit {
+  background: var(--sage);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.btn-submit:hover {
+  background: #7A8F6A;
+  transform: translateY(-2px);
+}
+
+.btn-back {
+  background: white;
+  color: var(--sage);
+  border: 2px solid var(--sage);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-back:hover {
+  background: var(--sage);
+  color: white;
+}
+
+.info-box {
+  background: #FFF9F0;
+  border-left: 4px solid #C9826B;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 4px;
+}
+
+.info-box p {
+  margin: 0;
+  color: var(--warm-gray);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+/* Inquiry Responsive */
+@media (max-width: 768px) {
+  .inquiry-type-selector {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .checkbox-group {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   HOMEPAGE CTA SECTION
+   Green gradient call-to-action at bottom of homepage
+   ------------------------------------------------------------------------- */
+.homepage-cta {
+  background: linear-gradient(135deg, var(--sage) 0%, #7A8F6A 100%);
+  padding: 3rem 2rem;
+  border-radius: 16px;
+  text-align: center;
+  margin: 4rem 0;
+  box-shadow: 0 8px 32px rgba(143, 163, 120, 0.3);
+}
+
+.homepage-cta h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2rem;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.homepage-cta p {
+  font-size: 1.125rem;
+  color: rgba(255,255,255,0.95);
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.homepage-cta .cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.homepage-cta .btn-light {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: white;
+  color: var(--sage);
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.homepage-cta .btn-light:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.homepage-cta .btn-outline-light {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: transparent;
+  color: white;
+  text-decoration: none;
+  border: 2px solid white;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.homepage-cta .btn-outline-light:hover {
+  background: white;
+  color: var(--sage);
+}
+
+@media (max-width: 768px) {
+  .homepage-cta {
+    padding: 2rem 1.5rem;
+  }
+  
+  .homepage-cta .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}

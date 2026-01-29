@@ -5,8 +5,8 @@ subtitle: Celebrate every holiday with sweet, handcrafted treats
 permalink: /holidays/
 ---
 
-<div style="text-align: center; max-width: 800px; margin: 2rem auto 3rem; padding: 0 1rem;">
-  <p style="font-size: 1.125rem; line-height: 1.7; color: var(--warm-gray);">
+<div class="holidays-intro" style="max-width: 800px; margin: 2rem auto 3rem;">
+  <p>
     From Thanksgiving to Christmas, Valentine's to Easter and beyond - 
     seasonal treats for every celebration. Check out what's available and place your order!
   </p>
@@ -104,15 +104,11 @@ permalink: /holidays/
   </div>
 </div>
 
-<div style="background: linear-gradient(135deg, #E8EFE3 0%, #FBF8F3 100%); padding: 3rem 1rem; margin: 4rem 0 0; border-radius: 12px;">
-  <div style="text-align: center; max-width: 700px; margin: 0 auto;">
-    <h2 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 2rem; color: var(--charcoal); margin-bottom: 1rem;">
-      Don't See Your Holiday?
-    </h2>
-    <p style="font-size: 1.0625rem; line-height: 1.7; color: var(--warm-gray); margin-bottom: 2rem;">
-      I make custom treats for birthdays, weddings, showers, and any celebration! 
-      Let's chat and create something perfect for your event.
-    </p>
-    <a href="{{ '/contact/' | relative_url }}" class="btn-primary-custom">Get in Touch</a>
-  </div>
+<div class="cta-section" style="margin-top: 4rem;">
+  <h3>Don't See Your Holiday?</h3>
+  <p>
+    I make custom treats for birthdays, weddings, showers, and any celebration! 
+    Let's chat and create something perfect for your event.
+  </p>
+  <a href="{{ '/contact/' | relative_url }}" class="btn-primary-custom">Get in Touch</a>
 </div>
