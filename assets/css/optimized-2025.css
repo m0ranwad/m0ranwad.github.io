@@ -1680,3 +1680,347 @@ footer a:hover {
     align-items: center;
   }
 }
+
+/* ==========================================================================
+   TASK 1.5: MOBILE TOUCH TARGET FIXES
+   Ensure all interactive elements meet 44x44px minimum
+   ========================================================================== */
+
+/* Hamburger menu - ensure 44x44px touch target */
+.navbar-toggler {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 2px solid var(--sage);
+  border-radius: 8px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-toggler:focus {
+  outline: 2px solid var(--sage);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+.navbar-toggler-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%238FA378' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Gallery filter buttons - increase touch target */
+.gallery-filter button,
+.filter-btn {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.75rem 1.25rem;
+  margin: 0.35rem;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+  /* Gallery filters - stack vertically and full width on small screens */
+  .gallery-filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+  }
+  
+  .gallery-filter button,
+  .filter-btn {
+    min-height: 48px;
+    padding: 0.875rem 1rem;
+    font-size: 0.8125rem;
+    flex: 1 1 auto;
+    max-width: calc(50% - 0.5rem);
+  }
+  
+  /* Nav links - ensure adequate touch targets */
+  .navbar-nav .nav-link {
+    min-height: 44px;
+    padding: 1rem 1.25rem !important;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Inquiry cards - larger touch target on mobile */
+  .inquiry-card {
+    min-height: 120px;
+    padding: 1.5rem;
+  }
+  
+  /* CTA buttons - full width and taller on mobile */
+  .btn-primary-custom,
+  .btn-secondary {
+    min-height: 48px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Lightbox nav buttons - ensure tappable */
+  .lightbox-nav,
+  .lightbox-close {
+    min-width: 48px;
+    min-height: 48px;
+  }
+  
+  /* Card links - full card is clickable with adequate padding */
+  .category-card a {
+    display: block;
+    min-height: 44px;
+  }
+  
+  .card-content {
+    padding: 1.25rem;
+  }
+}
+
+/* Touch-friendly spacing for menu items */
+@media (max-width: 576px) {
+  .menu-item-card {
+    margin-bottom: 1.5rem;
+  }
+  
+  .menu-item-details {
+    padding: 1.25rem;
+  }
+  
+  /* FAQ items - ensure easy tapping */
+  .faq-item {
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Contact cards - taller for easier tapping */
+  .contact-card {
+    padding: 1.75rem 1.5rem;
+  }
+}
+
+/* ==========================================================================
+   GALLERY PAGE STYLES
+   Photo gallery with filtering and lightbox
+   ========================================================================== */
+
+.gallery-intro {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  padding: 0 1rem;
+}
+
+.gallery-intro p {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--warm-gray);
+}
+
+.gallery-filter {
+  text-align: center;
+  margin: 2rem 0 3rem;
+}
+
+.gallery-filter button {
+  background: white;
+  border: 2px solid var(--sage);
+  color: var(--sage);
+  padding: 0.75rem 1.5rem;
+  margin: 0.5rem;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 44px;
+}
+
+.gallery-filter button:hover,
+.gallery-filter button.active {
+  background: var(--sage);
+  color: white;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 0 auto;
+  max-width: 1400px;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: white;
+  cursor: pointer;
+}
+
+.gallery-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-item .overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  color: white;
+  padding: 1.5rem 1rem 1rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .overlay {
+  opacity: 1;
+}
+
+.gallery-item .overlay .category {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Lightbox */
+.lightbox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.95);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.lightbox.active {
+  display: flex;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  color: white;
+  font-size: 3rem;
+  cursor: pointer;
+  background: rgba(255,255,255,0.1);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.lightbox-close:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  font-size: 3rem;
+  cursor: pointer;
+  background: rgba(255,255,255,0.1);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+  user-select: none;
+}
+
+.lightbox-nav:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.lightbox-prev {
+  left: 2rem;
+}
+
+.lightbox-next {
+  right: 2rem;
+}
+
+/* Gallery responsive */
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .gallery-item img {
+    height: 200px;
+  }
+  
+  .gallery-filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+  }
+  
+  .gallery-filter button {
+    min-height: 48px;
+    padding: 0.875rem 1rem;
+    font-size: 0.8125rem;
+    flex: 1 1 auto;
+    max-width: calc(50% - 0.5rem);
+  }
+  
+  .lightbox-nav,
+  .lightbox-close {
+    min-width: 48px;
+    min-height: 48px;
+  }
+  
+  .lightbox-prev {
+    left: 1rem;
+  }
+  
+  .lightbox-next {
+    right: 1rem;
+  }
+  
+  .lightbox-close {
+    top: 1rem;
+    right: 1rem;
+  }
+}

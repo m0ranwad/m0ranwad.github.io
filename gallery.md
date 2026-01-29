@@ -5,176 +5,9 @@ subtitle: A peek into our sweet creations
 permalink: /gallery/
 ---
 
-<style>
-.gallery-filter {
-  text-align: center;
-  margin: 2rem 0 3rem;
-}
 
-.gallery-filter button {
-  background: white;
-  border: 2px solid var(--sage);
-  color: var(--sage);
-  padding: 0.75rem 1.5rem;
-  margin: 0.5rem;
-  border-radius: 8px;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.9375rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.gallery-filter button:hover,
-.gallery-filter button.active {
-  background: var(--sage);
-  color: white;
-}
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin: 0 auto;
-  max-width: 1400px;
-}
-
-.gallery-item {
-  position: relative;
-  overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background: white;
-  cursor: pointer;
-}
-
-.gallery-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-}
-
-.gallery-item img {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-  display: block;
-}
-
-.gallery-item .overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-  color: white;
-  padding: 1.5rem 1rem 1rem;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.gallery-item:hover .overlay {
-  opacity: 1;
-}
-
-.gallery-item .overlay .category {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Lightbox */
-.lightbox {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.95);
-  z-index: 9999;
-  justify-content: center;
-  align-items: center;
-}
-
-.lightbox.active {
-  display: flex;
-}
-
-.lightbox img {
-  max-width: 90%;
-  max-height: 90vh;
-  object-fit: contain;
-  border-radius: 8px;
-}
-
-.lightbox-close {
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
-  color: white;
-  font-size: 3rem;
-  cursor: pointer;
-  background: rgba(255,255,255,0.1);
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s ease;
-}
-
-.lightbox-close:hover {
-  background: rgba(255,255,255,0.2);
-}
-
-.lightbox-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  color: white;
-  font-size: 3rem;
-  cursor: pointer;
-  background: rgba(255,255,255,0.1);
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s ease;
-  user-select: none;
-}
-
-.lightbox-nav:hover {
-  background: rgba(255,255,255,0.2);
-}
-
-.lightbox-prev {
-  left: 2rem;
-}
-
-.lightbox-next {
-  right: 2rem;
-}
-
-@media (max-width: 768px) {
-  .gallery-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
-  }
-  
-  .gallery-item img {
-    height: 200px;
-  }
-}
-</style>
-
-<div style="text-align: center; max-width: 800px; margin: 0 auto 3rem; padding: 0 1rem;">
-  <p style="font-size: 1.125rem; line-height: 1.7; color: var(--warm-gray);">
+<div class="gallery-intro">
+  <p>
     Every treat tells a story. Browse our collection of cookies, cakes, and sweet creations!
   </p>
 </div>
@@ -202,14 +35,14 @@ permalink: /gallery/
 </div>
 
 <!-- CTA Section -->
-<div style="background: linear-gradient(135deg, #E8EFE3 0%, #FBF8F3 100%); padding: 3rem 2rem; border-radius: 12px; text-align: center; margin: 4rem 0;">
-  <h2 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 2rem; color: var(--charcoal); margin-bottom: 1rem;">
+<div class="cta-section">
+  <h3>
     Love What You See?
-  </h2>
-  <p style="font-size: 1.0625rem; line-height: 1.7; color: var(--warm-gray); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+  </h3>
+  <p>
     Let's create something beautiful for your next celebration!
   </p>
-  <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+  <div class="cta-buttons">
     <a href="{{ '/order/' | relative_url }}" class="btn-primary-custom">Start Your Order</a>
     <a href="{{ '/contact/' | relative_url }}" class="btn-secondary">Ask a Question</a>
   </div>
@@ -344,3 +177,4 @@ document.addEventListener('keydown', (e) => {
 // Initialize gallery
 renderGallery();
 </script>
+

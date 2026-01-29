@@ -51,7 +51,7 @@ The bakery owner values privacy. When writing content:
 |-----------|---------|-------|
 | Framework | Jekyll 3.9.3 | Static site generator, GitHub Pages compatible |
 | Theme | Beautiful Jekyll 6.0.1 | Bootstrap 4.4.1 base |
-| CSS | `optimized-2025.css` (~1473 lines) | Single custom stylesheet |
+| CSS | `optimized-2025.css` (~1900 lines) | Single custom stylesheet |
 | Hosting | GitHub Pages | Auto-deploys from `theme/beautiful-jekyll` branch |
 | Forms | Google Forms (embedded iframes) | No backend, manual order processing |
 | Analytics | Google Analytics 4 (G-9SVD45RN18) | Basic tracking |
@@ -242,12 +242,14 @@ git push origin theme/beautiful-jekyll
 See `.github/MODERNIZATION-WORKLOG.md` for current task status.
 
 **Current Progress** (January 29, 2026):
--  Task 1.1: File Cleanup (27 files deleted)
--  Task 1.2: Valentine's Day Featured Menu
--  Task 1.3: CSS Consolidation Sprint (552 lines extracted)
--  Task 1.4-1.8: Remaining Phase 1 tasks
--  Phase 2: Framework Evaluation
--  Phase 3: Enhanced Features
+- ✅ Task 1.1: File Cleanup (27 files deleted)
+- ✅ Task 1.2: Valentine's Day Featured Menu
+- ✅ Task 1.3: CSS Consolidation Sprint (552 lines extracted)
+- ✅ Task 1.4: Image Optimization Audit (lazy loading added)
+- ✅ Task 1.5: Mobile Touch Target Fixes (gallery styles migrated)
+- ⚪ Task 1.6-1.8: Remaining Phase 1 tasks
+- ⚪ Phase 2: Framework Evaluation
+- ⚪ Phase 3: Enhanced Features
 
 ---
 
