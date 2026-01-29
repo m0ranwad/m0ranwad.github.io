@@ -6,11 +6,19 @@
 
 ---
 
+## ⚙️ Workflow Preferences
+
+- **Commit after each task**: Always commit changes when a task is marked complete
+- **Review major UI changes**: Pause for user feedback before finalizing any significant visual changes
+- **Incremental progress**: One task at a time, verify before moving on
+
+---
+
 ## 📊 Progress Overview
 
 | Phase | Status | Tasks Completed |
 |-------|--------|-----------------|
-| Phase 1: Quick Wins | 🟡 In Progress | 5/8 |
+| Phase 1: Quick Wins | 🟡 In Progress | 5.5/8 |
 | Phase 2: Framework Evaluation | ⚪ Not Started | 0/4 |
 | Phase 3: Enhanced Features | ⚪ Not Started | 0/5 |
 
@@ -186,27 +194,38 @@
 ---
 
 ### Task 1.6: Accessibility Pass
-**Status**: ⚪ Not Started  
+**Status**: 🟡 In Progress (pending button contrast decision)  
 **Estimated Time**: 45 minutes  
-**Risk Level**: Low
+**Risk Level**: Low  
+**Started**: January 29, 2026
 
-**What to do**:
-- [ ] Add missing `alt` text to all images
-- [ ] Check color contrast ratios (WCAG AA minimum)
-- [ ] Add `aria-label` to icon-only buttons
-- [ ] Ensure focus states are visible
-- [ ] Test keyboard navigation through site
-- [ ] Add skip-to-content link
+**What was done**:
+- [x] Audited images for alt text - most already have descriptive alt text
+- [x] Added `aria-label` to gallery lightbox buttons (close, prev, next)
+- [x] Added `aria-label` to carousel buttons (prev, next)
+- [x] Added `role="dialog"` to lightbox modals
+- [x] Added skip-to-content link in `base.html`
+- [x] Enhanced focus states for buttons, links, and cards
+- [x] Changed lightbox/gallery buttons from `<span>` to `<button>` for proper semantics
 
-**Files to modify**:
-- Multiple `.md` files (alt text)
-- `optimized-2025.css` (focus states)
-- `_layouts/base.html` (skip link)
+**Color Contrast Analysis**:
+- ✅ Body text (warm-gray on cream): 5.07:1 - PASSES AA
+- ✅ Headings (charcoal on cream): 13.18:1 - PASSES AA
+- ⚠️ Buttons (white on sage): 2.74:1 - FAILS AA (needs 4.5:1)
 
-**Acceptance Criteria**:
-- All images have descriptive alt text
-- Color contrast passes WCAG AA
-- Site fully navigable via keyboard
+**Pending Decision**: Button color contrast
+- Current sage (#8FA378) with white text fails WCAG AA
+- Options: Darken to #607A4D (passes) or keep current for aesthetic
+- **Awaiting user feedback before making color change**
+
+**Files modified**:
+- `gallery.md` - Added aria-labels to lightbox buttons
+- `_layouts/carousel.html` - Added aria-labels to nav buttons
+- `_layouts/lightbox.html` - Added aria-label and role to modal
+- `_layouts/base.html` - Added skip-to-content link, wrapped content in `<main>`
+- `assets/css/optimized-2025.css` - Added skip-link styles, enhanced focus states
+
+**Verification**: ✅ Jekyll build successful
 
 **To start**: Say "Start Task 1.6: Accessibility Pass"
 

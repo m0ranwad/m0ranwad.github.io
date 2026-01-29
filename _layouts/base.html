@@ -25,11 +25,14 @@ common-js:
 {% include head.html %}
 
 <body>
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
   {% include gtm_body.html %}
 
   {% include nav.html %}
 
-  {{ content }}
+  <main id="main-content">
+    {{ content }}
+  </main>
 
   {% include footer.html %}
 

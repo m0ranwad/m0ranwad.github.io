@@ -27,11 +27,11 @@ permalink: /gallery/
 </div>
 
 <!-- Lightbox -->
-<div class="lightbox" id="lightbox">
-  <span class="lightbox-close" id="lightboxClose">&times;</span>
-  <span class="lightbox-nav lightbox-prev" id="lightboxPrev">‹</span>
+<div class="lightbox" id="lightbox" role="dialog" aria-label="Image lightbox">
+  <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">&times;</button>
+  <button type="button" class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">‹</button>
   <img src="" alt="" id="lightboxImg">
-  <span class="lightbox-nav lightbox-next" id="lightboxNext">›</span>
+  <button type="button" class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">›</button>
 </div>
 
 <!-- CTA Section -->

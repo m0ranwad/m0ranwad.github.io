@@ -890,10 +890,58 @@ footer a:hover {
    ACCESSIBILITY - Everyone Matters
    ============================================ */
 
+/* Skip to content link - hidden until focused */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem 2rem;
+  background: var(--charcoal);
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 0 0 8px 8px;
+  z-index: 10000;
+  transition: top var(--transition-fast);
+}
+
+.skip-to-content:focus {
+  top: 0;
+  outline: 3px solid var(--sage);
+  outline-offset: 2px;
+}
+
+/* Enhanced focus states */
 :focus-visible {
   outline: 3px solid var(--sage);
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+/* Button focus states */
+.btn-primary-custom:focus-visible,
+.btn-secondary:focus-visible,
+.filter-btn:focus-visible {
+  outline: 3px solid var(--charcoal);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(143, 163, 120, 0.3);
+}
+
+/* Link focus states */
+a:focus-visible {
+  outline: 3px solid var(--sage);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Card focus states */
+.menu-item-card:focus-within,
+.content-card:focus-within,
+.inquiry-card:focus-within {
+  outline: 3px solid var(--sage);
+  outline-offset: 4px;
+  border-radius: 12px;
 }
 
 .visually-hidden {
@@ -1938,6 +1986,7 @@ footer a:hover {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1959,6 +2008,7 @@ footer a:hover {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;

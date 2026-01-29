@@ -15,8 +15,8 @@ layout: default
 </div>
 
 <!-- Lightbox Modal -->
-<div id="lightbox" class="lightbox-modal">
-  <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+<div id="lightbox" class="lightbox-modal" role="dialog" aria-label="Image lightbox">
+  <button type="button" class="lightbox-close" onclick="closeLightbox()" aria-label="Close lightbox">&times;</button>
   <img class="lightbox-content" id="lightbox-image" src="" alt="">
   <div id="lightbox-caption"></div>
 </div>
