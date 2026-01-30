@@ -80,27 +80,28 @@ astro-prototype/
 
 ## Recommendation
 
-### For This Project: **Stay with Jekyll** (for now)
+### ~~For This Project: **Stay with Jekyll** (for now)~~ 
+### **REVISED: Migrate to Astro** ✅
 
-**Reasoning:**
-1. **ROI not justified** — 10-12 hours of migration work for a seasonal bakery site with ~15 pages
-2. **GitHub Pages simplicity** — Current zero-config deployment is valuable
-3. **Content workflow** — YAML front matter + Markdown is simpler for menu updates
-4. **Low traffic** — Performance gains (22x faster build) don't matter for a low-traffic site
-5. **Phase 1 optimizations working** — Site is already performant after CSS consolidation
+**Original reasoning (conservative approach):**
+1. ~ROI not justified~ — With AI assistance, migration is faster than estimated
+2. ~GitHub Pages simplicity~ — Astro deploys to GitHub Pages with simple GitHub Action
+3. ~Content workflow~ — Astro handles YAML-like data just as easily
+4. ~Low traffic~ — But image optimization still matters for mobile UX
+5. ~Phase 1 optimizations working~ — Astro can do even better
 
-### Consider Astro If:
-- Adding dynamic features (cart, user accounts)
-- Site grows significantly (50+ pages)
-- Need image optimization pipeline
-- Want to add React/Vue components
-- Moving to a different hosting provider
+**Revised reasoning (best possible site):**
+1. **Future-proof** — Astro is actively developed; Jekyll is maintenance-mode
+2. **Image optimization** — Built-in WebP generation solves the 78MB image problem
+3. **46% smaller bundles** — Critical for 95% mobile traffic
+4. **Component architecture** — Cleaner, more maintainable code
+5. **AI-assisted development** — Migration effort is dramatically reduced
 
-### Preserve This Prototype
-Keep the `feature/astro-prototype` branch as reference. It demonstrates:
-- Component architecture pattern
-- CSS scoping approach
-- Migration path if needed later
+### Migration Plan Created
+See `MIGRATION_PLAN.md` for the complete Phase 2B migration strategy.
+
+**Estimated time**: 4-6 hours with AI assistance
+**Pages to migrate**: 22 total (2 already done)
 
 ---
 
