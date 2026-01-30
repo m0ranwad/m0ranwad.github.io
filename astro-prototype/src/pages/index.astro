@@ -2,7 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FeaturedSection from '../components/FeaturedSection.astro';
 import CategoryCards from '../components/CategoryCards.astro';
-import HomeCTA from '../components/HomeCTA.astro';
+import CTASection from '../components/ui/CTASection.astro';
+import { getFeaturedMenu, siteInfo } from '../data';
+
+// Get the featured menu dynamically
+const featuredMenu = getFeaturedMenu();
 
 const categoryCards = [
   {
@@ -36,24 +40,26 @@ const categoryCards = [
 ];
 ---
 
-<BaseLayout title="Home" description="Thymeless Treats Bakery - Handcrafted seasonal baked goods. Beautiful cookies, custom cakes, and holiday treats.">
+<BaseLayout title="Home" description={siteInfo.description}>
   
-  <!-- Hero Section with rotating images would go here -->
+  <!-- Hero Section -->
   <section class="hero-section">
     <div class="hero-content">
-      <h1>Thymeless Treats Bakery</h1>
-      <p class="hero-tagline">Where Every Bite is Timelessly Delicious!</p>
+      <h1>{siteInfo.name}</h1>
+      <p class="hero-tagline">{siteInfo.tagline}</p>
     </div>
   </section>
   
   <!-- Featured Menu Section -->
-  <FeaturedSection 
-    title="Featured This Season"
-    menuLink="/valentines/"
-    menuImage="/assets/img/valentines/menu1.jpg"
-    menuAlt="Valentine's Day Menu - Order Now"
-    ctaText="Order Valentine's Menu"
-  />
+  {featuredMenu && (
+    <FeaturedSection 
+      title="Featured This Season"
+      menuLink={`/${featuredMenu.slug}/`}
+      menuImage={featuredMenu.headerImage || '/assets/img/valentines/menu1.jpg'}
+      menuAlt={`${featuredMenu.title} - Order Now`}
+      ctaText={`Order ${featuredMenu.title}`}
+    />
+  )}
   
   <!-- Browse Categories -->
   <section class="browse-section">
@@ -62,13 +68,14 @@ const categoryCards = [
   </section>
   
   <!-- CTA Section -->
-  <HomeCTA 
+  <CTASection 
     title="Ready to Order?"
-    description="Browse our gallery or start a custom order inquiry!"
-    primaryLink="/gallery/"
+    subtitle="Browse our gallery or start a custom order inquiry!"
     primaryText="View Gallery"
-    secondaryLink="/inquiry/"
+    primaryHref="/gallery/"
     secondaryText="Place Order"
+    secondaryHref="/order/"
+    variant="sage"
   />
   
 </BaseLayout>

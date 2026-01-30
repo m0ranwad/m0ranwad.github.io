@@ -1,0 +1,333 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import CTASection from '../components/ui/CTASection.astro';
+import { galleryImages, galleryFilters } from '../data';
+---
+
+<BaseLayout 
+  title="Gallery" 
+  description="Browse our gallery of beautiful cookies, custom cakes, and sweet creations from Thymeless Treats Bakery."
+>
+  <PageHeader 
+    title="Gallery"
+    subtitle="A peek into our sweet creations"
+  />
+
+  <div class="gallery-container">
+    <div class="gallery-intro">
+      <p>Every treat tells a story. Browse our collection of cookies, cakes, and sweet creations!</p>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="gallery-filter">
+      {galleryFilters.map((filter) => (
+        <button 
+          class={`filter-btn ${filter.id === 'all' ? 'active' : ''}`}
+          data-filter={filter.id}
+        >
+          {filter.label}
+        </button>
+      ))}
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="gallery-grid" id="galleryGrid">
+      {galleryImages.map((image, index) => (
+        <div class="gallery-item" data-category={image.category}>
+          <img 
+            src={image.src} 
+            alt={image.alt} 
+            loading="lazy"
+            data-index={index}
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Lightbox (simple version for now) -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-label="Image lightbox" aria-hidden="true">
+    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">&times;</button>
+    <button type="button" class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">‹</button>
+    <img src="" alt="" id="lightboxImg" />
+    <button type="button" class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">›</button>
+  </div>
+
+  <!-- CTA Section -->
+  <CTASection 
+    title="Love What You See?"
+    subtitle="Let's create something beautiful for your next celebration!"
+    primaryText="Start Your Order"
+    primaryHref="/order/"
+    secondaryText="Ask a Question"
+    secondaryHref="/contact/"
+    variant="sage"
+  />
+</BaseLayout>
+
+<script>
+  // Gallery filtering
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const galleryItems = document.querySelectorAll('.gallery-item');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Update active state
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Filter items
+      const filter = btn.dataset.filter;
+      galleryItems.forEach(item => {
+        if (filter === 'all' || item.dataset.category === filter) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Lightbox functionality
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg') as HTMLImageElement;
+  const lightboxClose = document.getElementById('lightboxClose');
+  const lightboxPrev = document.getElementById('lightboxPrev');
+  const lightboxNext = document.getElementById('lightboxNext');
+  
+  let currentIndex = 0;
+  let visibleImages: HTMLImageElement[] = [];
+
+  function updateVisibleImages() {
+    visibleImages = Array.from(document.querySelectorAll('.gallery-item:not([style*="display: none"]) img'));
+  }
+
+  function showLightbox(index: number) {
+    updateVisibleImages();
+    if (index < 0 || index >= visibleImages.length) return;
+    
+    currentIndex = index;
+    lightboxImg.src = visibleImages[index].src;
+    lightboxImg.alt = visibleImages[index].alt;
+    lightbox?.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function hideLightbox() {
+    lightbox?.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function showPrev() {
+    if (currentIndex > 0) showLightbox(currentIndex - 1);
+  }
+
+  function showNext() {
+    if (currentIndex < visibleImages.length - 1) showLightbox(currentIndex + 1);
+  }
+
+  // Click handlers
+  galleryItems.forEach((item, i) => {
+    item.addEventListener('click', () => {
+      updateVisibleImages();
+      const img = item.querySelector('img');
+      const visibleIndex = visibleImages.indexOf(img as HTMLImageElement);
+      showLightbox(visibleIndex);
+    });
+  });
+
+  lightboxClose?.addEventListener('click', hideLightbox);
+  lightboxPrev?.addEventListener('click', showPrev);
+  lightboxNext?.addEventListener('click', showNext);
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (lightbox?.getAttribute('aria-hidden') === 'false') {
+      if (e.key === 'Escape') hideLightbox();
+      if (e.key === 'ArrowLeft') showPrev();
+      if (e.key === 'ArrowRight') showNext();
+    }
+  });
+
+  // Click outside to close
+  lightbox?.addEventListener('click', (e) => {
+    if (e.target === lightbox) hideLightbox();
+  });
+</script>
+
+<style>
+  .gallery-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg) var(--space-3xl);
+  }
+
+  .gallery-intro {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto var(--space-2xl);
+  }
+
+  .gallery-intro p {
+    color: var(--warm-gray);
+    font-size: 1.1rem;
+    max-width: none;
+  }
+
+  /* Filter Buttons */
+  .gallery-filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-2xl);
+  }
+
+  .filter-btn {
+    padding: var(--space-sm) var(--space-lg);
+    border: 2px solid var(--sage-light);
+    background: var(--white);
+    border-radius: 25px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--warm-gray);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-height: 44px;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--sage);
+    color: var(--sage);
+  }
+
+  .filter-btn.active {
+    background: var(--sage);
+    border-color: var(--sage);
+    color: var(--white);
+  }
+
+  /* Gallery Grid */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-md);
+  }
+
+  .gallery-item {
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: var(--shadow-subtle);
+    transition: all var(--transition-smooth);
+  }
+
+  .gallery-item:hover {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-medium);
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-smooth);
+  }
+
+  .gallery-item:hover img {
+    transform: scale(1.05);
+  }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-smooth);
+  }
+
+  .lightbox[aria-hidden="false"] {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .lightbox img {
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: var(--space-lg);
+    right: var(--space-lg);
+    background: transparent;
+    border: none;
+    color: var(--white);
+    font-size: 2.5rem;
+    cursor: pointer;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity var(--transition-fast);
+  }
+
+  .lightbox-close:hover {
+    opacity: 0.7;
+  }
+
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--white);
+    font-size: 3rem;
+    padding: var(--space-md) var(--space-lg);
+    cursor: pointer;
+    min-width: 60px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition-fast);
+  }
+
+  .lightbox-nav:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .lightbox-prev {
+    left: var(--space-md);
+    border-radius: 8px;
+  }
+
+  .lightbox-next {
+    right: var(--space-md);
+    border-radius: 8px;
+  }
+
+  @media (max-width: 600px) {
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-sm);
+    }
+
+    .lightbox-nav {
+      font-size: 2rem;
+      padding: var(--space-sm);
+    }
+  }
+</style>

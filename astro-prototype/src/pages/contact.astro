@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import { contactMethods, faqItems } from '../data';
+---
+
+<BaseLayout 
+  title="Contact" 
+  description="Get in touch with Thymeless Treats Bakery. Follow us on Instagram, message on Facebook, or send an email for custom orders."
+>
+  <PageHeader 
+    title="Let's Create Something Sweet Together"
+    subtitle="We'd love to hear from you!"
+  />
+
+  <div class="contact-container">
+    <!-- Intro Section -->
+    <div class="contact-intro">
+      <p>
+        Have questions about flavors, want to place a custom order, or just want to chat about your celebration? 
+        I'd love to hear from you! Reach out through your favorite platform below.
+      </p>
+    </div>
+
+    <!-- Contact Methods Grid -->
+    <div class="contact-methods-grid">
+      {contactMethods.map((method) => (
+        <Card variant="elevated" padding="lg">
+          <span slot="icon">{method.icon}</span>
+          <h3 slot="title">{method.title}</h3>
+          <p slot="description">{method.description}</p>
+          <div slot="action">
+            <Button 
+              href={method.linkUrl}
+              variant="primary"
+            >
+              {method.linkText}
+            </Button>
+          </div>
+        </Card>
+      ))}
+    </div>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+      <h2>Quick Answers</h2>
+      
+      <div class="faq-grid">
+        {faqItems.map((faq) => (
+          <div class="faq-item">
+            <h4>{faq.question}</h4>
+            <p>{faq.answer}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- CTA Bottom -->
+    <div class="contact-cta">
+      <p class="signature-text">Can't wait to create something sweet for you!</p>
+      <Button href="/holidays/" variant="secondary" size="lg">
+        Browse Our Seasonal Menus
+      </Button>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .contact-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg) var(--space-3xl);
+  }
+
+  .contact-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto var(--space-3xl);
+  }
+
+  .contact-intro p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--warm-gray);
+    max-width: none;
+  }
+
+  .contact-methods-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-xl);
+    margin-bottom: var(--space-4xl);
+  }
+
+  .faq-section {
+    background: var(--white);
+    border-radius: 16px;
+    padding: var(--space-2xl);
+    margin-bottom: var(--space-3xl);
+  }
+
+  .faq-section h2 {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-xl);
+  }
+
+  .faq-item h4 {
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    color: var(--charcoal);
+    margin-bottom: var(--space-sm);
+  }
+
+  .faq-item p {
+    color: var(--warm-gray);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .contact-cta {
+    text-align: center;
+  }
+
+  .signature-text {
+    font-family: var(--font-accent);
+    font-size: 1.5rem;
+    color: var(--sage);
+    margin-bottom: var(--space-lg);
+  }
+
+  @media (max-width: 600px) {
+    .faq-section {
+      padding: var(--space-lg);
+    }
+  }
+</style>

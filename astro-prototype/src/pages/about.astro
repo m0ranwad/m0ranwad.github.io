@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import Card from '../components/ui/Card.astro';
+import CTASection from '../components/ui/CTASection.astro';
+import { aboutContent } from '../data';
+---
+
+<BaseLayout 
+  title="About" 
+  description="Meet Allie, the heart behind Thymeless Treats Bakery. A cottage bakery in North Ridgeville creating buttercream cookies, custom cakes, and seasonal treats."
+>
+  <PageHeader 
+    title="Meet Allie"
+    subtitle="The heart behind every treat"
+  />
+
+  <div class="about-container">
+    <!-- Intro -->
+    <div class="about-intro">
+      <p>{aboutContent.intro}</p>
+    </div>
+
+    <!-- Two Column Cards -->
+    <div class="about-cards-grid">
+      {aboutContent.cards.map((card) => (
+        <Card variant="default" padding="lg">
+          <span slot="icon">{card.icon}</span>
+          <h3 slot="title">{card.title}</h3>
+          <p slot="description">{card.description}</p>
+        </Card>
+      ))}
+    </div>
+
+    <!-- Closing -->
+    <div class="about-closing">
+      <p class="signature-text">{aboutContent.closing}</p>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <CTASection 
+    title="Ready to order something special?"
+    primaryText="View Gallery"
+    primaryHref="/gallery/"
+    secondaryText="Place Order"
+    secondaryHref="/order/"
+    variant="cream"
+  />
+</BaseLayout>
+
+<style>
+  .about-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg) var(--space-3xl);
+  }
+
+  .about-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto var(--space-3xl);
+  }
+
+  .about-intro p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--warm-gray);
+    max-width: none;
+  }
+
+  .about-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-xl);
+    margin-bottom: var(--space-3xl);
+  }
+
+  .about-closing {
+    text-align: center;
+  }
+
+  .signature-text {
+    font-family: var(--font-accent);
+    font-size: 1.75rem;
+    color: var(--sage);
+    margin: 0;
+  }
+</style>
