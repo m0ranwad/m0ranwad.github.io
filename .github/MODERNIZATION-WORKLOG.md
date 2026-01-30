@@ -11,6 +11,7 @@
 - **Commit after each task**: Always commit changes when a task is marked complete
 - **Review major UI changes**: Pause for user feedback before finalizing any significant visual changes
 - **Incremental progress**: One task at a time, verify before moving on
+- **Update documentation**: After completing each task, review and update related docs (copilot-instructions.md, MIGRATION_PLAN.md, this worklog) to prevent staleness
 
 ---
 

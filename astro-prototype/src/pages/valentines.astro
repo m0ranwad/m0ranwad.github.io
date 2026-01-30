@@ -1,82 +1,10 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import MenuGrid from '../components/MenuGrid.astro';
+import MenuLayout from '../layouts/MenuLayout.astro';
 import { valentinesMenu } from '../data/menus';
 ---
 
-<BaseLayout 
-  title={valentinesMenu.title}
-  subtitle={valentinesMenu.subtitle}
+<MenuLayout 
+  menu={valentinesMenu}
   description="Valentine's Day cookies and treats from Thymeless Treats Bakery. Order beautiful buttercream sugar cookies for your sweetheart."
->
-  <section class="menu-page">
-    <div class="menu-header">
-      <img src={valentinesMenu.headerImage} alt={valentinesMenu.title} class="menu-hero-image" />
-    </div>
-    
-    <div class="menu-intro">
-      <p>Handcrafted with love for your special Valentine. All cookies made fresh to order.</p>
-    </div>
-    
-    <MenuGrid items={valentinesMenu.items} orderLink="/order/" />
-    
-    <div class="menu-cta">
-      <h2>Ready to Order?</h2>
-      <p>Orders must be placed at least 5 days in advance. Contact us for large orders or custom designs.</p>
-      <a href="/order/" class="btn-primary">Place Your Order</a>
-    </div>
-  </section>
-</BaseLayout>
-
-<style>
-  .menu-page {
-    padding: var(--space-xl) 0;
-  }
-  
-  .menu-header {
-    max-width: 800px;
-    margin: 0 auto var(--space-2xl);
-    padding: 0 var(--space-lg);
-  }
-  
-  .menu-hero-image {
-    width: 100%;
-    border-radius: 16px;
-    box-shadow: var(--shadow-medium);
-  }
-  
-  .menu-intro {
-    text-align: center;
-    max-width: 600px;
-    margin: 0 auto var(--space-2xl);
-    padding: 0 var(--space-lg);
-  }
-  
-  .menu-intro p {
-    font-family: 'Caveat', cursive;
-    font-size: 1.5rem;
-    color: var(--sage);
-    max-width: none;
-  }
-  
-  .menu-cta {
-    text-align: center;
-    background: var(--light-sage);
-    padding: var(--space-3xl) var(--space-lg);
-    margin-top: var(--space-3xl);
-    border-radius: 16px;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .menu-cta h2 {
-    margin-bottom: var(--space-md);
-  }
-  
-  .menu-cta p {
-    max-width: none;
-    margin-bottom: var(--space-xl);
-    color: var(--warm-gray);
-  }
-</style>
+  introText="Handcrafted with love for your special Valentine. All cookies made fresh to order."
+/>
