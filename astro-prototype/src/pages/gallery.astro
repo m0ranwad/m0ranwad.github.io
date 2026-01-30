@@ -20,38 +20,96 @@ import { galleryImages, galleryFilters } from '../data';
     </div>
 
     <!-- Filter Buttons -->
-    <div class="gallery-filter">
+    <div class="gallery-filter" role="tablist" aria-label="Filter gallery by category">
       {galleryFilters.map((filter) => (
         <button 
           class={`filter-btn ${filter.id === 'all' ? 'active' : ''}`}
           data-filter={filter.id}
+          role="tab"
+          aria-selected={filter.id === 'all' ? 'true' : 'false'}
+          aria-controls="galleryGrid"
         >
           {filter.label}
         </button>
       ))}
     </div>
 
+    <!-- Image Count -->
+    <p class="image-count" id="imageCount" aria-live="polite">
+      Showing {galleryImages.length} images
+    </p>
+
     <!-- Gallery Grid -->
-    <div class="gallery-grid" id="galleryGrid">
+    <div class="gallery-grid" id="galleryGrid" role="tabpanel">
       {galleryImages.map((image, index) => (
-        <div class="gallery-item" data-category={image.category}>
+        <button 
+          class="gallery-item" 
+          data-category={image.category}
+          data-index={index}
+          data-src={image.src}
+          data-alt={image.alt}
+          type="button"
+          aria-label={`View ${image.alt}`}
+        >
           <img 
             src={image.src} 
             alt={image.alt} 
             loading="lazy"
-            data-index={index}
+            decoding="async"
           />
-        </div>
+          <div class="gallery-overlay">
+            <span class="gallery-caption">{image.alt}</span>
+          </div>
+        </button>
       ))}
     </div>
   </div>
 
-  <!-- Lightbox (simple version for now) -->
-  <div class="lightbox" id="lightbox" role="dialog" aria-label="Image lightbox" aria-hidden="true">
-    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">&times;</button>
-    <button type="button" class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">‹</button>
-    <img src="" alt="" id="lightboxImg" />
-    <button type="button" class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">›</button>
+  <!-- Enhanced Lightbox -->
+  <div 
+    class="lightbox" 
+    id="lightbox" 
+    role="dialog" 
+    aria-label="Image viewer"
+    aria-modal="true"
+    aria-hidden="true"
+  >
+    <!-- Header with counter and close -->
+    <div class="lightbox-header">
+      <span class="lightbox-counter" id="lightboxCounter">1 / {galleryImages.length}</span>
+      <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close image viewer">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Main image container -->
+    <div class="lightbox-content" id="lightboxContent">
+      <button type="button" class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+      
+      <div class="lightbox-image-container">
+        <div class="lightbox-loading" id="lightboxLoading">
+          <div class="loading-spinner"></div>
+        </div>
+        <img src="" alt="" id="lightboxImg" />
+      </div>
+
+      <button type="button" class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Caption -->
+    <div class="lightbox-footer">
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
   </div>
 
   <!-- CTA Section -->
@@ -67,93 +125,281 @@ import { galleryImages, galleryFilters } from '../data';
 </BaseLayout>
 
 <script>
-  // Gallery filtering
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const galleryItems = document.querySelectorAll('.gallery-item');
+  // Enhanced Gallery with touch support and better UX
+  class GalleryLightbox {
+    private lightbox: HTMLElement;
+    private lightboxImg: HTMLImageElement;
+    private lightboxCaption: HTMLElement;
+    private lightboxCounter: HTMLElement;
+    private lightboxLoading: HTMLElement;
+    private lightboxContent: HTMLElement;
+    private filterBtns: NodeListOf<HTMLButtonElement>;
+    private galleryItems: NodeListOf<HTMLButtonElement>;
+    private imageCount: HTMLElement;
+    
+    private currentIndex: number = 0;
+    private visibleItems: HTMLButtonElement[] = [];
+    private touchStartX: number = 0;
+    private touchEndX: number = 0;
+    private previousFocus: HTMLElement | null = null;
 
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      // Update active state
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+    constructor() {
+      this.lightbox = document.getElementById('lightbox')!;
+      this.lightboxImg = document.getElementById('lightboxImg') as HTMLImageElement;
+      this.lightboxCaption = document.getElementById('lightboxCaption')!;
+      this.lightboxCounter = document.getElementById('lightboxCounter')!;
+      this.lightboxLoading = document.getElementById('lightboxLoading')!;
+      this.lightboxContent = document.getElementById('lightboxContent')!;
+      this.filterBtns = document.querySelectorAll('.filter-btn');
+      this.galleryItems = document.querySelectorAll('.gallery-item');
+      this.imageCount = document.getElementById('imageCount')!;
 
-      // Filter items
-      const filter = btn.dataset.filter;
-      galleryItems.forEach(item => {
-        if (filter === 'all' || item.dataset.category === filter) {
-          item.style.display = '';
-        } else {
-          item.style.display = 'none';
+      this.init();
+    }
+
+    private init(): void {
+      this.updateVisibleItems();
+      this.bindFilterEvents();
+      this.bindGalleryEvents();
+      this.bindLightboxEvents();
+      this.bindKeyboardEvents();
+      this.bindTouchEvents();
+    }
+
+    private updateVisibleItems(): void {
+      this.visibleItems = Array.from(this.galleryItems).filter(
+        item => item.style.display !== 'none'
+      );
+      this.imageCount.textContent = `Showing ${this.visibleItems.length} images`;
+    }
+
+    private bindFilterEvents(): void {
+      this.filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Update active state
+          this.filterBtns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+
+          // Filter items with animation
+          const filter = btn.dataset.filter;
+          this.galleryItems.forEach(item => {
+            if (filter === 'all' || item.dataset.category === filter) {
+              item.style.display = '';
+              item.style.animation = 'fadeIn 0.3s ease-out';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+
+          this.updateVisibleItems();
+        });
+      });
+    }
+
+    private bindGalleryEvents(): void {
+      this.galleryItems.forEach(item => {
+        item.addEventListener('click', () => {
+          this.updateVisibleItems();
+          const index = this.visibleItems.indexOf(item);
+          if (index !== -1) {
+            this.open(index);
+          }
+        });
+      });
+    }
+
+    private bindLightboxEvents(): void {
+      document.getElementById('lightboxClose')?.addEventListener('click', () => this.close());
+      document.getElementById('lightboxPrev')?.addEventListener('click', () => this.prev());
+      document.getElementById('lightboxNext')?.addEventListener('click', () => this.next());
+      
+      // Click outside to close
+      this.lightbox.addEventListener('click', (e) => {
+        if (e.target === this.lightbox || e.target === this.lightboxContent) {
+          this.close();
         }
       });
-    });
-  });
-
-  // Lightbox functionality
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightboxImg') as HTMLImageElement;
-  const lightboxClose = document.getElementById('lightboxClose');
-  const lightboxPrev = document.getElementById('lightboxPrev');
-  const lightboxNext = document.getElementById('lightboxNext');
-  
-  let currentIndex = 0;
-  let visibleImages: HTMLImageElement[] = [];
-
-  function updateVisibleImages() {
-    visibleImages = Array.from(document.querySelectorAll('.gallery-item:not([style*="display: none"]) img'));
-  }
-
-  function showLightbox(index: number) {
-    updateVisibleImages();
-    if (index < 0 || index >= visibleImages.length) return;
-    
-    currentIndex = index;
-    lightboxImg.src = visibleImages[index].src;
-    lightboxImg.alt = visibleImages[index].alt;
-    lightbox?.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function hideLightbox() {
-    lightbox?.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  }
-
-  function showPrev() {
-    if (currentIndex > 0) showLightbox(currentIndex - 1);
-  }
-
-  function showNext() {
-    if (currentIndex < visibleImages.length - 1) showLightbox(currentIndex + 1);
-  }
-
-  // Click handlers
-  galleryItems.forEach((item, i) => {
-    item.addEventListener('click', () => {
-      updateVisibleImages();
-      const img = item.querySelector('img');
-      const visibleIndex = visibleImages.indexOf(img as HTMLImageElement);
-      showLightbox(visibleIndex);
-    });
-  });
-
-  lightboxClose?.addEventListener('click', hideLightbox);
-  lightboxPrev?.addEventListener('click', showPrev);
-  lightboxNext?.addEventListener('click', showNext);
-
-  // Keyboard navigation
-  document.addEventListener('keydown', (e) => {
-    if (lightbox?.getAttribute('aria-hidden') === 'false') {
-      if (e.key === 'Escape') hideLightbox();
-      if (e.key === 'ArrowLeft') showPrev();
-      if (e.key === 'ArrowRight') showNext();
     }
+
+    private bindKeyboardEvents(): void {
+      document.addEventListener('keydown', (e) => {
+        if (this.lightbox.getAttribute('aria-hidden') === 'true') return;
+
+        switch (e.key) {
+          case 'Escape':
+            this.close();
+            break;
+          case 'ArrowLeft':
+            e.preventDefault();
+            this.prev();
+            break;
+          case 'ArrowRight':
+            e.preventDefault();
+            this.next();
+            break;
+          case 'Tab':
+            // Focus trap
+            this.handleTabKey(e);
+            break;
+        }
+      });
+    }
+
+    private handleTabKey(e: KeyboardEvent): void {
+      const focusableElements = this.lightbox.querySelectorAll(
+        'button:not([disabled])'
+      );
+      const firstElement = focusableElements[0] as HTMLElement;
+      const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+      if (e.shiftKey && document.activeElement === firstElement) {
+        e.preventDefault();
+        lastElement.focus();
+      } else if (!e.shiftKey && document.activeElement === lastElement) {
+        e.preventDefault();
+        firstElement.focus();
+      }
+    }
+
+    private bindTouchEvents(): void {
+      this.lightboxContent.addEventListener('touchstart', (e) => {
+        this.touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      this.lightboxContent.addEventListener('touchend', (e) => {
+        this.touchEndX = e.changedTouches[0].screenX;
+        this.handleSwipe();
+      }, { passive: true });
+    }
+
+    private handleSwipe(): void {
+      const swipeThreshold = 50;
+      const diff = this.touchStartX - this.touchEndX;
+
+      if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+          this.next(); // Swipe left = next
+        } else {
+          this.prev(); // Swipe right = prev
+        }
+      }
+    }
+
+    private open(index: number): void {
+      this.currentIndex = index;
+      this.previousFocus = document.activeElement as HTMLElement;
+      
+      this.showImage();
+      this.lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      
+      // Focus close button
+      setTimeout(() => {
+        document.getElementById('lightboxClose')?.focus();
+      }, 100);
+
+      // Preload adjacent images
+      this.preloadAdjacent();
+    }
+
+    private close(): void {
+      this.lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      
+      // Restore focus
+      this.previousFocus?.focus();
+    }
+
+    private showImage(): void {
+      const item = this.visibleItems[this.currentIndex];
+      if (!item) return;
+
+      const src = item.dataset.src || '';
+      const alt = item.dataset.alt || '';
+
+      // Show loading
+      this.lightboxLoading.style.display = 'flex';
+      this.lightboxImg.style.opacity = '0';
+
+      // Load image
+      const img = new Image();
+      img.onload = () => {
+        this.lightboxImg.src = src;
+        this.lightboxImg.alt = alt;
+        this.lightboxLoading.style.display = 'none';
+        this.lightboxImg.style.opacity = '1';
+      };
+      img.onerror = () => {
+        this.lightboxLoading.style.display = 'none';
+        this.lightboxCaption.textContent = 'Failed to load image';
+      };
+      img.src = src;
+
+      // Update caption and counter
+      this.lightboxCaption.textContent = alt;
+      this.lightboxCounter.textContent = `${this.currentIndex + 1} / ${this.visibleItems.length}`;
+
+      // Update nav button states
+      this.updateNavButtons();
+    }
+
+    private updateNavButtons(): void {
+      const prevBtn = document.getElementById('lightboxPrev') as HTMLButtonElement;
+      const nextBtn = document.getElementById('lightboxNext') as HTMLButtonElement;
+      
+      // Enable looping - always enabled
+      prevBtn.disabled = false;
+      nextBtn.disabled = false;
+    }
+
+    private prev(): void {
+      this.currentIndex = this.currentIndex > 0 
+        ? this.currentIndex - 1 
+        : this.visibleItems.length - 1; // Loop to end
+      this.showImage();
+      this.preloadAdjacent();
+    }
+
+    private next(): void {
+      this.currentIndex = this.currentIndex < this.visibleItems.length - 1 
+        ? this.currentIndex + 1 
+        : 0; // Loop to start
+      this.showImage();
+      this.preloadAdjacent();
+    }
+
+    private preloadAdjacent(): void {
+      // Preload next image
+      const nextIndex = (this.currentIndex + 1) % this.visibleItems.length;
+      const nextItem = this.visibleItems[nextIndex];
+      if (nextItem) {
+        const img = new Image();
+        img.src = nextItem.dataset.src || '';
+      }
+
+      // Preload previous image
+      const prevIndex = this.currentIndex > 0 ? this.currentIndex - 1 : this.visibleItems.length - 1;
+      const prevItem = this.visibleItems[prevIndex];
+      if (prevItem) {
+        const img = new Image();
+        img.src = prevItem.dataset.src || '';
+      }
+    }
+  }
+
+  // Initialize on DOM ready
+  document.addEventListener('DOMContentLoaded', () => {
+    new GalleryLightbox();
   });
 
-  // Click outside to close
-  lightbox?.addEventListener('click', (e) => {
-    if (e.target === lightbox) hideLightbox();
-  });
+  // Also init if script loads after DOM
+  if (document.readyState !== 'loading') {
+    new GalleryLightbox();
+  }
 </script>
 
 <style>
@@ -166,7 +412,7 @@ import { galleryImages, galleryFilters } from '../data';
   .gallery-intro {
     text-align: center;
     max-width: 600px;
-    margin: 0 auto var(--space-2xl);
+    margin: 0 auto var(--space-xl);
   }
 
   .gallery-intro p {
@@ -181,7 +427,7 @@ import { galleryImages, galleryFilters } from '../data';
     flex-wrap: wrap;
     justify-content: center;
     gap: var(--space-sm);
-    margin-bottom: var(--space-2xl);
+    margin-bottom: var(--space-md);
   }
 
   .filter-btn {
@@ -208,6 +454,14 @@ import { galleryImages, galleryFilters } from '../data';
     color: var(--white);
   }
 
+  /* Image Count */
+  .image-count {
+    text-align: center;
+    color: var(--warm-gray);
+    font-size: 0.875rem;
+    margin-bottom: var(--space-xl);
+  }
+
   /* Gallery Grid */
   .gallery-grid {
     display: grid;
@@ -216,17 +470,27 @@ import { galleryImages, galleryFilters } from '../data';
   }
 
   .gallery-item {
+    position: relative;
     aspect-ratio: 1;
     overflow: hidden;
     border-radius: 12px;
     cursor: pointer;
     box-shadow: var(--shadow-subtle);
     transition: all var(--transition-smooth);
+    border: none;
+    padding: 0;
+    background: transparent;
   }
 
-  .gallery-item:hover {
+  .gallery-item:hover,
+  .gallery-item:focus-visible {
     transform: scale(1.02);
     box-shadow: var(--shadow-medium);
+  }
+
+  .gallery-item:focus-visible {
+    outline: 3px solid var(--sage);
+    outline-offset: 2px;
   }
 
   .gallery-item img {
@@ -240,14 +504,45 @@ import { galleryImages, galleryFilters } from '../data';
     transform: scale(1.05);
   }
 
-  /* Lightbox */
+  /* Gallery Overlay with Caption */
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+    display: flex;
+    align-items: flex-end;
+    padding: var(--space-md);
+    opacity: 0;
+    transition: opacity var(--transition-smooth);
+  }
+
+  .gallery-item:hover .gallery-overlay,
+  .gallery-item:focus-visible .gallery-overlay {
+    opacity: 1;
+  }
+
+  .gallery-caption {
+    color: var(--white);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+
+  /* Fade in animation for filtered items */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* ========================================
+     Enhanced Lightbox Styles
+     ======================================== */
   .lightbox {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.95);
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
@@ -259,34 +554,95 @@ import { galleryImages, galleryFilters } from '../data';
     visibility: visible;
   }
 
-  .lightbox img {
-    max-width: 90%;
-    max-height: 90vh;
-    object-fit: contain;
-    border-radius: 8px;
+  /* Lightbox Header */
+  .lightbox-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-md) var(--space-lg);
+    flex-shrink: 0;
+  }
+
+  .lightbox-counter {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9375rem;
+    font-weight: 500;
   }
 
   .lightbox-close {
-    position: absolute;
-    top: var(--space-lg);
-    right: var(--space-lg);
-    background: transparent;
+    background: rgba(255, 255, 255, 0.1);
     border: none;
     color: var(--white);
-    font-size: 2.5rem;
     cursor: pointer;
-    min-width: 44px;
-    min-height: 44px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity var(--transition-fast);
+    transition: background var(--transition-fast);
   }
 
-  .lightbox-close:hover {
-    opacity: 0.7;
+  .lightbox-close:hover,
+  .lightbox-close:focus-visible {
+    background: rgba(255, 255, 255, 0.2);
   }
 
+  .lightbox-close:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 2px;
+  }
+
+  /* Lightbox Content */
+  .lightbox-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 0;
+    padding: 0 var(--space-md);
+  }
+
+  .lightbox-image-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: calc(100% - 120px);
+    max-height: 100%;
+  }
+
+  .lightbox-content img {
+    max-width: 100%;
+    max-height: calc(100vh - 180px);
+    object-fit: contain;
+    border-radius: 8px;
+    transition: opacity var(--transition-smooth);
+  }
+
+  /* Loading Spinner */
+  .lightbox-loading {
+    position: absolute;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-top-color: var(--white);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Navigation Buttons */
   .lightbox-nav {
     position: absolute;
     top: 50%;
@@ -294,40 +650,115 @@ import { galleryImages, galleryFilters } from '../data';
     background: rgba(255, 255, 255, 0.1);
     border: none;
     color: var(--white);
-    font-size: 3rem;
-    padding: var(--space-md) var(--space-lg);
     cursor: pointer;
-    min-width: 60px;
-    min-height: 80px;
+    width: 50px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background var(--transition-fast);
+    border-radius: 8px;
   }
 
-  .lightbox-nav:hover {
+  .lightbox-nav:hover,
+  .lightbox-nav:focus-visible {
     background: rgba(255, 255, 255, 0.2);
+  }
+
+  .lightbox-nav:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 2px;
+  }
+
+  .lightbox-nav:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
   }
 
   .lightbox-prev {
     left: var(--space-md);
-    border-radius: 8px;
   }
 
   .lightbox-next {
     right: var(--space-md);
-    border-radius: 8px;
   }
 
-  @media (max-width: 600px) {
+  /* Lightbox Footer / Caption */
+  .lightbox-footer {
+    padding: var(--space-md) var(--space-lg) var(--space-xl);
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .lightbox-caption {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    margin: 0;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
     .gallery-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: var(--space-sm);
     }
 
+    .gallery-item {
+      border-radius: 8px;
+    }
+
+    /* Always show overlay on mobile (no hover) */
+    .gallery-overlay {
+      opacity: 1;
+      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 40%);
+    }
+
+    .lightbox-image-container {
+      max-width: 100%;
+    }
+
+    .lightbox-content img {
+      max-height: calc(100vh - 200px);
+    }
+
     .lightbox-nav {
-      font-size: 2rem;
-      padding: var(--space-sm);
+      width: 44px;
+      height: 60px;
+    }
+
+    .lightbox-nav svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* Show swipe hint on mobile */
+    .lightbox-footer::after {
+      content: 'Swipe to navigate';
+      display: block;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.75rem;
+      margin-top: var(--space-sm);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .gallery-filter {
+      gap: var(--space-xs);
+    }
+
+    .filter-btn {
+      padding: var(--space-xs) var(--space-md);
+      font-size: 0.875rem;
+    }
+
+    .lightbox-prev {
+      left: var(--space-xs);
+    }
+
+    .lightbox-next {
+      right: var(--space-xs);
     }
   }
 </style>
