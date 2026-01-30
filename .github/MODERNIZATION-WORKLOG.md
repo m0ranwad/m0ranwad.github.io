@@ -35,7 +35,7 @@ Every design decision should ask: *"Does this let the beautiful product photos s
 | Phase | Status | Tasks Completed |
 |-------|--------|-----------------|
 | Phase 1: Quick Wins | ✅ Complete | 8/8 |
-| Phase 2: Framework Evaluation | ⚪ Not Started | 0/4 |
+| Phase 2: Framework Evaluation | ✅ Complete | 2/4 (2 skipped) |
 | Phase 3: Enhanced Features | ⚪ Not Started | 0/6 |
 
 ---
@@ -311,70 +311,77 @@ Every design decision should ask: *"Does this let the beautiful product photos s
 
 **Goal**: Determine if migrating to a modern framework is worth it.
 
-### Task 2.1: Create Astro Prototype Branch
-**Status**: ⚪ Not Started  
+### Task 2.1: Create Astro Prototype Branch ✅
+**Status**: ✅ Complete  
 **Estimated Time**: 2 hours  
 **Risk Level**: None (separate branch)
+**Started**: January 30, 2026  
+**Completed**: January 30, 2026
 
-**What to do**:
-- [ ] Create `feature/astro-prototype` branch
-- [ ] Initialize Astro project
-- [ ] Migrate homepage as proof-of-concept
-- [ ] Migrate one menu page
-- [ ] Compare build times, bundle size, DX
+**What was done**:
+- [x] Created `feature/astro-prototype` branch
+- [x] Initialized Astro project in `astro-prototype/` subdirectory
+- [x] Migrated homepage with components: `FeaturedSection`, `CategoryCards`, `HomeCTA`
+- [x] Migrated Valentine's menu page with `MenuGrid` component
+- [x] Compared build times, bundle size, DX
 
-**Acceptance Criteria**:
-- Working Astro prototype with homepage + 1 menu
-- Performance comparison documented
-- Decision documented: migrate or stay with Jekyll
+**Performance Results**:
+| Metric | Jekyll | Astro | Improvement |
+|--------|--------|-------|-------------|
+| Build Time | 31.7s | 1.45s | **22x faster** |
+| Bundle Size (HTML/CSS/JS) | 424 KB | 228 KB | **46% smaller** |
+| Dev Server Start | ~5s | 354ms | **14x faster** |
 
-**To start**: Say "Start Task 2.1: Astro Prototype"
+**Files created**:
+- `astro-prototype/src/layouts/BaseLayout.astro` - Main layout with nav, footer, global styles
+- `astro-prototype/src/components/FeaturedSection.astro` - Featured menu section
+- `astro-prototype/src/components/CategoryCards.astro` - Category card grid
+- `astro-prototype/src/components/HomeCTA.astro` - CTA section
+- `astro-prototype/src/components/MenuGrid.astro` - Menu item grid (with sold-out support)
+- `astro-prototype/src/pages/index.astro` - Homepage
+- `astro-prototype/src/pages/valentines.astro` - Valentine's menu
+- `astro-prototype/COMPARISON.md` - Full comparison document
+
+**Recommendation**: Stay with Jekyll for now. See `astro-prototype/COMPARISON.md` for full analysis.
+
+**Verification**: ✅ Astro builds and runs successfully at http://localhost:4321/
 
 ---
 
 ### Task 2.2: Evaluate Image Pipeline
-**Status**: ⚪ Not Started  
-**Estimated Time**: 1 hour  
-**Risk Level**: None
+**Status**: ⏭️ Skipped  
+**Reason**: Decided to stay with Jekyll; image pipeline evaluation deferred
 
-**What to do**:
-- [ ] Test Astro's built-in image optimization
-- [ ] Compare with Jekyll + manual optimization
-- [ ] Test WebP generation
-- [ ] Measure page load improvements
-
-**To start**: Say "Start Task 2.2: Image Pipeline Evaluation"
+**Note**: Astro's `@astrojs/image` would provide automatic WebP generation and responsive images, but this isn't worth the migration cost for this project size.
 
 ---
 
 ### Task 2.3: Evaluate Form Solutions
-**Status**: ⚪ Not Started  
-**Estimated Time**: 1 hour  
-**Risk Level**: None
-
-**What to do**:
-- [ ] Test Formspree integration
-- [ ] Test Tally.so forms
-- [ ] Compare to Google Forms UX
-- [ ] Document recommendation
-
-**To start**: Say "Start Task 2.3: Form Solutions"
+**Status**: ⏭️ Skipped  
+**Reason**: Forms work independently of framework choice. Covered in Phase 3, Task 3.6.
 
 ---
 
-### Task 2.4: Migration Decision
-**Status**: ⚪ Not Started  
-**Estimated Time**: 30 minutes  
-**Risk Level**: None
+### Task 2.4: Migration Decision ✅
+**Status**: ✅ Complete  
+**Completed**: January 30, 2026
 
-**What to do**:
-- [ ] Review all Phase 2 findings
-- [ ] Document pros/cons of migration
-- [ ] Make go/no-go decision
-- [ ] If go: create migration plan
-- [ ] If no-go: document why and archive prototype
+**Decision**: **Stay with Jekyll**
 
-**To start**: Say "Start Task 2.4: Migration Decision"
+**Reasoning**:
+1. ROI not justified — 10-12 hours migration for ~15 page site
+2. GitHub Pages zero-config deployment is valuable
+3. YAML front matter + Markdown simpler for menu updates
+4. Performance gains don't matter for low-traffic site
+5. Phase 1 optimizations already made site performant
+
+**When to reconsider**:
+- Adding dynamic features (cart, user accounts)
+- Site grows to 50+ pages
+- Need automated image optimization pipeline
+- Moving away from GitHub Pages
+
+**Prototype preserved** in `feature/astro-prototype` branch for future reference.
 
 ---
 

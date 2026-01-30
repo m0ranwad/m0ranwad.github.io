@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MenuGrid from '../components/MenuGrid.astro';
+
+const menuItems = [
+  {
+    name: "Lemon Raspberry",
+    image: "/assets/img/valentines/lemonRaspberry.png",
+    description: "A light lemony cookie covered with swirls of raspberry and vanilla buttercream. Pearls are optional.",
+    price: "$3.50 per cookie / $38 per dozen"
+  },
+  {
+    name: "Anti-Valentine",
+    image: "/assets/img/valentines/antiValentine.jpg",
+    description: "Black cocoa cookies covered with swirls of black chocolate and vanilla buttercream. Included in Taster's Box.",
+    price: "$3.50 per cookie / $38 per dozen"
+  },
+  {
+    name: "Chocolate Covered Raspberry",
+    image: "/assets/img/valentines/chocolateCoveredRaspberry.jpg",
+    description: "Black cocoa cookie covered with swirls of raspberry and vanilla buttercream. Pearls are optional.",
+    price: "$3.50 per cookie / $38 per dozen"
+  },
+  {
+    name: "Cookies & Cream Dreams",
+    image: "/assets/img/valentines/cookiesCreamDreams.jpg",
+    description: "Black cocoa cookie covered with swirls of vanilla buttercream. Optional crystal sprinkles.",
+    price: "$3.50 per cookie / $38 per dozen"
+  },
+  {
+    name: "Taster's Box",
+    image: "/assets/img/valentines/tastersBox.jpg",
+    description: "A great way to try a little bit of everything. Contains 6 cookies, including our top flavors like Lemon Raspberry and Chocolate Covered Raspberry. Perfect for enjoying with the kids, a girls' night in, or as a thank-you gift.",
+    price: "$12 per box"
+  },
+  {
+    name: "Lemon Raspberry (Petite)",
+    image: "/assets/img/valentines/lemonRaspberry_minis.jpg",
+    description: "A light lemony cookie covered with swirls of raspberry and vanilla buttercream. Included as part of our Taster's Box.",
+    price: "$15 per dozen (Sharing is Caring)"
+  },
+  {
+    name: "Anti-Valentine (Petite)",
+    image: "/assets/img/valentines/antiValentine_mini1.jpg",
+    description: "Black cocoa cookies covered with swirls of black chocolate and vanilla buttercream. Included as part of our Taster's Box.",
+    price: "$15 per dozen (Sharing is Caring)"
+  }
+];
+---
+
+<BaseLayout 
+  title="Valentine's Menu" 
+  subtitle="Sweet treats to celebrate love"
+  description="Valentine's Day cookies and treats from Thymeless Treats Bakery. Order beautiful buttercream sugar cookies for your sweetheart."
+>
+  <section class="menu-page">
+    <div class="menu-header">
+      <img src="/assets/img/valentines/menu1.jpg" alt="Valentine's Day Menu" class="menu-hero-image" />
+    </div>
+    
+    <div class="menu-intro">
+      <p>Handcrafted with love for your special Valentine. All cookies made fresh to order.</p>
+    </div>
+    
+    <MenuGrid items={menuItems} />
+    
+    <div class="menu-cta">
+      <h2>Ready to Order?</h2>
+      <p>Orders must be placed at least 5 days in advance. Contact us for large orders or custom designs.</p>
+      <a href="/inquiry/" class="btn-primary">Place Your Order</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .menu-page {
+    padding: var(--space-xl) 0;
+  }
+  
+  .menu-header {
+    max-width: 800px;
+    margin: 0 auto var(--space-2xl);
+    padding: 0 var(--space-lg);
+  }
+  
+  .menu-hero-image {
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: var(--shadow-medium);
+  }
+  
+  .menu-intro {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto var(--space-2xl);
+    padding: 0 var(--space-lg);
+  }
+  
+  .menu-intro p {
+    font-family: 'Caveat', cursive;
+    font-size: 1.5rem;
+    color: var(--sage);
+    max-width: none;
+  }
+  
+  .menu-cta {
+    text-align: center;
+    background: var(--light-sage);
+    padding: var(--space-3xl) var(--space-lg);
+    margin-top: var(--space-3xl);
+    border-radius: 16px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .menu-cta h2 {
+    margin-bottom: var(--space-md);
+  }
+  
+  .menu-cta p {
+    max-width: none;
+    margin-bottom: var(--space-xl);
+    color: var(--warm-gray);
+  }
+</style>
