@@ -24,7 +24,12 @@ const { items, orderLink } = Astro.props;
     return (
       <div class={`menu-item-card ${item.sold_out ? 'sold-out' : ''}`}>
         <div class="menu-item-image">
-          <img src={item.image} alt={item.name} loading="lazy" />
+          <img 
+            src={item.image} 
+            alt={item.name} 
+            loading="lazy" 
+            decoding="async"
+          />
           {item.sold_out && <span class="sold-out-badge">Sold Out</span>}
         </div>
         <div class="menu-item-content">
