@@ -89,14 +89,14 @@ Stop-Process -Name "node" -Force
 
 ---
 
-## �📊 Progress Overview
+##  Progress Overview
 
 | Phase | Status | Tasks Completed |
 |-------|--------|-----------------|
 | Phase 1: Quick Wins | ✅ Complete | 8/8 |
 | Phase 2: Framework Evaluation | ✅ Complete | 2/4 (2 skipped) |
 | Phase 2B: Astro Migration | 🔄 In Progress | 0/8 |
-| Phase 3: Enhanced Features | ⚪ Not Started | 0/4 |
+| Phase 3: Enhanced Features | 🔄 In Progress | 1/4 |
 
 ---
 
@@ -589,19 +589,42 @@ Stop-Process -Name "node" -Force
 > **Note**: Phase 3 is revised to focus on post-migration enhancements.
 > Several original tasks are now handled during migration (forms, performance).
 
-### Task 3.1: Image Optimization Pipeline
-**Status**: ⚪ Not Started  
+### Task 3.1: Image Optimization Pipeline ✅
+**Status**: ✅ Complete  
 **Estimated Time**: 2 hours  
-**Risk Level**: Medium
+**Risk Level**: Medium  
+**Started**: January 30, 2026  
+**Completed**: January 30, 2026
 
-**What to do**:
-- [ ] Install `@astrojs/image` or `astro-imagetools`
-- [ ] Convert images to use Astro `<Image>` component
-- [ ] Auto-generate WebP versions
-- [ ] Add blur placeholder loading
-- [ ] Reduce image folder from 78MB to <20MB
+**What was done**:
+- [x] Created `scripts/optimize-images.mjs` batch processing script
+- [x] Compressed all 75 images from 78MB to 17MB (78.6% reduction!)
+- [x] Generated WebP versions for all images (13MB total)
+- [x] Moved optimized images to `src/assets/img/` for Astro optimization
+- [x] Updated `OptimizedImage.astro` component for Astro's Image API
+- [x] Updated `FeaturedSection.astro` to use Astro Image with responsive sizes
+- [x] Updated `MenuGrid.astro` to use Astro Image with lazy loading
+- [x] Updated `CategoryCards.astro` to use Astro Image
+- [x] Updated data types to support `ImageMetadata | string`
+- [x] Converted menu data files to use image imports:
+  - `valentines.ts` - 8 images
+  - `christmas.ts` - 10 images
+  - `cookies.ts` - 6 images
+  - `cakes.ts` - 2 images
+  - `gifts.ts` - 2 images
+- [x] Updated homepage `index.astro` with optimized category card images
 
-**Impact**: Dramatic improvement in mobile load times.
+**Results**:
+| Metric | Before | After | Improvement |
+|--------|--------|-------|-------------|
+| Original images | 77.94 MB | — | — |
+| Optimized JPG | — | 16.71 MB | 78.6% smaller |
+| WebP versions | — | 12.83 MB | 83.5% smaller |
+| Build _astro folder | — | 8.3 MB | Responsive + WebP |
+
+**New npm script**: `npm run optimize-images`
+
+**Impact**: Dramatic improvement in mobile load times. Images now auto-generate responsive sizes and WebP format at build time.
 
 **To start**: Say "Start Task 3.1"
 

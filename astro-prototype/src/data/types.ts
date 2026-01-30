@@ -2,13 +2,22 @@
  * Shared TypeScript interfaces for menu items, gallery, and site content
  */
 
+import type { ImageMetadata } from 'astro';
+
+// ============================================
+// IMAGE TYPES
+// ============================================
+
+/** Image can be either an imported asset or a URL string */
+export type ImageSource = ImageMetadata | string;
+
 // ============================================
 // MENU TYPES
 // ============================================
 
 export interface MenuItem {
   name: string;
-  image: string;
+  image: ImageSource;
   description: string;
   price: string;
   soldOut?: boolean;
@@ -19,7 +28,7 @@ export interface Menu {
   slug: string;
   title: string;
   subtitle: string;
-  headerImage?: string;
+  headerImage?: ImageSource;
   orderFormUrl?: string;
   featured?: boolean;
   season?: 'spring' | 'summer' | 'fall' | 'winter' | 'year-round';
@@ -33,7 +42,7 @@ export interface Menu {
 export type GalleryCategory = 'all' | 'cookies' | 'cakes' | 'holiday' | 'events';
 
 export interface GalleryImage {
-  src: string;
+  src: ImageSource;
   alt: string;
   category: Exclude<GalleryCategory, 'all'>;
 }

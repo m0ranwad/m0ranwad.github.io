@@ -1,7 +1,10 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
 interface MenuItem {
   name: string;
-  image: string;
+  image: ImageMetadata | string;
   description: string;
   price: string;
   sold_out?: boolean;
@@ -20,11 +23,24 @@ const { items, orderLink } = Astro.props;
   {items.map((item) => {
     const itemLink = item.link || orderLink;
     const canOrder = itemLink && !item.sold_out;
+    const isOptimized = typeof item.image !== 'string';
     
     return (
       <div class={`menu-item-card ${item.sold_out ? 'sold-out' : ''}`}>
         <div class="menu-item-image">
-          <img src={item.image} alt={item.name} loading="lazy" />
+          {isOptimized ? (
+            <Image 
+              src={item.image} 
+              alt={item.name} 
+              loading="lazy"
+              format="webp"
+              quality={80}
+              widths={[300, 600]}
+              sizes="(max-width: 768px) 100vw, 400px"
+            />
+          ) : (
+            <img src={item.image} alt={item.name} loading="lazy" />
+          )}
           {item.sold_out && <span class="sold-out-badge">Sold Out</span>}
         </div>
         <div class="menu-item-content">

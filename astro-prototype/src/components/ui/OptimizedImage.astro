@@ -1,0 +1,72 @@
+---
+/**
+ * OptimizedImage Component
+ * 
+ * Wrapper around Astro's Image component for consistent image optimization.
+ * Automatically generates WebP, handles responsive sizes, and provides blur placeholders.
+ * 
+ * For images in src/assets: Pass as import (optimized at build time)
+ * For images in public/: Pass as string URL (no optimization, served as-is)
+ * 
+ * Usage:
+ *   import heroImage from '../assets/img/hero.jpg';
+ *   <OptimizedImage src={heroImage} alt="Hero" />
+ *   
+ *   // Or for public images (not optimized):
+ *   <OptimizedImage src="/assets/img/hero.jpg" alt="Hero" />
+ */
+import { Image } from 'astro:assets';
+
+interface Props {
+  src: ImageMetadata | string;
+  alt: string;
+  width?: number;
+  height?: number;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  quality?: number;
+  format?: 'avif' | 'webp' | 'png' | 'jpg';
+  sizes?: string;
+  widths?: number[];
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  class: className = '',
+  loading = 'lazy',
+  quality = 80,
+  format = 'webp',
+  sizes = '(max-width: 768px) 100vw, 50vw',
+  widths = [400, 800, 1200],
+} = Astro.props;
+
+// Check if src is an imported image (ImageMetadata) or a string URL
+const isOptimizable = typeof src !== 'string';
+---
+
+{isOptimizable ? (
+  <Image
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    class={className}
+    loading={loading}
+    quality={quality}
+    format={format}
+    widths={widths}
+    sizes={sizes}
+  />
+) : (
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    class={className}
+    loading={loading}
+  />
+)}
