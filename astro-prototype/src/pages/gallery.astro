@@ -34,11 +34,6 @@ import { galleryImages, galleryFilters } from '../data';
       ))}
     </div>
 
-    <!-- Image Count -->
-    <p class="image-count" id="imageCount" aria-live="polite">
-      Showing {galleryImages.length} images
-    </p>
-
     <!-- Gallery Grid -->
     <div class="gallery-grid" id="galleryGrid" role="tabpanel">
       {galleryImages.map((image, index) => (
@@ -51,11 +46,13 @@ import { galleryImages, galleryFilters } from '../data';
           type="button"
           aria-label={`View ${image.alt}`}
         >
+          <div class="gallery-placeholder"></div>
           <img 
             src={image.src} 
             alt={image.alt} 
             loading="lazy"
             decoding="async"
+            onload="this.parentElement.classList.add('loaded')"
           />
           <div class="gallery-overlay">
             <span class="gallery-caption">{image.alt}</span>
@@ -135,7 +132,6 @@ import { galleryImages, galleryFilters } from '../data';
     private lightboxContent: HTMLElement;
     private filterBtns: NodeListOf<HTMLButtonElement>;
     private galleryItems: NodeListOf<HTMLButtonElement>;
-    private imageCount: HTMLElement;
     
     private currentIndex: number = 0;
     private visibleItems: HTMLButtonElement[] = [];
@@ -152,7 +148,6 @@ import { galleryImages, galleryFilters } from '../data';
       this.lightboxContent = document.getElementById('lightboxContent')!;
       this.filterBtns = document.querySelectorAll('.filter-btn');
       this.galleryItems = document.querySelectorAll('.gallery-item');
-      this.imageCount = document.getElementById('imageCount')!;
 
       this.init();
     }
@@ -170,7 +165,6 @@ import { galleryImages, galleryFilters } from '../data';
       this.visibleItems = Array.from(this.galleryItems).filter(
         item => item.style.display !== 'none'
       );
-      this.imageCount.textContent = `Showing ${this.visibleItems.length} images`;
     }
 
     private bindFilterEvents(): void {
@@ -454,14 +448,6 @@ import { galleryImages, galleryFilters } from '../data';
     color: var(--white);
   }
 
-  /* Image Count */
-  .image-count {
-    text-align: center;
-    color: var(--warm-gray);
-    font-size: 0.875rem;
-    margin-bottom: var(--space-xl);
-  }
-
   /* Gallery Grid */
   .gallery-grid {
     display: grid;
@@ -479,7 +465,44 @@ import { galleryImages, galleryFilters } from '../data';
     transition: all var(--transition-smooth);
     border: none;
     padding: 0;
-    background: transparent;
+    background: var(--sage-light);
+  }
+
+  /* Skeleton placeholder while image loads */
+  .gallery-placeholder {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      var(--sage-light) 0%,
+      #d4ddd0 50%,
+      var(--sage-light) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Hide placeholder when image loads */
+  .gallery-item.loaded .gallery-placeholder {
+    display: none;
+  }
+
+  .gallery-item img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-smooth), opacity 0.3s ease;
+    opacity: 0;
+  }
+
+  .gallery-item.loaded img {
+    opacity: 1;
   }
 
   .gallery-item:hover,
@@ -491,13 +514,6 @@ import { galleryImages, galleryFilters } from '../data';
   .gallery-item:focus-visible {
     outline: 3px solid var(--sage);
     outline-offset: 2px;
-  }
-
-  .gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform var(--transition-smooth);
   }
 
   .gallery-item:hover img {
