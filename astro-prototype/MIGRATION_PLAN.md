@@ -132,86 +132,89 @@ src/data/
 
 ## 📋 Revised Migration Tasks
 
-### Phase 2B.1: Foundation & Components (1 hour)
+### Phase 2B.1: Foundation & Components (1 hour) ✅ COMPLETE
 
 **Goal**: Build the component library before migrating pages.
 
-- [ ] Create `Button.astro` with variants (primary, secondary, outline)
-- [ ] Create `Card.astro` with slots (icon, title, description, action)
-- [ ] Create `PageHeader.astro` (title, subtitle, optional hero image)
-- [ ] Create `CTASection.astro` (background, title, buttons)
-- [ ] Create `GoogleFormEmbed.astro` (iframe wrapper with loading state)
-- [ ] Add `link` support to `MenuGrid.astro`
-- [ ] Extract `Navbar.astro` and `Footer.astro` from BaseLayout
+- [x] Create `Button.astro` with variants (primary, secondary, outline)
+- [x] Create `Card.astro` with slots (icon, title, description, action)
+- [x] Create `PageHeader.astro` (title, subtitle, optional hero image)
+- [x] Create `CTASection.astro` (background, title, buttons)
+- [x] Create `GoogleFormEmbed.astro` (iframe wrapper with loading state)
+- [x] Add `link` support to `MenuGrid.astro`
+- [x] Extract `Navbar.astro` and `Footer.astro` from BaseLayout
 
-### Phase 2B.2: Data Layer (30 min)
+### Phase 2B.2: Data Layer (30 min) ✅ COMPLETE
 
 **Goal**: Move content out of pages into typed data files.
 
-- [ ] Create TypeScript interfaces for MenuItem, GalleryImage
-- [ ] Convert Valentine's menu to `src/data/menus/valentines.ts`
-- [ ] Convert Christmas menu to `src/data/menus/christmas.ts`
-- [ ] Convert all seasonal menus to data files
-- [ ] Convert year-round menus (cookies, cakes, gifts)
-- [ ] Create `src/data/gallery.ts` from gallery.md JS array
-- [ ] Create `src/data/navigation.ts` for nav/social links
+- [x] Create TypeScript interfaces for MenuItem, GalleryImage
+- [x] Convert Valentine's menu to `src/data/menus/valentines.ts`
+- [x] Convert Christmas menu to `src/data/menus/christmas.ts`
+- [x] Convert all seasonal menus to data files
+- [x] Convert year-round menus (cookies, cakes, gifts)
+- [x] Create `src/data/gallery.ts` from gallery.md JS array
+- [x] Create `src/data/navigation.ts` for nav/social links
 
-### Phase 2B.3: Menu Pages (1 hour)
+### Phase 2B.3: Core Pages (1 hour) ✅ COMPLETE
 
-**Goal**: Migrate all menu pages using components and data files.
+**Goal**: Migrate core pages using components and data files.
 
-- [ ] Create menu hub `/menu/index.astro` (combines old /menu/ and /holidays/)
-- [ ] Migrate `valentines.astro` to use data file (already done, update)
-- [ ] Migrate `christmas.astro`
-- [ ] Migrate `easter.astro`
-- [ ] Migrate `thanksgiving.astro` (with Google Form embed)
-- [ ] Migrate `mothersday.astro`
-- [ ] Migrate `halloween.astro`
-- [ ] Migrate `cookies.astro`
-- [ ] Migrate `cakes.astro`
-- [ ] Migrate `gifts.astro` (merge catering items here)
+- [x] Update `index.astro` to use data layer
+- [x] Create `about.astro` using aboutContent from data
+- [x] Create `contact.astro` with contactMethods, faqItems
+- [x] Create `holidays.astro` as menu hub (seasonal/year-round sections)
+- [x] Create `gallery.astro` with filtering and lightbox
 
-### Phase 2B.4: Gallery (45 min)
+### Phase 2B.4: Menu Pages (45 min) ✅ COMPLETE
 
-**Goal**: Proper gallery component with no inline JS.
+**Goal**: All menu pages using shared MenuLayout.
 
-- [ ] Create `GalleryGrid.astro` with filter state
-- [ ] Create `GalleryItem.astro` with overlay
-- [ ] Create `Lightbox.astro` with keyboard nav
-- [ ] Move gallery data to `src/data/gallery.ts`
-- [ ] Build `gallery.astro` page using components
+- [x] Create `MenuLayout.astro` for consistent structure
+- [x] Refactor `valentines.astro` to use MenuLayout
+- [x] Create `christmas.astro`
+- [x] Create `easter.astro`
+- [x] Create `thanksgiving.astro`
+- [x] Create `mothersday.astro`
+- [x] Create `halloween.astro`
+- [x] Create `cookies.astro`
+- [x] Create `cakes.astro`
+- [x] Create `gifts.astro`
 
-### Phase 2B.5: Core Pages (45 min)
+### Phase 2B.5: Order Flow (30 min)
 
-**Goal**: Clean, component-based core pages.
+**Goal**: Clean order experience with Google Form.
 
-- [ ] `contact.astro` - Card layout, FAQ accordion
-- [ ] `about.astro` - Simple, warm content
-- [ ] `order.astro` - **SIMPLIFIED**: Link to current menu OR contact
-- [ ] `404.astro` - Friendly error page
+- [ ] Create `order.astro` - Simple page linking to current menu OR form
+- [ ] Create `inquiry.astro` OR merge into order page
 
-### Phase 2B.6: Homepage Refinement (30 min)
+### Phase 2B.6: Gallery Enhancement (30 min)
 
-**Goal**: Polish the hero experience.
+**Goal**: Polish the gallery experience.
 
-- [ ] Improve hero section (larger image, cleaner text)
-- [ ] Add seasonal urgency ("Valentine's orders close Feb 10!")
-- [ ] Review mobile experience (thumb-friendly CTAs)
-- [ ] Test all navigation paths
+- [ ] Improve lightbox (image captions, loading states)
+- [ ] Add swipe support for mobile
+- [ ] Enhance filter button styling
 
-### Phase 2B.7: Deployment Setup (30 min)
+### Phase 2B.7: Forms Integration (30 min)
+
+**Goal**: Working order forms using Google Forms.
+
+- [ ] Create order page with embedded Google Form
+- [ ] Add inquiry flow if needed
+
+### Phase 2B.8: Deployment Setup (30 min)
 
 - [ ] Create `.github/workflows/astro.yml` for GitHub Actions
 - [ ] Configure `astro.config.mjs` for static output
 - [ ] Add `CNAME` to public folder
 - [ ] Test deployment to GitHub Pages
 
-### Phase 2B.8: Cleanup & Migration (30 min)
+### Phase 2B.9: Final Polish & Cleanup (30 min)
 
 - [ ] Move Astro files from `astro-prototype/` to root
 - [ ] Archive Jekyll files to `_jekyll-archive/` (or delete)
 - [ ] Update `README.md`
-- [ ] Replace `copilot-instructions.md` with Astro version
 - [ ] Final testing on all pages
 
 ---
