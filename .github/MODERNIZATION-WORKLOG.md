@@ -2,7 +2,7 @@
 
 > **Purpose**: Step-by-step iterative guide for AI-assisted modernization  
 > **How to Use**: Say "Continue with Task X" or "Start the next task" to resume work  
-> **Last Updated**: January 29, 2026
+> **Last Updated**: January 30, 2026
 
 ---
 
@@ -11,6 +11,22 @@
 - **Commit after each task**: Always commit changes when a task is marked complete
 - **Review major UI changes**: Pause for user feedback before finalizing any significant visual changes
 - **Incremental progress**: One task at a time, verify before moving on
+
+---
+
+## 🎯 Design Philosophy (Phase 2 & 3)
+
+> **"Let the photos do the talking."**
+
+This is the Instagram era. The site should feel **modern, elegant, and image-forward**:
+
+- **Hero images** — Large, stunning bakery photos should capture attention immediately
+- **Minimal text** — Clean layouts with breathing room; photos tell the story
+- **Social-media aesthetic** — The site should feel like a curated Instagram feed
+- **Mobile-first** — 95% of customers browse on phones; design for thumb-scrolling
+- **Elegant simplicity** — Joanna Gaines farmhouse vibes: warm, approachable, professional
+
+Every design decision should ask: *"Does this let the beautiful product photos shine?"*
 
 ---
 
