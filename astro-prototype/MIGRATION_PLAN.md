@@ -211,14 +211,18 @@ src/data/
 - [x] Order page with embedded Google Form (Task 2B.5)
 - [x] GoogleFormEmbed component with loading state
 
-### Phase 2B.8: Deployment Setup (30 min)
+### Phase 2B.8: Deployment Setup (30 min) ✅ COMPLETE
 
-- [ ] Create `.github/workflows/astro.yml` for GitHub Actions
-- [ ] Configure `astro.config.mjs` for static output
-- [ ] Add `CNAME` to public folder
-- [ ] Test deployment to GitHub Pages
+**Goal**: GitHub Actions workflow for deployment.
 
-### Phase 2B.9: Final Polish & Cleanup (30 min)
+- [x] Create `.github/workflows/astro.yml`
+- [x] Configure `astro.config.mjs` with site URL
+- [x] Add `@astrojs/sitemap` integration
+- [x] Add `CNAME` to public folder
+- [x] Add `robots.txt`
+- [x] Test build with all deployment files
+
+### Phase 2B.9: Final Polish & Cutover (30 min)
 
 - [ ] Move Astro files from `astro-prototype/` to root
 - [ ] Archive Jekyll files to `_jekyll-archive/` (or delete)
