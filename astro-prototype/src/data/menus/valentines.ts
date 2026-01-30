@@ -7,6 +7,7 @@ export const valentinesMenu: Menu = {
   headerImage: '/assets/img/valentines/menu1.jpg',
   featured: true,
   season: 'winter',
+  orderDeadline: '2025-02-10',  // Valentine's order cutoff
   orderFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSf_VXJVtlP_7VwEm6qwcfbmFA719NcxRj-Rs8WCRxmUYEDqDg/viewform',
   items: [
     {

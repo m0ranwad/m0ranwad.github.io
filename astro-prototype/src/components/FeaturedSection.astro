@@ -1,17 +1,36 @@
 ---
+import OrderDeadline from './OrderDeadline.astro';
+
 interface Props {
   title: string;
   menuLink: string;
   menuImage: string;
   menuAlt: string;
   ctaText: string;
+  orderDeadline?: string;  // ISO date for countdown (e.g., '2025-02-10')
+  deadlineLabel?: string;  // Label for countdown (e.g., "Valentine's orders")
 }
 
-const { title, menuLink, menuImage, menuAlt, ctaText } = Astro.props;
+const { 
+  title, 
+  menuLink, 
+  menuImage, 
+  menuAlt, 
+  ctaText,
+  orderDeadline,
+  deadlineLabel = "Orders"
+} = Astro.props;
 ---
 
 <section class="featured-section">
   <h2>{title}</h2>
+  {orderDeadline && (
+    <OrderDeadline 
+      deadline={orderDeadline} 
+      label={deadlineLabel}
+      href={menuLink}
+    />
+  )}
   <div class="featured-menu-container">
     <a href={menuLink} class="featured-menu-link">
       <img src={menuImage} alt={menuAlt} loading="eager" />

@@ -27,6 +27,7 @@ export interface Menu {
   orderFormUrl?: string;
   featured?: boolean;
   season?: 'spring' | 'summer' | 'fall' | 'winter' | 'year-round';
+  orderDeadline?: string;  // ISO date like '2025-02-10' for countdown
   items: MenuItem[];
 }
 
