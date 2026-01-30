@@ -97,6 +97,7 @@ Stop-Process -Name "node" -Force
 | Phase 2: Framework Evaluation | ✅ Complete | 2/4 (2 skipped) |
 | Phase 2B: Astro Migration | 🔄 In Progress | 0/8 |
 | Phase 3: Enhanced Features | ✅ Complete | 4/4 |
+| Phase 4: Merge & Deploy | ⚪ Not Started | 0/5 |
 
 ---
 
@@ -738,7 +739,198 @@ After initial implementation, the workflow was simplified for business owner:
 
 ---
 
-## 📝 Session Notes
+## � PHASE 4: Merge & Deploy
+
+**Goal**: Get the Astro site live on production.
+
+### Task 4.1: Merge Phase 3 → Astro Prototype
+**Status**: ⚪ Not Started  
+**Estimated Time**: 15 minutes  
+**Risk Level**: Low
+
+**What to do**:
+- [ ] Switch to `feature/astro-prototype` branch
+- [ ] Merge `feature/astro-phase3` into it
+- [ ] Verify build still works
+- [ ] Test locally with `npm run preview`
+
+**Commands**:
+```bash
+git checkout feature/astro-prototype
+git merge feature/astro-phase3
+npm run build
+npm run preview
+```
+
+**To start**: Say "Start Task 4.1"
+
+---
+
+### Task 4.2: Final Review & Testing
+**Status**: ⚪ Not Started  
+**Estimated Time**: 1 hour  
+**Risk Level**: Medium
+
+**What to do**:
+- [ ] Test all pages on desktop and mobile
+- [ ] Verify all links work
+- [ ] Check images load correctly
+- [ ] Test order deadline countdown
+- [ ] Test sticky mobile CTA
+- [ ] Verify Google Forms work
+- [ ] Run Lighthouse audit (target: Performance >90, Accessibility >95)
+
+**To start**: Say "Start Task 4.2"
+
+---
+
+### Task 4.3: Repository Cleanup (Pre-Deploy)
+**Status**: ⚪ Not Started  
+**Estimated Time**: 30 minutes  
+**Risk Level**: High ⚠️
+
+**What to do**:
+When Astro is ready for production, the directory structure needs significant cleanup:
+
+**Files/folders to DELETE** (Jekyll remnants):
+```
+# Jekyll config & content
+_config.yml
+_data/
+_includes/
+_layouts/
+_posts/
+_site/
+
+# Jekyll gems
+Gemfile
+Gemfile.lock
+
+# Jekyll pages (replaced by Astro)
+*.md (root level: aboutme.md, cakes.md, christmas.md, contact.md, 
+      cookies.md, easter.md, gallery.md, gifts.md, halloween.md, 
+      holidays.md, inquiry.md, menu.md, mothersday.md, order.md, 
+      valentines.md)
+*.html (root level: 404.html, index.html, tags.html, thanksgiving.html)
+cake1.md, cake2.md, cake3.md
+cookies/ (folder)
+feed.xml
+
+# Docs (optional - can keep for reference)
+docs/
+```
+
+**Files to MOVE** (from astro-prototype/ to root):
+```
+astro-prototype/src/           → src/
+astro-prototype/public/        → public/
+astro-prototype/scripts/       → scripts/
+astro-prototype/package.json   → package.json
+astro-prototype/package-lock.json → package-lock.json
+astro-prototype/astro.config.mjs → astro.config.mjs
+astro-prototype/tsconfig.json  → tsconfig.json
+astro-prototype/.gitignore     → (merge with root .gitignore)
+```
+
+**Files to KEEP** (root level):
+```
+.github/                # Keep workflows and instructions
+assets/                 # Images (referenced by Astro via symlink)
+CNAME                   # Custom domain
+LICENSE
+README.md               # Update with Astro instructions
+favicon.ico
+```
+
+**Files to DELETE** (after move):
+```
+astro-prototype/        # Remove entire folder after moving contents
+```
+
+**To start**: Say "Start Task 4.3"
+
+---
+
+### Task 4.4: GitHub Actions for Astro
+**Status**: ⚪ Not Started  
+**Estimated Time**: 30 minutes  
+**Risk Level**: Medium
+
+**What to do**:
+- [ ] Create `.github/workflows/deploy.yml` for Astro
+- [ ] Configure GitHub Pages for Astro static output
+- [ ] Test deployment workflow
+
+**GitHub Actions workflow** (to create):
+```yaml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
+```
+
+**To start**: Say "Start Task 4.4"
+
+---
+
+### Task 4.5: Go Live! 🎉
+**Status**: ⚪ Not Started  
+**Estimated Time**: 15 minutes  
+**Risk Level**: High ⚠️
+
+**What to do**:
+- [ ] Create backup branch of current production: `git branch backup/jekyll-final`
+- [ ] Merge cleaned-up Astro to `main` (or `theme/beautiful-jekyll`)
+- [ ] Push to GitHub
+- [ ] Verify GitHub Actions deploys successfully
+- [ ] Test live site at thymelesstreatsbakery.com
+- [ ] Celebrate! 🎂
+
+**Rollback plan**:
+If something goes wrong:
+```bash
+git checkout main
+git reset --hard backup/jekyll-final
+git push --force origin main
+```
+
+**To start**: Say "Start Task 4.5"
+
+---
+
+## �📝 Session Notes
 
 ### January 30, 2026 (Session 3 - Phase 3 Complete)
 - Completed all Phase 3 tasks (3.1-3.4)
@@ -786,11 +978,13 @@ The following tasks from the original Phase 3 have been addressed:
 
 | Say This | To Do This |
 |----------|------------|
-| "Start Task 2B.1" | Begin component foundation |
-| "Start Task 2B.2" | Create data layer |
+| "Start Task 4.1" | Merge Phase 3 → Astro Prototype |
+| "Start Task 4.2" | Final review & testing |
+| "Start Task 4.3" | Repository cleanup |
+| "Start Task 4.4" | Set up GitHub Actions |
+| "Start Task 4.5" | Go live! |
 | "Continue where we left off" | Resume last incomplete task |
 | "What's the current status?" | Get progress overview |
-| "Show migration plan" | View detailed migration tasks |
 
 ---
 
