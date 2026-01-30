@@ -598,10 +598,10 @@ Every design decision should ask: *"Does this let the beautiful product photos s
 - Revised decision: Migrate to Astro (not stay with Jekyll)
 - Created comprehensive `MIGRATION_PLAN.md` with improvements
 - Identified code quality issues in original Jekyll site
-- Created new `copilot-instructions-astro.md`
 - Updated Phase 2B with 8 migration tasks
 - Revised Phase 3 to focus on post-migration enhancements
 - Removed/consolidated redundant Phase 3 tasks
+- Consolidated to single copilot-instructions.md (removed duplicate)
 
 ### January 29, 2026 (Session 1)
 - Created comprehensive copilot-instructions.md
@@ -639,8 +639,7 @@ The following tasks from the original Phase 3 have been addressed:
 
 ## 🔗 Related Documents
 
-- `.github/copilot-instructions-astro.md` — Astro development guide (NEW)
-- `.github/copilot-instructions.md` — Legacy Jekyll guide
+- `.github/copilot-instructions.md` — AI development guide (Astro-focused)
 - `astro-prototype/MIGRATION_PLAN.md` — Detailed migration tasks
 - `astro-prototype/COMPARISON.md` — Jekyll vs Astro analysis
 
