@@ -36,7 +36,8 @@ Every design decision should ask: *"Does this let the beautiful product photos s
 |-------|--------|-----------------|
 | Phase 1: Quick Wins | ✅ Complete | 8/8 |
 | Phase 2: Framework Evaluation | ✅ Complete | 2/4 (2 skipped) |
-| Phase 3: Enhanced Features | ⚪ Not Started | 0/6 |
+| Phase 2B: Astro Migration | 🔄 In Progress | 0/8 |
+| Phase 3: Enhanced Features | ⚪ Not Started | 0/4 |
 
 ---
 
@@ -358,49 +359,192 @@ Every design decision should ask: *"Does this let the beautiful product photos s
 
 ### Task 2.3: Evaluate Form Solutions
 **Status**: ⏭️ Skipped  
-**Reason**: Forms work independently of framework choice. Covered in Phase 3, Task 3.6.
+**Reason**: Forms work independently of framework choice. Covered in Phase 2B.
 
 ---
 
 ### Task 2.4: Migration Decision ✅
-**Status**: ✅ Complete  
+**Status**: ✅ Complete → **REVISED**  
 **Completed**: January 30, 2026
 
-**Decision**: **Stay with Jekyll**
+**Original Decision**: Stay with Jekyll
 
-**Reasoning**:
-1. ROI not justified — 10-12 hours migration for ~15 page site
-2. GitHub Pages zero-config deployment is valuable
-3. YAML front matter + Markdown simpler for menu updates
-4. Performance gains don't matter for low-traffic site
-5. Phase 1 optimizations already made site performant
+**Revised Decision**: **Migrate to Astro** ✅
 
-**When to reconsider**:
-- Adding dynamic features (cart, user accounts)
-- Site grows to 50+ pages
-- Need automated image optimization pipeline
-- Moving away from GitHub Pages
+**Why the change**:
+1. AI-assisted development dramatically reduces migration time
+2. Image optimization (78MB → <20MB) is critical for mobile UX
+3. Original site has significant technical debt (inline styles, repeated code)
+4. Migration is an opportunity to improve, not just convert
+5. Best possible site > easiest path
 
-**Prototype preserved** in `feature/astro-prototype` branch for future reference.
+**See**: `astro-prototype/MIGRATION_PLAN.md` for full plan
 
 ---
 
-## ✨ PHASE 3: Enhanced Features
+## 🔄 PHASE 2B: Astro Migration
+
+**Goal**: Migrate to Astro with improvements, not just 1:1 conversion.
+
+> **Key Insight**: The original site was built by a junior developer. This migration
+> is an opportunity to fix architectural issues, improve UX, and create a maintainable codebase.
+
+**Issues Identified**:
+- 150+ inline style attributes in `order.md`
+- 368-line `inquiry.md` with non-functional forms
+- 130 lines of JS embedded in `gallery.md`
+- Duplicate card patterns in 8+ places
+- Confusing order flow (`/order/` vs `/inquiry/` vs menu buttons)
+- Redundant pages (`/menu/` vs `/holidays/`)
+
+### Task 2B.1: Foundation & Components
+**Status**: ⚪ Not Started  
+**Estimated Time**: 1 hour  
+**Risk Level**: Low
+
+**What to do**:
+- [ ] Create `Button.astro` with variants (primary, secondary, outline)
+- [ ] Create `Card.astro` with slots
+- [ ] Create `PageHeader.astro`
+- [ ] Create `CTASection.astro`
+- [ ] Create `GoogleFormEmbed.astro`
+- [ ] Add `link` support to `MenuGrid.astro`
+- [ ] Extract `Navbar.astro` and `Footer.astro` from BaseLayout
+
+**To start**: Say "Start Task 2B.1"
+
+---
+
+### Task 2B.2: Data Layer
+**Status**: ⚪ Not Started  
+**Estimated Time**: 30 minutes  
+**Risk Level**: Low
+
+**What to do**:
+- [ ] Create TypeScript interfaces for MenuItem, GalleryImage
+- [ ] Convert all menu data to `src/data/menus/*.ts` files
+- [ ] Create `src/data/gallery.ts`
+- [ ] Create `src/data/navigation.ts`
+
+**To start**: Say "Start Task 2B.2"
+
+---
+
+### Task 2B.3: Menu Pages
+**Status**: ⚪ Not Started  
+**Estimated Time**: 1 hour  
+**Risk Level**: Low
+
+**What to do**:
+- [ ] Create unified menu hub `/menu/index.astro`
+- [ ] Migrate all seasonal menus (7 pages)
+- [ ] Migrate year-round menus (3 pages)
+- [ ] Each page uses components + data files
+
+**To start**: Say "Start Task 2B.3"
+
+---
+
+### Task 2B.4: Gallery
+**Status**: ⚪ Not Started  
+**Estimated Time**: 45 minutes  
+**Risk Level**: Medium
+
+**What to do**:
+- [ ] Create `GalleryGrid.astro` with filter state
+- [ ] Create `GalleryItem.astro` with overlay
+- [ ] Create `Lightbox.astro` with keyboard nav
+- [ ] Move gallery data to `src/data/gallery.ts`
+
+**To start**: Say "Start Task 2B.4"
+
+---
+
+### Task 2B.5: Core Pages
+**Status**: ⚪ Not Started  
+**Estimated Time**: 45 minutes  
+**Risk Level**: Low
+
+**What to do**:
+- [ ] `contact.astro` - Card layout, FAQ
+- [ ] `about.astro` - Simple, warm content
+- [ ] `order.astro` - **SIMPLIFIED**: Link to menus + contact
+- [ ] `404.astro` - Friendly error page
+
+**Improvement**: Consolidate `/order/` and `/inquiry/` into one simple page.
+
+**To start**: Say "Start Task 2B.5"
+
+---
+
+### Task 2B.6: Homepage Refinement
+**Status**: ⚪ Not Started  
+**Estimated Time**: 30 minutes  
+**Risk Level**: Low
+
+**What to do**:
+- [ ] Improve hero section (larger image, cleaner text)
+- [ ] Add seasonal urgency messaging
+- [ ] Review mobile experience
+- [ ] Test all navigation paths
+
+**To start**: Say "Start Task 2B.6"
+
+---
+
+### Task 2B.7: Deployment Setup
+**Status**: ⚪ Not Started  
+**Estimated Time**: 30 minutes  
+**Risk Level**: Medium
+
+**What to do**:
+- [ ] Create `.github/workflows/astro.yml`
+- [ ] Configure `astro.config.mjs` for static output
+- [ ] Add `CNAME` to public folder
+- [ ] Test deployment to GitHub Pages
+
+**To start**: Say "Start Task 2B.7"
+
+---
+
+### Task 2B.8: Cleanup & Migration
+**Status**: ⚪ Not Started  
+**Estimated Time**: 30 minutes  
+**Risk Level**: Medium
+
+**What to do**:
+- [ ] Move Astro files from `astro-prototype/` to root
+- [ ] Archive Jekyll files to `_jekyll-archive/`
+- [ ] Update `README.md`
+- [ ] Replace `copilot-instructions.md` with Astro version
+- [ ] Final testing
+
+**To start**: Say "Start Task 2B.8"
+
+---
+
+## ✨ PHASE 3: Enhanced Features (Post-Migration)
 
 **Goal**: Add features that elevate the site beyond basics.
 
-### Task 3.1: PDF Menu Display Component
+> **Note**: Phase 3 is revised to focus on post-migration enhancements.
+> Several original tasks are now handled during migration (forms, performance).
+
+### Task 3.1: Image Optimization Pipeline
 **Status**: ⚪ Not Started  
 **Estimated Time**: 2 hours  
 **Risk Level**: Medium
 
 **What to do**:
-- [ ] Create elegant PDF viewer/embed
-- [ ] Mobile-optimized viewing
-- [ ] Download button
-- [ ] Fallback to image if PDF fails
+- [ ] Install `@astrojs/image` or `astro-imagetools`
+- [ ] Convert images to use Astro `<Image>` component
+- [ ] Auto-generate WebP versions
+- [ ] Add blur placeholder loading
+- [ ] Reduce image folder from 78MB to <20MB
 
-**To start**: Say "Start Task 3.1: PDF Menu Component"
+**Impact**: Dramatic improvement in mobile load times.
+
+**To start**: Say "Start Task 3.1"
 
 ---
 
@@ -410,30 +554,16 @@ Every design decision should ask: *"Does this let the beautiful product photos s
 **Risk Level**: Low
 
 **What to do**:
-- [ ] Add sticky "Order Now" bar on mobile
-- [ ] Only shows on menu pages
+- [ ] Add sticky "Order Now" bar on menu pages
+- [ ] Only shows on mobile
 - [ ] Doesn't obstruct content
-- [ ] Smooth scroll behavior
+- [ ] Links to current season order form
 
-**To start**: Say "Start Task 3.2: Sticky Mobile CTA"
-
----
-
-### Task 3.3: Instagram Feed Integration
-**Status**: ⚪ Not Started  
-**Estimated Time**: 2 hours  
-**Risk Level**: Medium (API dependent)
-
-**What to do**:
-- [ ] Research Instagram embed options
-- [ ] Implement feed widget or recent posts
-- [ ] Fallback if API fails
-
-**To start**: Say "Start Task 3.3: Instagram Integration"
+**To start**: Say "Start Task 3.2"
 
 ---
 
-### Task 3.4: Order Deadline Countdown
+### Task 3.3: Order Deadline Countdown
 **Status**: ⚪ Not Started  
 **Estimated Time**: 1 hour  
 **Risk Level**: Low
@@ -441,55 +571,57 @@ Every design decision should ask: *"Does this let the beautiful product photos s
 **What to do**:
 - [ ] Create countdown component
 - [ ] "Valentine's orders close in X days"
-- [ ] Configurable via front matter
+- [ ] Configurable via props/data
 
-**To start**: Say "Start Task 3.4: Countdown Component"
+**To start**: Say "Start Task 3.3"
 
 ---
 
-### Task 3.5: Performance Optimization
+### Task 3.4: Performance Audit
 **Status**: ⚪ Not Started  
-**Estimated Time**: 2 hours  
+**Estimated Time**: 1 hour  
 **Risk Level**: Low
 
 **What to do**:
-- [ ] Lighthouse audit
-- [ ] Critical CSS inlining
-- [ ] Font loading optimization
-- [ ] Core Web Vitals improvements
+- [ ] Run Lighthouse audit
+- [ ] Optimize font loading (preload, display swap)
+- [ ] Review Core Web Vitals
+- [ ] Target scores: Performance >90, Accessibility >95
 
-**To start**: Say "Start Task 3.5: Performance Optimization"
-
----
-
-### Task 3.6: Ordering & Inquiry Flow Redesign
-**Status**: ⚪ Not Started  
-**Estimated Time**: 4+ hours  
-**Risk Level**: High (major UX change)
-
-**Background**: Added based on Task 1.7 findings. Current state:
-- Google Forms work but feel disconnected from brand
-- `inquiry.md` has beautiful custom forms but Formspree was never set up
-- Opportunity to create a more cohesive ordering experience
-
-**What to consider**:
-- [ ] Define ideal customer ordering journey
-- [ ] Evaluate options: Formspree, Tally, Square, custom solution
-- [ ] Consider order management needs (tracking, notifications)
-- [ ] Mobile-first design for 95% mobile traffic
-- [ ] Integration with seasonal menu system
-
-**To start**: Say "Start Task 3.6: Ordering Flow Redesign"
+**To start**: Say "Start Task 3.4"
 
 ---
 
 ## 📝 Session Notes
 
-### January 29, 2026
+### January 30, 2026 (Session 2)
+- Revised decision: Migrate to Astro (not stay with Jekyll)
+- Created comprehensive `MIGRATION_PLAN.md` with improvements
+- Identified code quality issues in original Jekyll site
+- Created new `copilot-instructions-astro.md`
+- Updated Phase 2B with 8 migration tasks
+- Revised Phase 3 to focus on post-migration enhancements
+- Removed/consolidated redundant Phase 3 tasks
+
+### January 29, 2026 (Session 1)
 - Created comprehensive copilot-instructions.md
 - Created this worklog for iterative progress
-- Identified 17 total tasks across 3 phases
-- Ready to begin Phase 1, Task 1.1
+- Completed all Phase 1 tasks (8/8)
+- Built Astro prototype with homepage + Valentine's menu
+
+---
+
+## 📝 Removed/Consolidated Tasks
+
+The following tasks from the original Phase 3 have been addressed:
+
+| Original Task | Status | Notes |
+|--------------|--------|-------|
+| PDF Menu Display | ❌ Removed | Not needed; web menus are better for mobile |
+| Instagram Integration | ❌ Deferred | API complexity; link to Instagram instead |
+| Ordering Flow Redesign | ✅ Handled in 2B.5 | Simplified during migration |
+| Form Solutions | ✅ Handled in 2B | Using Google Forms consistently |
+| Performance Optimization | ✅ Moved to 3.4 | Post-migration audit |
 
 ---
 
@@ -497,20 +629,20 @@ Every design decision should ask: *"Does this let the beautiful product photos s
 
 | Say This | To Do This |
 |----------|------------|
-| "Start Task 1.1" | Begin file cleanup |
-| "Start Task 1.2" | Update to Valentine's season |
+| "Start Task 2B.1" | Begin component foundation |
+| "Start Task 2B.2" | Create data layer |
 | "Continue where we left off" | Resume last incomplete task |
 | "What's the current status?" | Get progress overview |
-| "Skip to Phase 2" | Start framework evaluation |
-| "Mark Task X.X complete" | Update status after review |
+| "Show migration plan" | View detailed migration tasks |
 
 ---
 
 ## 🔗 Related Documents
 
-- `.github/copilot-instructions.md` — Main AI development guide
-- `docs/2025_OPTIMIZATION_STRATEGY.md` — Detailed CSS/typography rationale
-- `docs/REDESIGN_PLAN.md` — Original Joanna Gaines redesign vision
+- `.github/copilot-instructions-astro.md` — Astro development guide (NEW)
+- `.github/copilot-instructions.md` — Legacy Jekyll guide
+- `astro-prototype/MIGRATION_PLAN.md` — Detailed migration tasks
+- `astro-prototype/COMPARISON.md` — Jekyll vs Astro analysis
 
 ---
 

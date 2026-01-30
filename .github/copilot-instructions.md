@@ -1,18 +1,34 @@
-# Thymeless Treats Bakery  AI Development Guide
+# Thymeless Treats Bakery — AI Development Guide (Jekyll Legacy)
 
-> **Last Updated**: January 29, 2026  
-> **Purpose**: Comprehensive guide for AI-assisted development and modernization  
+> **Last Updated**: January 30, 2026  
+> **Status**: ⚠️ **LEGACY DOCUMENT** — Site is migrating to Astro  
+> **Purpose**: Historical reference for Jekyll-based site  
 > **Audience**: GitHub Copilot, Claude, and future AI assistants working on this codebase
+
+---
+
+## 🚨 Important: Migration in Progress
+
+**The site is being migrated from Jekyll to Astro.** For active development, see:
+- **📄 `.github/copilot-instructions-astro.md`** — Primary development guide
+- **📄 `astro-prototype/MIGRATION_PLAN.md`** — Detailed migration tasks
+- **📄 `.github/MODERNIZATION-WORKLOG.md`** — Progress tracker
+
+This document is retained for:
+- Historical context about design decisions
+- Reference during migration (content, color palette, voice & tone)
+- Fallback if Astro migration needs to be reverted
 
 ---
 
 ## Project Overview
 
-This is a Jekyll-based bakery e-commerce website built on the Beautiful Jekyll theme (v6.0.1), hosted on GitHub Pages. The site showcases seasonal menus, products, and inquiry forms for Thymeless Treats Bakery.
+This **was** a Jekyll-based bakery e-commerce website built on the Beautiful Jekyll theme (v6.0.1), hosted on GitHub Pages. The site showcases seasonal menus, products, and inquiry forms for Thymeless Treats Bakery.
 
 **Repository**: m0ranwad/m0ranwad.github.io  
-**Current Branch**: redesign-joanna-gaines (modern farmhouse aesthetic redesign)  
-**Main Branch**: theme/beautiful-jekyll  
+**Active Branch**: `feature/astro-prototype` (Astro migration)  
+**Legacy Branch**: `redesign-joanna-gaines` (Jekyll, modern farmhouse redesign)  
+**Production Branch**: `theme/beautiful-jekyll` (current live site)  
 **Live URL**: thymelesstreatsbakery.com
 
 ---
