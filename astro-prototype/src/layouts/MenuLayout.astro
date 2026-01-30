@@ -6,6 +6,7 @@
 import BaseLayout from './BaseLayout.astro';
 import MenuGrid from '../components/MenuGrid.astro';
 import CTASection from '../components/ui/CTASection.astro';
+import StickyMobileCTA from '../components/StickyMobileCTA.astro';
 import type { Menu } from '../data/types';
 
 interface Props {
@@ -59,6 +60,9 @@ const {
       variant="sage"
     />
   </section>
+  
+  <!-- Mobile-only sticky order button -->
+  <StickyMobileCTA />
 </BaseLayout>
 
 <style>
