@@ -181,12 +181,14 @@ src/data/
 - [x] Create `cakes.astro`
 - [x] Create `gifts.astro`
 
-### Phase 2B.5: Order Flow (30 min)
+### Phase 2B.5: Order Flow (30 min) ✅ COMPLETE
 
 **Goal**: Clean order experience with Google Form.
 
-- [ ] Create `order.astro` - Simple page linking to current menu OR form
-- [ ] Create `inquiry.astro` OR merge into order page
+- [x] Create `order.astro` - Combined order page with embedded Google Form
+- [x] Add order options cards linking to menus
+- [x] Add "What Happens Next?" process steps
+- [x] Dynamic featured menu banner
 
 ### Phase 2B.6: Gallery Enhancement (30 min)
 
