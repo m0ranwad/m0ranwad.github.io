@@ -6,6 +6,35 @@
 
 ---
 
+## 🌿 Branch Strategy
+
+| Branch | Purpose | When to Use |
+|--------|---------|-------------|
+| `theme/beautiful-jekyll` | **Production** (live site) | Current Jekyll site, don't touch until Astro is ready |
+| `feature/astro-prototype` | **Phase 2B** (migration) | Astro migration work, ready to go live when complete |
+| `feature/astro-phase3` | **Phase 3** (enhancements) | Future features, branches off astro-prototype |
+
+**Deployment Flow**:
+1. Complete Phase 2B work in `feature/astro-prototype`
+2. When ready: merge `feature/astro-prototype` → `theme/beautiful-jekyll` (replaces Jekyll with Astro)
+3. Continue Phase 3 work in `feature/astro-phase3`
+4. When Phase 3 ready: merge `feature/astro-phase3` → `theme/beautiful-jekyll`
+
+**Quick Commands**:
+```bash
+# Switch to Phase 2B work
+git checkout feature/astro-prototype
+
+# Switch to Phase 3 work
+git checkout feature/astro-phase3
+
+# Keep Phase 3 up to date with Phase 2B changes
+git checkout feature/astro-phase3
+git merge feature/astro-prototype
+```
+
+---
+
 ## ⚙️ Workflow Preferences
 
 - **Commit after each task**: Always commit changes when a task is marked complete
@@ -31,7 +60,36 @@ Every design decision should ask: *"Does this let the beautiful product photos s
 
 ---
 
-## 📊 Progress Overview
+## � Local Development
+
+### Running the Dev Server
+```powershell
+cd c:\git\m0ranwad.github.io\astro-prototype
+npm run dev           # Local only (http://localhost:4321)
+npm run dev -- --host # With network access (for phone testing)
+```
+
+### Testing on Mobile (Same WiFi Network)
+1. Run with `--host` flag: `npm run dev -- --host`
+2. Note the Network URL shown (e.g., `http://192.168.x.x:4321/`)
+3. **First time only**: Add Windows Firewall rule (requires Admin PowerShell):
+   ```powershell
+   netsh advfirewall firewall add rule name="Astro Dev Server" dir=in action=allow protocol=tcp localport=4321
+   ```
+4. On your phone, navigate to the Network URL
+
+### Cleaning Up Orphaned Node Processes
+```powershell
+# View running processes
+Get-Process -Name "node"
+
+# Kill all node processes
+Stop-Process -Name "node" -Force
+```
+
+---
+
+## �📊 Progress Overview
 
 | Phase | Status | Tasks Completed |
 |-------|--------|-----------------|
