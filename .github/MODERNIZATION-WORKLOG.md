@@ -18,9 +18,9 @@
 
 | Phase | Status | Tasks Completed |
 |-------|--------|-----------------|
-| Phase 1: Quick Wins | 🟡 In Progress | 6/8 |
+| Phase 1: Quick Wins | 🟡 In Progress | 7/8 |
 | Phase 2: Framework Evaluation | ⚪ Not Started | 0/4 |
-| Phase 3: Enhanced Features | ⚪ Not Started | 0/5 |
+| Phase 3: Enhanced Features | ⚪ Not Started | 0/6 |
 
 ---
 
@@ -229,27 +229,34 @@
 ---
 
 ### Task 1.7: Form UX Improvement
-**Status**: ⚪ Not Started  
+**Status**: ✅ Complete  
 **Estimated Time**: 30 minutes  
-**Risk Level**: Medium
+**Risk Level**: Medium  
+**Started**: January 30, 2026  
+**Completed**: January 30, 2026
 
-**What to do**:
-- [ ] Audit current Google Form embeds for mobile usability
-- [ ] Research alternatives: Formspree, Netlify Forms, Tally
-- [ ] Improve iframe sizing/responsiveness
-- [ ] Add better loading states
-- [ ] Document recommendation for form replacement
+**Audit Findings**:
+- `thanksgiving.html` uses embedded Google Form iframe
+- `inquiry.md` has 4 custom forms with Formspree placeholders (never configured)
+- Decision: Stick with Google Forms for now; revisit ordering flow in future phase
 
-**Files to check**:
-- `thanksgiving.html` (has Google Form iframe)
-- `inquiry.md` (form hub page)
+**What was done**:
+- [x] Improved Google Form iframe with wrapper and loading state
+- [x] Added accessibility: `title`, `aria-label`, `loading="lazy"`
+- [x] Enhanced CSS: responsive height, centered wrapper, visual loading message
+- [x] Updated reusable `_includes/form.html` template
 
-**Acceptance Criteria**:
-- Forms are usable on mobile
-- Clear recommendation documented
-- Loading experience improved
+**Files modified**:
+- `thanksgiving.html` - Improved form embed with section header and accessibility
+- `_includes/form.html` - Updated template with new wrapper pattern
+- `assets/css/optimized-2025.css` - Added form section and loading styles
 
-**To start**: Say "Start Task 1.7: Form UX"
+**Future Consideration** (add to Phase 3):
+- Revisit entire ordering/inquiry flow
+- Consider: custom form builder, order management system, or dedicated e-commerce solution
+- `inquiry.md` forms are well-designed but currently non-functional (Formspree not set up)
+
+**Verification**: ✅ Jekyll build successful
 
 ---
 
@@ -425,6 +432,27 @@
 - [ ] Core Web Vitals improvements
 
 **To start**: Say "Start Task 3.5: Performance Optimization"
+
+---
+
+### Task 3.6: Ordering & Inquiry Flow Redesign
+**Status**: ⚪ Not Started  
+**Estimated Time**: 4+ hours  
+**Risk Level**: High (major UX change)
+
+**Background**: Added based on Task 1.7 findings. Current state:
+- Google Forms work but feel disconnected from brand
+- `inquiry.md` has beautiful custom forms but Formspree was never set up
+- Opportunity to create a more cohesive ordering experience
+
+**What to consider**:
+- [ ] Define ideal customer ordering journey
+- [ ] Evaluate options: Formspree, Tally, Square, custom solution
+- [ ] Consider order management needs (tracking, notifications)
+- [ ] Mobile-first design for 95% mobile traffic
+- [ ] Integration with seasonal menu system
+
+**To start**: Say "Start Task 3.6: Ordering Flow Redesign"
 
 ---
 

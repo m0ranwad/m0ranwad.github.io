@@ -22,9 +22,18 @@ menu_items:
 
 ---
 
-<!--<p style="text-align: center; margin-top: 20px;">Check out our delicious Thanksgiving offerings above and use the form below to place an order!</p>-->
-<div style="margin-top: 80px;"></div>
-
-<iframe class="google-form-embed" src="https://docs.google.com/forms/d/e/1FAIpQLSf_VXJVtlP_7VwEm6qwcfbmFA719NcxRj-Rs8WCRxmUYEDqDg/viewform?embedded=true" width="100%" height="775" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-
-
+<div class="form-section">
+  <h2 class="form-section-title">Place Your Order</h2>
+  <p class="form-section-subtitle">Fill out the form below and we'll get back to you within 24 hours!</p>
+  
+  <div class="google-form-wrapper">
+    <div class="form-loading-message">Loading order form...</div>
+    <iframe 
+      class="google-form-embed" 
+      src="https://docs.google.com/forms/d/e/1FAIpQLSf_VXJVtlP_7VwEm6qwcfbmFA719NcxRj-Rs8WCRxmUYEDqDg/viewform?embedded=true" 
+      title="Thanksgiving Menu Order Form"
+      loading="lazy"
+      aria-label="Order form for Thanksgiving menu items">
+    </iframe>
+  </div>
+</div>
