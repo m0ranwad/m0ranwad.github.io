@@ -5,29 +5,39 @@ interface MenuItem {
   description: string;
   price: string;
   sold_out?: boolean;
+  link?: string;
 }
 
 interface Props {
   items: MenuItem[];
+  orderLink?: string; // Fallback order link if item doesn't have one
 }
 
-const { items } = Astro.props;
+const { items, orderLink } = Astro.props;
 ---
 
 <div class="menu-grid">
-  {items.map((item) => (
-    <div class={`menu-item-card ${item.sold_out ? 'sold-out' : ''}`}>
-      <div class="menu-item-image">
-        <img src={item.image} alt={item.name} loading="lazy" />
-        {item.sold_out && <span class="sold-out-badge">Sold Out</span>}
+  {items.map((item) => {
+    const itemLink = item.link || orderLink;
+    const canOrder = itemLink && !item.sold_out;
+    
+    return (
+      <div class={`menu-item-card ${item.sold_out ? 'sold-out' : ''}`}>
+        <div class="menu-item-image">
+          <img src={item.image} alt={item.name} loading="lazy" />
+          {item.sold_out && <span class="sold-out-badge">Sold Out</span>}
+        </div>
+        <div class="menu-item-content">
+          <h3 class="menu-item-name">{item.name}</h3>
+          <p class="menu-item-description">{item.description}</p>
+          <p class="menu-item-price">{item.price}</p>
+          {canOrder && (
+            <a href={itemLink} class="menu-item-order">Order Now</a>
+          )}
+        </div>
       </div>
-      <div class="menu-item-content">
-        <h3 class="menu-item-name">{item.name}</h3>
-        <p class="menu-item-description">{item.description}</p>
-        <p class="menu-item-price">{item.price}</p>
-      </div>
-    </div>
-  ))}
+    );
+  })}
 </div>
 
 <style>
@@ -115,6 +125,26 @@ const { items } = Astro.props;
     color: var(--sage);
     font-weight: 600;
     margin: 0;
+  }
+  
+  .menu-item-order {
+    display: inline-block;
+    margin-top: var(--space-md);
+    padding: var(--space-sm) var(--space-lg);
+    background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    transition: all var(--transition-smooth);
+    min-height: 44px;
+    line-height: 1.5;
+  }
+  
+  .menu-item-order:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(143, 163, 120, 0.4);
   }
   
   @media (max-width: 600px) {
