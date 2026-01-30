@@ -5,13 +5,6 @@ import CategoryCards from '../components/CategoryCards.astro';
 import CTASection from '../components/ui/CTASection.astro';
 import { getFeaturedMenu, siteInfo } from '../data';
 
-// Import optimized images
-import christmasCookies from '../assets/img/headers/home/christmasCookies.jpg';
-import homepageCookie from '../assets/img/homepageCookie.jpg';
-import homepageCake from '../assets/img/homepageCake.jpg';
-import teacherBox from '../assets/img/teacher-box.jpg';
-import heroBackground from '../assets/img/bridalShower.jpg';
-
 // Get the featured menu dynamically
 const featuredMenu = getFeaturedMenu();
 
@@ -19,28 +12,28 @@ const categoryCards = [
   {
     title: "Holiday Collection",
     description: "Thanksgiving, Christmas, Easter, and more seasonal treats",
-    image: christmasCookies,
+    image: "/assets/img/headers/home/christmasCookies.jpg",
     link: "/holidays/",
     linkText: "View Holiday Menus →"
   },
   {
     title: "Cookies",
     description: "Buttercream sugar cookies, chocolate chip, and more",
-    image: homepageCookie,
+    image: "/assets/img/homepageCookie.jpg",
     link: "/cookies/",
     linkText: "See Cookie Options →"
   },
   {
     title: "Custom Cakes",
     description: "Beautiful cakes for birthdays and celebrations",
-    image: homepageCake,
+    image: "/assets/img/homepageCake.jpg",
     link: "/cakes/",
     linkText: "View Cake Gallery →"
   },
   {
     title: "Gifts & Party Favors",
     description: "Teacher boxes and party favor packs",
-    image: teacherBox,
+    image: "/assets/img/teacher-box.jpg",
     link: "/gifts/",
     linkText: "Browse Gift Ideas →"
   }

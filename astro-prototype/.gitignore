@@ -22,5 +22,8 @@ public/assets/
 # macOS-specific files
 .DS_Store
 
+# Image optimization markers (created by optimize-images script)
+*.optimized
+
 # jetbrains setting folder
 .idea/
