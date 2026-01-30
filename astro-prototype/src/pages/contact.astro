@@ -1,46 +1,61 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHeader from '../components/ui/PageHeader.astro';
-import Card from '../components/ui/Card.astro';
 import Button from '../components/ui/Button.astro';
-import { contactMethods, faqItems } from '../data';
+import { faqItems } from '../data';
 ---
 
 <BaseLayout 
   title="Contact" 
   description="Get in touch with Thymeless Treats Bakery. Follow us on Instagram, message on Facebook, or send an email for custom orders."
 >
-  <PageHeader 
-    title="Let's Create Something Sweet Together"
-    subtitle="We'd love to hear from you!"
-  />
+  <!-- Hero Section with Image -->
+  <section class="contact-hero">
+    <div class="hero-overlay">
+      <h1>Let's Create Something Sweet Together</h1>
+      <p class="hero-tagline">Reach out through your favorite platform</p>
+    </div>
+  </section>
 
   <div class="contact-container">
-    <!-- Intro Section -->
-    <div class="contact-intro">
-      <p>
-        Have questions about flavors, want to place a custom order, or just want to chat about your celebration? 
-        I'd love to hear from you! Reach out through your favorite platform below.
-      </p>
-    </div>
+    <!-- Contact Methods - Simplified Visual Cards -->
+    <div class="contact-methods">
+      
+      <a href="https://www.instagram.com/thymelesstreatsbakery/" class="contact-card instagram" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+        </div>
+        <h3>Instagram</h3>
+        <p>Behind-the-scenes baking & new creations</p>
+        <span class="card-handle">@thymelesstreatsbakery</span>
+      </a>
 
-    <!-- Contact Methods Grid -->
-    <div class="contact-methods-grid">
-      {contactMethods.map((method) => (
-        <Card variant="elevated" padding="lg">
-          <span slot="icon">{method.icon}</span>
-          <h3 slot="title">{method.title}</h3>
-          <p slot="description">{method.description}</p>
-          <div slot="action">
-            <Button 
-              href={method.linkUrl}
-              variant="primary"
-            >
-              {method.linkText}
-            </Button>
-          </div>
-        </Card>
-      ))}
+      <a href="https://www.facebook.com/thymelesstreatsbakery/" class="contact-card facebook" target="_blank" rel="noopener">
+        <div class="card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+          </svg>
+        </div>
+        <h3>Facebook</h3>
+        <p>Updates on pop-ups & special announcements</p>
+        <span class="card-handle">Visit Page →</span>
+      </a>
+
+      <a href="mailto:thymelesstreatsbakery@gmail.com" class="contact-card email">
+        <div class="card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+        </div>
+        <h3>Email</h3>
+        <p>Custom orders & questions</p>
+        <span class="card-handle">Send a Message →</span>
+      </a>
+
     </div>
 
     <!-- FAQ Section -->
@@ -68,32 +83,137 @@ import { contactMethods, faqItems } from '../data';
 </BaseLayout>
 
 <style>
+  /* Hero Section */
+  .contact-hero {
+    position: relative;
+    height: 40vh;
+    min-height: 300px;
+    background: 
+      linear-gradient(
+        135deg,
+        rgba(143, 163, 120, 0.85) 0%,
+        rgba(96, 122, 77, 0.9) 100%
+      ),
+      url('/assets/img/bridalShower.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-overlay {
+    text-align: center;
+    padding: var(--space-xl);
+  }
+
+  .contact-hero h1 {
+    color: var(--white);
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: var(--space-sm);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .hero-tagline {
+    font-family: var(--font-accent);
+    font-size: 1.5rem;
+    color: var(--cream);
+    margin: 0;
+  }
+
+  /* Container */
   .contact-container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 0 var(--space-lg) var(--space-3xl);
+    padding: var(--space-3xl) var(--space-lg);
   }
 
-  .contact-intro {
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto var(--space-3xl);
-  }
-
-  .contact-intro p {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: var(--warm-gray);
-    max-width: none;
-  }
-
-  .contact-methods-grid {
+  /* Contact Methods Grid */
+  .contact-methods {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--space-xl);
     margin-bottom: var(--space-4xl);
   }
 
+  .contact-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: var(--white);
+    border-radius: 16px;
+    padding: var(--space-2xl) var(--space-lg);
+    text-decoration: none;
+    color: inherit;
+    box-shadow: var(--shadow-soft);
+    transition: all var(--transition-smooth);
+    min-height: 220px;
+  }
+
+  .contact-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-heavy);
+  }
+
+  .card-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-lg);
+    transition: all var(--transition-smooth);
+  }
+
+  /* Platform-specific colors */
+  .instagram .card-icon {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: white;
+  }
+
+  .facebook .card-icon {
+    background: #1877f2;
+    color: white;
+  }
+
+  .email .card-icon {
+    background: var(--sage);
+    color: white;
+  }
+
+  .contact-card:hover .card-icon {
+    transform: scale(1.1);
+  }
+
+  .contact-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    margin-bottom: var(--space-xs);
+    color: var(--charcoal);
+  }
+
+  .contact-card p {
+    color: var(--warm-gray);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0 0 var(--space-md) 0;
+    max-width: none;
+  }
+
+  .card-handle {
+    font-weight: 600;
+    color: var(--sage);
+    font-size: 0.9rem;
+    margin-top: auto;
+  }
+
+  .contact-card:hover .card-handle {
+    color: var(--sage-dark);
+  }
+
+  /* FAQ Section */
   .faq-section {
     background: var(--white);
     border-radius: 16px;
@@ -108,7 +228,7 @@ import { contactMethods, faqItems } from '../data';
 
   .faq-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--space-xl);
   }
 
@@ -124,8 +244,10 @@ import { contactMethods, faqItems } from '../data';
     font-size: 0.95rem;
     line-height: 1.6;
     margin: 0;
+    max-width: none;
   }
 
+  /* CTA */
   .contact-cta {
     text-align: center;
   }
@@ -135,9 +257,32 @@ import { contactMethods, faqItems } from '../data';
     font-size: 1.5rem;
     color: var(--sage);
     margin-bottom: var(--space-lg);
+    max-width: none;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .contact-methods {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+
+    .contact-card {
+      min-height: auto;
+      padding: var(--space-xl) var(--space-lg);
+    }
+
+    .faq-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   @media (max-width: 600px) {
+    .contact-hero {
+      height: 35vh;
+      min-height: 250px;
+    }
+
     .faq-section {
       padding: var(--space-lg);
     }

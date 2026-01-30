@@ -4,7 +4,7 @@ export const cakesMenu: Menu = {
   slug: 'cakes',
   title: 'Custom Cakes',
   subtitle: 'Beautiful cakes designed just for you',
-  headerImage: '/assets/img/thumbprint.jpg',
+  headerImage: '/assets/img/birthdayCake.jpg',
   season: 'year-round',
   items: [
     {
