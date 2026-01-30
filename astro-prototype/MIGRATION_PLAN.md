@@ -190,20 +190,26 @@ src/data/
 - [x] Add "What Happens Next?" process steps
 - [x] Dynamic featured menu banner
 
-### Phase 2B.6: Gallery Enhancement (30 min)
+### Phase 2B.6: Gallery Enhancement (30 min) ✅ COMPLETE
 
 **Goal**: Polish the gallery experience.
 
-- [ ] Improve lightbox (image captions, loading states)
-- [ ] Add swipe support for mobile
-- [ ] Enhance filter button styling
+- [x] Image captions on hover overlay
+- [x] Image counter in lightbox (1 / 41)
+- [x] Loading spinner during image load
+- [x] Touch/swipe support for mobile
+- [x] Infinite looping navigation
+- [x] Image preloading (adjacent)
+- [x] Focus trap for accessibility
+- [x] Semantic buttons instead of divs
+- [x] Dynamic filter count display
 
-### Phase 2B.7: Forms Integration (30 min)
+### Phase 2B.7: Forms Integration (30 min) ✅ COMPLETE
 
 **Goal**: Working order forms using Google Forms.
 
-- [ ] Create order page with embedded Google Form
-- [ ] Add inquiry flow if needed
+- [x] Order page with embedded Google Form (Task 2B.5)
+- [x] GoogleFormEmbed component with loading state
 
 ### Phase 2B.8: Deployment Setup (30 min)
 
