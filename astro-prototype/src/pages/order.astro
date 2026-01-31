@@ -1,8 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/ui/PageHeader.astro';
-import Card from '../components/ui/Card.astro';
-import Button from '../components/ui/Button.astro';
 import CTASection from '../components/ui/CTASection.astro';
 import GoogleFormEmbed from '../components/forms/GoogleFormEmbed.astro';
 import { getFeaturedMenu } from '../data/menus';
@@ -33,32 +31,53 @@ const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSf_VXJVtlP_7VwEm
       <p class="intro">Pick what works best for you! Browse our menus for ideas, then fill out the order form below.</p>
       
       <div class="order-options">
-        <Card variant="elevated">
-          <span slot="icon">📋</span>
-          <span slot="title">Browse Seasonal Menus</span>
-          <span slot="description">Check out our current offerings with photos and pricing.</span>
-          <span slot="action">
-            <Button href="/holidays/" variant="secondary" size="sm">View Menus</Button>
-          </span>
-        </Card>
+        <a href="/holidays/" class="option-card">
+          <div class="option-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+              <line x1="12" y1="6" x2="12" y2="10"></line>
+              <line x1="10" y1="8" x2="14" y2="8"></line>
+            </svg>
+          </div>
+          <h3 class="option-title">Seasonal Menus</h3>
+          <p class="option-description">Browse our current offerings with photos and pricing for each season.</p>
+          <span class="option-link">View Menus →</span>
+        </a>
 
-        <Card variant="elevated">
-          <span slot="icon">🍪</span>
-          <span slot="title">Custom Cookies</span>
-          <span slot="description">Planning a birthday, shower, or special event? We create custom designs!</span>
-          <span slot="action">
-            <Button href="/cookies/" variant="secondary" size="sm">Learn More</Button>
-          </span>
-        </Card>
+        <a href="/cookies/" class="option-card">
+          <div class="option-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="8" cy="9" r="1" fill="currentColor"></circle>
+              <circle cx="15" cy="8" r="1" fill="currentColor"></circle>
+              <circle cx="10" cy="14" r="1" fill="currentColor"></circle>
+              <circle cx="16" cy="13" r="1" fill="currentColor"></circle>
+              <circle cx="12" cy="11" r="1" fill="currentColor"></circle>
+            </svg>
+          </div>
+          <h3 class="option-title">Custom Cookies</h3>
+          <p class="option-description">Planning a birthday, shower, or special event? We create custom designs!</p>
+          <span class="option-link">Learn More →</span>
+        </a>
 
-        <Card variant="elevated">
-          <span slot="icon">🎂</span>
-          <span slot="title">Custom Cakes</span>
-          <span slot="description">Celebrate with a custom cake designed just for you.</span>
-          <span slot="action">
-            <Button href="/cakes/" variant="secondary" size="sm">View Gallery</Button>
-          </span>
-        </Card>
+        <a href="/cakes/" class="option-card">
+          <div class="option-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"></path>
+              <path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"></path>
+              <path d="M2 21h20"></path>
+              <path d="M7 8v3"></path>
+              <path d="M12 8v3"></path>
+              <path d="M17 8v3"></path>
+              <path d="M7 4h.01"></path>
+              <path d="M12 4h.01"></path>
+              <path d="M17 4h.01"></path>
+            </svg>
+          </div>
+          <h3 class="option-title">Custom Cakes</h3>
+          <p class="option-description">Celebrate with a beautiful custom cake designed just for your occasion.</p>
+          <span class="option-link">View Gallery →</span>
+        </a>
       </div>
     </section>
 
@@ -168,7 +187,74 @@ const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSf_VXJVtlP_7VwEm
   .order-options {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--space-lg);
+    gap: var(--space-xl);
+  }
+
+  /* Option Cards - Custom Design */
+  .option-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-2xl) var(--space-xl);
+    background: var(--white);
+    border: 2px solid var(--sage-light);
+    border-radius: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: all var(--transition-smooth);
+  }
+
+  .option-card:hover {
+    border-color: var(--sage);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-medium);
+  }
+
+  .option-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--sage-light);
+    border-radius: 50%;
+    color: var(--sage-dark);
+    margin-bottom: var(--space-lg);
+    transition: all var(--transition-smooth);
+  }
+
+  .option-card:hover .option-icon {
+    background: var(--sage);
+    color: var(--white);
+  }
+
+  .option-title {
+    font-family: var(--font-heading);
+    font-size: 1.375rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin: 0 0 var(--space-sm) 0;
+  }
+
+  .option-description {
+    font-size: 0.9375rem;
+    color: var(--warm-gray);
+    line-height: 1.6;
+    margin: 0 0 var(--space-lg) 0;
+    flex-grow: 1;
+  }
+
+  .option-link {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--sage-dark);
+    transition: color var(--transition-smooth);
+  }
+
+  .option-card:hover .option-link {
+    color: var(--sage);
   }
 
   /* Order Form Section */

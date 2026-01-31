@@ -12,7 +12,7 @@ export const valentinesMenu: Menu = {
   items: [
     {
       name: 'Lemon Raspberry',
-      image: '/assets/img/valentines/lemonRaspberry.jpg',
+      image: '/assets/img/valentines/lemonRaspberry.png',
       description: 'A light lemony cookie covered with swirls of raspberry and vanilla buttercream. Pearls are optional.',
       price: '$3.50 per cookie / $38 per dozen',
     },

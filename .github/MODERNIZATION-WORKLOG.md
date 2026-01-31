@@ -13,6 +13,7 @@
 | `theme/beautiful-jekyll` | **Production** (live site) | Current Jekyll site, don't touch until Astro is ready |
 | `feature/astro-prototype` | **Phase 2B** (migration) | Astro migration work, ready to go live when complete |
 | `feature/astro-phase3` | **Phase 3** (enhancements) | Future features, branches off astro-prototype |
+| `feature/inquiry-cart` | **Phase 5** (inquiry system) | Cart-style order form, branches off astro-phase3 |
 
 **Deployment Flow**:
 1. Complete Phase 2B work in `feature/astro-prototype`
@@ -98,6 +99,7 @@ Stop-Process -Name "node" -Force
 | Phase 2B: Astro Migration | 🔄 In Progress | 0/8 |
 | Phase 3: Enhanced Features | ✅ Complete | 4/4 |
 | Phase 4: Merge & Deploy | ⚪ Not Started | 0/5 |
+| Phase 5: Inquiry Cart System | ⚪ Not Started | 0/6 |
 
 ---
 
@@ -983,6 +985,13 @@ The following tasks from the original Phase 3 have been addressed:
 | "Start Task 4.3" | Repository cleanup |
 | "Start Task 4.4" | Set up GitHub Actions |
 | "Start Task 4.5" | Go live! |
+| "Start Task 5.1" | Set up Web3Forms account |
+| "Start Task 5.2" | Create inquiry store (localStorage) |
+| "Start Task 5.3" | Add "Add to Inquiry" buttons |
+| "Start Task 5.4" | Create inquiry badge component |
+| "Start Task 5.5" | Redesign order page with custom form |
+| "Start Task 5.6" | Create thank you page |
+| "Start Task 5.7" | Add toast notifications (optional) |
 | "Continue where we left off" | Resume last incomplete task |
 | "What's the current status?" | Get progress overview |
 
@@ -991,6 +1000,7 @@ The following tasks from the original Phase 3 have been addressed:
 ## 🔗 Related Documents
 
 - `.github/copilot-instructions.md` — AI development guide (Astro-focused)
+- `.github/PHASE5_PLAN.md` — **Inquiry Cart System** detailed plan
 - `astro-prototype/MIGRATION_PLAN.md` — Detailed migration tasks
 - `astro-prototype/COMPARISON.md` — Jekyll vs Astro analysis
 
