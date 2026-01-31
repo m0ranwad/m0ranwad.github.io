@@ -1,161 +1,319 @@
-# Beautiful Jekyll
+# Thymeless Treats Bakery Website# Beautiful Jekyll
 
-[![Gem Version](https://badge.fury.io/rb/beautiful-jekyll-theme.svg)](https://badge.fury.io/rb/beautiful-jekyll-theme)
 
-> By [Dean Attali](https://deanattali.com) &middot; [Demo](https://beautifuljekyll.com/)
 
-**Beautiful Jekyll** is a ready-to-use template to help you create a beautiful website quickly. Perfect for personal sites, blogs, or simple project websites.  [Check out a demo](https://beautifuljekyll.com) of what you'll get after just two minutes.  You can also look at [my personal website](https://deanattali.com) or [my consulting website](https://attalitech.com) to see it in use, or see [examples of websites](http://beautifuljekyll.com/examples) other people created using this theme.
+> A modern, image-forward website for a seasonal cottage bakery in North Ridgeville, Ohio.[![Gem Version](https://badge.fury.io/rb/beautiful-jekyll-theme.svg)](https://badge.fury.io/rb/beautiful-jekyll-theme)
 
-**If you enjoy Beautiful Jekyll, please consider [supporting me](https://github.com/sponsors/daattali). You'll also gain access to office hours and more features! ❤**
 
-## Table of contents
 
-- [Features](#features)
-- [Sponsors 🏆](#sponsors)
-- [**Build your website in 3 steps**](#build-your-website-in-3-steps)
-- [Plans](#plans)
-- [Add your own content](#add-your-own-content)
+**Live Site**: [thymelesstreatsbakery.com](https://www.thymelesstreatsbakery.com)> By [Dean Attali](https://deanattali.com) &middot; [Demo](https://beautifuljekyll.com/)
+
+
+
+---**Beautiful Jekyll** is a ready-to-use template to help you create a beautiful website quickly. Perfect for personal sites, blogs, or simple project websites.  [Check out a demo](https://beautifuljekyll.com) of what you'll get after just two minutes.  You can also look at [my personal website](https://deanattali.com) or [my consulting website](https://attalitech.com) to see it in use, or see [examples of websites](http://beautifuljekyll.com/examples) other people created using this theme.
+
+
+
+## 🛠️ Tech Stack**If you enjoy Beautiful Jekyll, please consider [supporting me](https://github.com/sponsors/daattali). You'll also gain access to office hours and more features! ❤**
+
+
+
+| Component | Technology |## Table of contents
+
+|-----------|------------|
+
+| Framework | [Astro](https://astro.build/) v5.x |- [Features](#features)
+
+| Styling | Scoped CSS + CSS Custom Properties |- [Sponsors 🏆](#sponsors)
+
+| Forms | [Web3Forms](https://web3forms.com/) |- [**Build your website in 3 steps**](#build-your-website-in-3-steps)
+
+| Hosting | GitHub Pages |- [Plans](#plans)
+
+| CI/CD | GitHub Actions |- [Add your own content](#add-your-own-content)
+
 - [Customizing parameters for each page](#customizing-parameters-for-each-page)
-- [Supported parameters](#supported-parameters)
+
+## 📁 Project Structure- [Supported parameters](#supported-parameters)
+
 - [Featured users (success stories!)](#featured-users-success-stories)
-- [Next steps](#next-steps)
-- [Getting help](#getting-help)
-- [Credits and contributions](#contributions)
 
-# Features
+```- [Next steps](#next-steps)
 
-__Check out [*What's New?*](https://beautifuljekyll.com/updates/) to see the latest features!__
+├── src/- [Getting help](#getting-help)
 
-- **SIMPLE**: The primary goal of Beautiful Jekyll is to allow literally *anyone* to create a website in a few minutes.
-- **Modern**: Uses the latest best practices and technologies to achieve nearly perfect scores on Google Chrome's Audit.
-- **Mobile-first**: Designed to look great on both large-screen and small-screen (mobile) devices.
-- **Highly customizable**: Many personalization settings such as changing the background colour/image, adding a logo.
-- **Flexible usage**: Use Beautiful Jekyll directly on GitHub or via a Ruby gem - choose the best [development method](#build-your-website-in-3-steps) for you.
-- **Battle-tested**: By using Beautiful Jekyll, you'll be joining 50,000+ users enjoying this theme since 2015.
-- **SEO and social media support**: Customize how your site looks on Google and when shared on social media.
-- **Comments support**: Add comments to any page using either [Disqus](https://disqus.com/), [Facebook comments](https://developers.facebook.com/docs/plugins/comments), [Utterances](https://utteranc.es/), [Staticman](https://staticman.net), [giscus](https://giscus.app), or [CommentBox](https://commentbox.io/).
-- **Tags**: Any blog post can be tagged with keywords, and an index page is automatically generated.
+│   ├── components/      # Reusable Astro components- [Credits and contributions](#contributions)
+
+│   ├── layouts/         # Page layouts (BaseLayout, MenuLayout)
+
+│   ├── pages/           # Route pages (.astro files)# Features
+
+│   ├── data/            # TypeScript data files (menus, gallery)
+
+│   ├── config/          # Configuration (forms, etc.)__Check out [*What's New?*](https://beautifuljekyll.com/updates/) to see the latest features!__
+
+│   └── scripts/         # Client-side scripts
+
+├── public/              # Static assets (favicon, robots.txt)- **SIMPLE**: The primary goal of Beautiful Jekyll is to allow literally *anyone* to create a website in a few minutes.
+
+│   └── assets/          # → Junction to ../assets (images)- **Modern**: Uses the latest best practices and technologies to achieve nearly perfect scores on Google Chrome's Audit.
+
+├── assets/              # All bakery images- **Mobile-first**: Designed to look great on both large-screen and small-screen (mobile) devices.
+
+├── scripts/             # Build scripts (image optimization)- **Highly customizable**: Many personalization settings such as changing the background colour/image, adding a logo.
+
+└── .github/- **Flexible usage**: Use Beautiful Jekyll directly on GitHub or via a Ruby gem - choose the best [development method](#build-your-website-in-3-steps) for you.
+
+    ├── workflows/       # GitHub Actions deployment- **Battle-tested**: By using Beautiful Jekyll, you'll be joining 50,000+ users enjoying this theme since 2015.
+
+    ├── copilot-instructions.md- **SEO and social media support**: Customize how your site looks on Google and when shared on social media.
+
+    └── MODERNIZATION-WORKLOG.md- **Comments support**: Add comments to any page using either [Disqus](https://disqus.com/), [Facebook comments](https://developers.facebook.com/docs/plugins/comments), [Utterances](https://utteranc.es/), [Staticman](https://staticman.net), [giscus](https://giscus.app), or [CommentBox](https://commentbox.io/).
+
+```- **Tags**: Any blog post can be tagged with keywords, and an index page is automatically generated.
+
 - **Analytics**: Easily integrate Google Analytics, or other analytics platforms, to track visits to your website.
-- **Search**: Let users easily find any page using a Search button in the navigation bar.
+
+## 🚀 Quick Start- **Search**: Let users easily find any page using a Search button in the navigation bar.
+
 - **Photos support**: Any page can have a full-width cover photo and thumbnail.
-- **RSS**: An RSS feed is automatically created, so you can even host a podcast easily with Beautiful Jekyll.
 
-<h2 id="sponsors">Sponsors 🏆</h2>
+### Prerequisites- **RSS**: An RSS feed is automatically created, so you can even host a podcast easily with Beautiful Jekyll.
 
-Developing and maintaining Beautiful Jekyll takes a lot of time and effort - thank you to anyone who helps fund this effort!
+- Node.js 20+
 
-- [DoFollow](https://dofollow.co.uk/)
-- [\_hyp3ri0n](https://hyperiongray.com)
-- [Varna Sri Raman](https://about.me/varna)
+- npm 10+<h2 id="sponsors">Sponsors 🏆</h2>
 
-**[Become a sponsor for Beautiful Jekyll and unlock new features\!](https://github.com/sponsors/daattali/sponsorships?tier_id=39856)**
+
+
+### DevelopmentDeveloping and maintaining Beautiful Jekyll takes a lot of time and effort - thank you to anyone who helps fund this effort!
+
+
+
+```bash- [DoFollow](https://dofollow.co.uk/)
+
+# Install dependencies- [\_hyp3ri0n](https://hyperiongray.com)
+
+npm install- [Varna Sri Raman](https://about.me/varna)
+
+
+
+# Start dev server**[Become a sponsor for Beautiful Jekyll and unlock new features\!](https://github.com/sponsors/daattali/sponsorships?tier_id=39856)**
+
+npm run dev
 
 # Build your website in 3 steps
 
-There are a few different ways to build a website using Beautiful Jekyll, and this document will go through the simplest one: using a fork on GitHub. For most people (including myself!), this easy method is the recommended one.
+# Start with network access (for phone testing)
+
+npm run dev -- --hostThere are a few different ways to build a website using Beautiful Jekyll, and this document will go through the simplest one: using a fork on GitHub. For most people (including myself!), this easy method is the recommended one.
+
+```
 
 Even if you choose to use one of the [advanced installation methods](https://beautifuljekyll.com/getstarted/#install-steps-hard), I still suggest you read through the easy method first.
 
+Visit http://localhost:4321
+
 ## The easy way (recommended!)
+
+### Build & Preview
 
 Getting started is *literally* as easy as 1-2-3 :smile:
 
-Scroll down to see the steps involved, but here is a 30-second video just as a reference as you work through the steps. If you don't already have a [GitHub account](https://github.com), you'll need to sign up.
+```bash
+
+# Production buildScroll down to see the steps involved, but here is a 30-second video just as a reference as you work through the steps. If you don't already have a [GitHub account](https://github.com), you'll need to sign up.
+
+npm run build
 
 ![Installation steps](https://beautifuljekyll.com/assets/img/install-steps.gif)
 
-### 1. Fork this project
+# Preview production build locally
+
+npm run preview### 1. Fork this project
+
+```
 
 Click on the __*Fork*__ button at the top right corner of this page. Forking means that you're copying this entire project and all its files into your account. Do not click on the __*Create fork*__ button on the next page yet.
 
+## 📸 Adding Photos
+
 ### 2. Rename the repository to `YOURUSERNAME.github.io`
+
+See [ADDING_PHOTOS.md](./ADDING_PHOTOS.md) for the complete workflow.
 
 You'll see the word "repository" used a lot in GitHub - it simply means "project". Under __*Repository name*__ you should see the name `beautiful-jekyll`, this is where you need to rename your project to `YOURUSERNAME.github.io` (replace `YOURUSERNAME` with your GitHub user name). It's important to use this exact name so that GitHub will recognize it and automatically create a website for this project.   
 
-> Tip: If you want to use a different URL for your website, check out the [FAQ](https://beautifuljekyll.com/faq/#custom-domain)
- 
-### 3. Customize your website settings
+**Quick version**:
 
-Edit the `_config.yml` file to change any settings you want. To edit the file, first click on it to view the file, and on the next page click on the pencil icon to edit it (watch the video tutorial above if you're confused).  The settings in the file are self-explanatory and there are comments inside the file to help you understand what each setting does. Any line that begins with a hashtag (`#`) is a comment, and the other lines are actual settings. After changing the settings, click the green __*Commit changes*__ button to save these edits.
+1. Drop optimized photo in `assets/img/[menu]/`> Tip: If you want to use a different URL for your website, check out the [FAQ](https://beautifuljekyll.com/faq/#custom-domain)
 
-> Note: In the video above, only one setting in the `_config.yml` file is edited, but you should go through the rest of the settings as well.
+2. Add entry to `src/data/menus/[menu].ts` 
 
-### 4. Congratulations! You have a website!
+3. Done!### 3. Customize your website settings
 
-If you named your project correctly and made an edit to the config file, your website should be ready in a minute or two at `https://YOURUSERNAME.github.io`. Every time you make a change to any file, your website will get rebuilt and should be updated in about a minute or so. Your website will be initialized with several sample blog posts and a couple other pages.
 
-## The harder way (for advanced users)
 
-The instructions above explain how to use Beautiful Jekyll in the easiest way: by forking on GitHub. There are more [advanced installation methods](https://beautifuljekyll.com/getstarted/#install-steps-hard) that include either using GitHub Pages with remote themes, or using Ruby gems. They provide you with more control, but are only intended for advanced users.
+## 📝 Updating MenusEdit the `_config.yml` file to change any settings you want. To edit the file, first click on it to view the file, and on the next page click on the pencil icon to edit it (watch the video tutorial above if you're confused).  The settings in the file are self-explanatory and there are comments inside the file to help you understand what each setting does. Any line that begins with a hashtag (`#`) is a comment, and the other lines are actual settings. After changing the settings, click the green __*Commit changes*__ button to save these edits.
 
-> Note: Beautiful Jekyll was primarily designed to be used as a GitHub theme, so you will not get any support if you use this theme via Ruby gems. 
 
-# Plans
 
-Beautiful Jekyll is, and always will be, free. But if you want to remove the Beautiful Jekyll ad from your website, use a Dark Mode skin, access office hours, or simply support the development efforts, [check out the different plans](https://beautifuljekyll.com/plans).
+Menu data lives in `src/data/menus/`. Each file exports a menu object:> Note: In the video above, only one setting in the `_config.yml` file is edited, but you should go through the rest of the settings as well.
 
-# Add your own content
 
-To add pages to your site, you can either write a markdown file (`.md`) or you can write an HTML file. It's much easier to write markdown than HTML, so that's the recommended approach ([here's a great tutorial](https://markdowntutorial.com/) if you need to learn markdown in 5 minutes).
 
-To see an example of a markdown file, click on any file that ends in `.md`, for example [`aboutme.md`](./aboutme.md). On that page you can see some nicely formatted text (there's a word in bold, a link, a few bullet points), and if you click on the pencil icon to edit the file, you'll see the markdown code that generated the pretty text. Very easy! 
+```typescript### 4. Congratulations! You have a website!
 
-In contrast, look at [`tags.html`](./tags.html). That's how your write HTML - not as pretty. So stick with markdown if you don't know HTML.
+// src/data/menus/valentines.ts
 
-Any markdown or HTML file that you create will be available on your website under `https://<yourusername>.github.io/<pagename>`. For example, if you create a file `about.md` (or `about.html`) then it'll exist at `https://<yourusername>.github.io/about`.
+export const valentinesMenu: Menu = {If you named your project correctly and made an edit to the config file, your website should be ready in a minute or two at `https://YOURUSERNAME.github.io`. Every time you make a change to any file, your website will get rebuilt and should be updated in about a minute or so. Your website will be initialized with several sample blog posts and a couple other pages.
 
-Files you create inside the [`_posts`](./_posts) directory will be treated as blog entries. You can look at the existing files there to get an idea of how to write blog posts. Note the format of the blog post files - they must follow the naming convention of `YEAR-MONTH-DAY-title.md`. After you successfully add your own post, you can delete the existing files inside [`_posts`](./_posts) to remove the sample posts, as those are just demo posts to help you learn.
+  slug: 'valentines',
 
-# Customizing parameters for each page
+  title: "Valentine's Day",## The harder way (for advanced users)
 
-**One last important thing**: In order to have your new pages use this template and not just be plain HTML pages, **you must add [YAML front matter](https://jekyllrb.com/docs/front-matter/) to the top of each page**:
+  heroImage: '/assets/img/valentines/menu1.jpg',
 
+  orderDeadline: '2026-02-10',  // Optional countdownThe instructions above explain how to use Beautiful Jekyll in the easiest way: by forking on GitHub. There are more [advanced installation methods](https://beautifuljekyll.com/getstarted/#install-steps-hard) that include either using GitHub Pages with remote themes, or using Ruby gems. They provide you with more control, but are only intended for advanced users.
+
+  items: [
+
+    {> Note: Beautiful Jekyll was primarily designed to be used as a GitHub theme, so you will not get any support if you use this theme via Ruby gems. 
+
+      name: 'Lemon Raspberry',
+
+      image: '/assets/img/valentines/lemonRaspberry.png',# Plans
+
+      description: 'Light lemony cookie with raspberry buttercream.',
+
+      price: '$3.50 each / $38 dozen',Beautiful Jekyll is, and always will be, free. But if you want to remove the Beautiful Jekyll ad from your website, use a Dark Mode skin, access office hours, or simply support the development efforts, [check out the different plans](https://beautifuljekyll.com/plans).
+
+      soldOut: false,
+
+    },# Add your own content
+
+    // ...more items
+
+  ],To add pages to your site, you can either write a markdown file (`.md`) or you can write an HTML file. It's much easier to write markdown than HTML, so that's the recommended approach ([here's a great tutorial](https://markdowntutorial.com/) if you need to learn markdown in 5 minutes).
+
+};
+
+```To see an example of a markdown file, click on any file that ends in `.md`, for example [`aboutme.md`](./aboutme.md). On that page you can see some nicely formatted text (there's a word in bold, a link, a few bullet points), and if you click on the pencil icon to edit the file, you'll see the markdown code that generated the pretty text. Very easy! 
+
+
+
+## 🎨 Design SystemIn contrast, look at [`tags.html`](./tags.html). That's how your write HTML - not as pretty. So stick with markdown if you don't know HTML.
+
+
+
+### ColorsAny markdown or HTML file that you create will be available on your website under `https://<yourusername>.github.io/<pagename>`. For example, if you create a file `about.md` (or `about.html`) then it'll exist at `https://<yourusername>.github.io/about`.
+
+- **Sage**: `#8FA378` (primary brand)
+
+- **Sage Dark**: `#607A4D` (buttons, accents)Files you create inside the [`_posts`](./_posts) directory will be treated as blog entries. You can look at the existing files there to get an idea of how to write blog posts. Note the format of the blog post files - they must follow the naming convention of `YEAR-MONTH-DAY-title.md`. After you successfully add your own post, you can delete the existing files inside [`_posts`](./_posts) to remove the sample posts, as those are just demo posts to help you learn.
+
+- **Cream**: `#FBF8F3` (backgrounds)
+
+- **Charcoal**: `#2C2C2C` (headings)# Customizing parameters for each page
+
+
+
+### Fonts**One last important thing**: In order to have your new pages use this template and not just be plain HTML pages, **you must add [YAML front matter](https://jekyllrb.com/docs/front-matter/) to the top of each page**:
+
+- **Headings**: Cormorant Garamond
+
+- **Body**: Inter
+
+- **Accents**: Caveat```
+
+---
+
+## 🔄 Deployment---
 
 ```
----
----
-```
+
+Deployment is automatic via GitHub Actions on push to `main` (or `theme/beautiful-jekyll`).
 
 This is where you'll be able to give each page some extra parameters (such as a title, a subtitle, an image, etc - [below is a list of all parameters](#supported-parameters)). Add any parameters you want between these two dashed lines, for example:
 
-```
+Manual deployment:
+
+```bash```
+
+npm run build---
+
+# dist/ folder contains the static sitetitle: Contact me
+
+```subtitle: Here you'll find all the ways to get in touch with me
+
 ---
-title: Contact me
-subtitle: Here you'll find all the ways to get in touch with me
----
-```
 
-If you don't want to use any parameters on a page, you still need to use the two dashed lines. If you don't, then your file will be shown as-is without the Beautiful Jekyll template.
+---```
 
-You can look at the top of [`aboutme.md`](https://raw.githubusercontent.com/daattali/beautiful-jekyll/master/aboutme.md) as an example.
 
-**Important takeaway: ALWAYS add the YAML front matter, which is two lines of three dashes, to EVERY page. If you have any parameters, they go between the two lines.**
 
-# Supported parameters
+## 🆘 Rollback to JekyllIf you don't want to use any parameters on a page, you still need to use the two dashed lines. If you don't, then your file will be shown as-is without the Beautiful Jekyll template.
 
-Below is a list of the parameters that Beautiful Jekyll supports (any of these can be added to the YAML front matter of any page). Remember to also look in the `_config.yml` file to see additional site-wide settings.
 
-## Main parameters
 
-These are the basic YAML parameters that you are most likely to use on most pages.
+If you ever need to restore the original Jekyll site:You can look at the top of [`aboutme.md`](https://raw.githubusercontent.com/daattali/beautiful-jekyll/master/aboutme.md) as an example.
 
-Parameter   | Description
+
+
+```bash**Important takeaway: ALWAYS add the YAML front matter, which is two lines of three dashes, to EVERY page. If you have any parameters, they go between the two lines.**
+
+# The Jekyll site is preserved in backup/jekyll-final
+
+git checkout backup/jekyll-final# Supported parameters
+
+
+
+# Or reset the production branch to JekyllBelow is a list of the parameters that Beautiful Jekyll supports (any of these can be added to the YAML front matter of any page). Remember to also look in the `_config.yml` file to see additional site-wide settings.
+
+git checkout theme/beautiful-jekyll
+
+git reset --hard backup/jekyll-final## Main parameters
+
+git push --force origin theme/beautiful-jekyll
+
+```These are the basic YAML parameters that you are most likely to use on most pages.
+
+
+
+**Important**: The `backup/jekyll-final` branch contains the complete Jekyll site as it was before the Astro migration.Parameter   | Description
+
 ----------- | -----------
-title       | Page or blog post title
-subtitle    | Short description of page or blog post that goes under the title
-tags        | List of tags to categorize the post. Separate the tags with commas and place them inside square brackets. Example: `[personal, analysis, finance]`
-cover-img   | Include a large full-width image at the top of the page. You can either provide the path to a single image (eg. `"/path/to/img"`) , or a list of images to cycle through (eg. `["/path/img1", "/path/img2"]`). If you want to add a caption to an image, then you must use the list notation (use `[]` even if you have only one image), and each image should be provided as `"/path/to/img" : "Caption of image"`.
-thumbnail-img | For blog posts, if you want to add a thumbnail that will show up in the feed, use `thumbnail-img: /path/to/image`. If no thumbnail is provided, then `cover-img` will be used as the thumbnail. You can use `thumbnail-img: ""` to disable a thumbnail.
-comments    | If you want do add comments to a specific page, use `comments: true`. Comments only work if you enable one of the comments providers (Facebook, disqus, staticman, utterances, giscus, CommentBox) in `_config.yml` file. Comments are automatically enabled on blog posts but not on other pages; to turn comments off for a specific post, use `comments: false`.
 
-## Parameters for SEO and social media sharing
+---title       | Page or blog post title
+
+subtitle    | Short description of page or blog post that goes under the title
+
+## 📚 Documentationtags        | List of tags to categorize the post. Separate the tags with commas and place them inside square brackets. Example: `[personal, analysis, finance]`
+
+cover-img   | Include a large full-width image at the top of the page. You can either provide the path to a single image (eg. `"/path/to/img"`) , or a list of images to cycle through (eg. `["/path/img1", "/path/img2"]`). If you want to add a caption to an image, then you must use the list notation (use `[]` even if you have only one image), and each image should be provided as `"/path/to/img" : "Caption of image"`.
+
+| Document | Purpose |thumbnail-img | For blog posts, if you want to add a thumbnail that will show up in the feed, use `thumbnail-img: /path/to/image`. If no thumbnail is provided, then `cover-img` will be used as the thumbnail. You can use `thumbnail-img: ""` to disable a thumbnail.
+
+|----------|---------|comments    | If you want do add comments to a specific page, use `comments: true`. Comments only work if you enable one of the comments providers (Facebook, disqus, staticman, utterances, giscus, CommentBox) in `_config.yml` file. Comments are automatically enabled on blog posts but not on other pages; to turn comments off for a specific post, use `comments: false`.
+
+| [.github/copilot-instructions.md](.github/copilot-instructions.md) | AI development guide |
+
+| [.github/MODERNIZATION-WORKLOG.md](.github/MODERNIZATION-WORKLOG.md) | Migration history & tasks |## Parameters for SEO and social media sharing
+
+| [ADDING_PHOTOS.md](ADDING_PHOTOS.md) | Photo workflow guide |
 
 These parameters let you control what information shows up when a page is shown in a search engine (such as Google) or gets shared on social media (such as Twitter/Facebook).
 
+---
+
 Parameter   | Description
------------ | -----------
+
+## 📄 License----------- | -----------
+
 share-title | A title for the page. If not provided, then `title` will be used, and if that's missing then the site title (from `_config.yml`) is used.
-share-description | A brief description of the page. If not provided, then `subtitle` will be used, and if that's missing then an excerpt from the page content is used.
+
+MIT License - See [LICENSE](LICENSE)share-description | A brief description of the page. If not provided, then `subtitle` will be used, and if that's missing then an excerpt from the page content is used.
+
 share-img   | The image to show. If not provided, then `cover-img` or `thumbnail-img` will be used if one of them is provided.
 
 ## Less commonly used parameters
