@@ -1,14 +1,18 @@
-# Jekyll
+# Jekyll (legacy)
 _site/
 .sass-cache/
 .jekyll-cache/
 .jekyll-metadata
 .vagrant/
 
-# Bundler
+# Bundler (legacy)
 .bundle/
 vendor/
-Gemfile.lock
+
+# Astro
+dist/
+.astro/
+node_modules/
 
 # macOS
 .DS_Store
@@ -40,7 +44,7 @@ $RECYCLE.BIN/
 .project
 .settings/
 
-# Theme
+# Theme (legacy)
 beautiful-jekyll-theme-*.gem
 
 # Logs
@@ -55,6 +59,8 @@ yarn-error.log*
 *.bak
 *.cache
 
-# Build artifacts
-dist/
+# Build artifacts (legacy - now using dist/ above)
 build/
+
+# Leftover prototype folder
+astro-prototype/

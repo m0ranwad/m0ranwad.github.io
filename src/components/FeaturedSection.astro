@@ -1,0 +1,87 @@
+---
+import OrderDeadline from './OrderDeadline.astro';
+
+interface Props {
+  title: string;
+  menuLink: string;
+  menuImage: string;
+  menuAlt: string;
+  ctaText: string;
+  orderDeadline?: string;  // ISO date for countdown (e.g., '2025-02-10')
+  deadlineLabel?: string;  // Label for countdown (e.g., "Valentine's orders")
+}
+
+const { 
+  title, 
+  menuLink, 
+  menuImage, 
+  menuAlt, 
+  ctaText,
+  orderDeadline,
+  deadlineLabel = "Orders"
+} = Astro.props;
+---
+
+<section class="featured-section">
+  <h2>{title}</h2>
+  {orderDeadline && (
+    <OrderDeadline 
+      deadline={orderDeadline} 
+      label={deadlineLabel}
+      href={menuLink}
+    />
+  )}
+  <div class="featured-menu-container">
+    <a href={menuLink} class="featured-menu-link">
+      <img src={menuImage} alt={menuAlt} loading="eager" />
+    </a>
+    <a href={menuLink} class="btn-primary featured-cta">
+      {ctaText}
+    </a>
+  </div>
+</section>
+
+<style>
+  .featured-section {
+    text-align: center;
+    padding: var(--space-3xl) var(--space-lg);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .featured-section h2 {
+    margin-bottom: var(--space-xl);
+  }
+  
+  .featured-menu-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xl);
+  }
+  
+  .featured-menu-link {
+    display: block;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-medium);
+    transition: all var(--transition-smooth);
+    max-width: 100%;
+  }
+  
+  .featured-menu-link:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-strong);
+  }
+  
+  .featured-menu-link img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  
+  .featured-cta {
+    font-size: 1.125rem;
+    padding: var(--space-lg) var(--space-2xl);
+  }
+</style>

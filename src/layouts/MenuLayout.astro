@@ -1,0 +1,126 @@
+---
+/**
+ * Shared layout for all menu pages
+ * Provides consistent structure: hero image, intro text, menu grid, CTA
+ */
+import BaseLayout from './BaseLayout.astro';
+import MenuGrid from '../components/MenuGrid.astro';
+import CTASection from '../components/ui/CTASection.astro';
+import StickyMobileCTA from '../components/StickyMobileCTA.astro';
+import OrderDeadline from '../components/OrderDeadline.astro';
+import type { Menu } from '../data/types';
+
+interface Props {
+  menu: Menu;
+  description: string;
+  introText?: string;
+  ctaTitle?: string;
+  ctaText?: string;
+}
+
+const { 
+  menu, 
+  description,
+  introText = `Handcrafted with love. All treats made fresh to order.`,
+  ctaTitle = "Ready to Order?",
+  ctaText = "Orders must be placed at least 5 days in advance. Contact us for large orders or custom designs."
+} = Astro.props;
+---
+
+<BaseLayout 
+  title={menu.title}
+  description={description}
+>
+  <section class="menu-page">
+    {menu.headerImage && (
+      <div class="menu-header">
+        <img 
+          src={menu.headerImage} 
+          alt={menu.title} 
+          class="menu-hero-image" 
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+    )}
+    
+    <div class="menu-intro">
+      <h1>{menu.title}</h1>
+      {menu.subtitle && <p class="subtitle">{menu.subtitle}</p>}
+      {menu.orderDeadline && (
+        <OrderDeadline 
+          deadline={menu.orderDeadline} 
+          label={`${menu.title.split(' ')[0]} orders`}
+        />
+      )}
+      <p class="intro-text">{introText}</p>
+    </div>
+    
+    <MenuGrid 
+      items={menu.items} 
+      menuSlug={menu.slug}
+      menuTitle={menu.title}
+      orderLink="/order/" 
+    />
+    
+    <CTASection 
+      title={ctaTitle}
+      subtitle={ctaText}
+      primaryText="Place Your Order"
+      primaryHref="/order/"
+      secondaryText="Ask a Question"
+      secondaryHref="/contact/"
+      variant="sage"
+    />
+  </section>
+  
+  <!-- Mobile-only sticky order button -->
+  <StickyMobileCTA />
+</BaseLayout>
+
+<style>
+  .menu-page {
+    padding: var(--space-xl) 0 0;
+  }
+  
+  .menu-header {
+    max-width: 800px;
+    margin: 0 auto var(--space-2xl);
+    padding: 0 var(--space-lg);
+  }
+  
+  .menu-hero-image {
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: var(--shadow-medium);
+  }
+  
+  .menu-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto var(--space-2xl);
+    padding: 0 var(--space-lg);
+  }
+  
+  .menu-intro h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--charcoal);
+    margin-bottom: var(--space-sm);
+  }
+  
+  .menu-intro .subtitle {
+    font-family: var(--font-accent);
+    font-size: 1.5rem;
+    color: var(--sage);
+    margin-bottom: var(--space-md);
+    max-width: none;
+  }
+  
+  .menu-intro .intro-text {
+    color: var(--warm-gray);
+    font-size: 1.1rem;
+    max-width: none;
+  }
+</style>

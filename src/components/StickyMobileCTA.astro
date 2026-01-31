@@ -1,0 +1,151 @@
+---
+/**
+ * Sticky Mobile CTA
+ * 
+ * Shows a floating "Order Now" button on mobile devices only.
+ * - Appears after user scrolls past the first screen
+ * - Stays fixed at bottom of viewport
+ * - Disappears when user reaches the CTA section at bottom
+ * - 44px+ touch target for accessibility
+ */
+
+interface Props {
+  text?: string;
+  href?: string;
+}
+
+const { 
+  text = "Order Now",
+  href = "/order/"
+} = Astro.props;
+---
+
+<div class="sticky-mobile-cta" id="sticky-cta" aria-hidden="true">
+  <a href={href} class="sticky-cta-button">
+    {text}
+  </a>
+</div>
+
+<script>
+  // Show/hide sticky CTA based on scroll position
+  const stickyCta = document.getElementById('sticky-cta');
+  
+  if (stickyCta) {
+    let lastScrollY = 0;
+    let ticking = false;
+    
+    // Get the CTA section at the bottom to hide sticky when visible
+    const ctaSection = document.querySelector('.cta-section');
+    const showThreshold = window.innerHeight * 0.5; // Show after scrolling half viewport
+    
+    function updateStickyCta() {
+      const scrollY = window.scrollY;
+      
+      // Don't show on desktop (handled by CSS, but double-check)
+      if (window.innerWidth > 768) {
+        stickyCta.classList.remove('visible');
+        stickyCta.setAttribute('aria-hidden', 'true');
+        return;
+      }
+      
+      // Show after scrolling past threshold
+      const shouldShow = scrollY > showThreshold;
+      
+      // Hide when CTA section is in view
+      let ctaInView = false;
+      if (ctaSection) {
+        const ctaRect = ctaSection.getBoundingClientRect();
+        ctaInView = ctaRect.top < window.innerHeight - 100;
+      }
+      
+      if (shouldShow && !ctaInView) {
+        stickyCta.classList.add('visible');
+        stickyCta.setAttribute('aria-hidden', 'false');
+      } else {
+        stickyCta.classList.remove('visible');
+        stickyCta.setAttribute('aria-hidden', 'true');
+      }
+      
+      ticking = false;
+    }
+    
+    function onScroll() {
+      lastScrollY = window.scrollY;
+      if (!ticking) {
+        window.requestAnimationFrame(updateStickyCta);
+        ticking = true;
+      }
+    }
+    
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', updateStickyCta, { passive: true });
+    
+    // Initial check
+    updateStickyCta();
+  }
+</script>
+
+<style>
+  .sticky-mobile-cta {
+    /* Hidden by default */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--space-md);
+    background: linear-gradient(to top, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.95) 100%);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;
+    
+    /* Safe area for phones with home bar */
+    padding-bottom: max(var(--space-md), env(safe-area-inset-bottom));
+  }
+  
+  .sticky-mobile-cta.visible {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .sticky-cta-button {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: var(--space-md) var(--space-lg);
+    background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    min-height: 50px;
+    
+    /* Touch-friendly */
+    -webkit-tap-highlight-color: rgba(143, 163, 120, 0.3);
+  }
+  
+  .sticky-cta-button:hover,
+  .sticky-cta-button:focus {
+    background: linear-gradient(135deg, var(--sage-dark) 0%, var(--sage) 100%);
+    color: white;
+    text-decoration: none;
+  }
+  
+  .sticky-cta-button:active {
+    transform: scale(0.98);
+  }
+  
+  /* Hide on desktop - CTA section is enough */
+  @media (min-width: 769px) {
+    .sticky-mobile-cta {
+      display: none !important;
+    }
+  }
+</style>
