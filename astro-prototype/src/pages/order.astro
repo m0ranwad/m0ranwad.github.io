@@ -2,11 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/ui/PageHeader.astro';
 import CTASection from '../components/ui/CTASection.astro';
-import GoogleFormEmbed from '../components/forms/GoogleFormEmbed.astro';
+import { formConfig } from '../config/forms';
 import { getFeaturedMenu } from '../data/menus';
 
 const featuredMenu = getFeaturedMenu();
-const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSf_VXJVtlP_7VwEm6qwcfbmFA719NcxRj-Rs8WCRxmUYEDqDg/viewform';
+const featuredSlug = '/' + featuredMenu.slug + '/';
+const redirectUrl = (Astro.site || 'https://thymelesstreatsbakery.com') + formConfig.thankYouPage;
 ---
 
 <BaseLayout 
@@ -14,108 +15,92 @@ const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSf_VXJVtlP_7VwEm
   description="Order custom cookies, cakes, and seasonal treats from Thymeless Treats Bakery. Fill out our form to get started!"
 >
   <PageHeader 
-    title="Ready to Order?"
-    subtitle="Let's make your celebration sweeter!"
+    title="Your Order"
+    subtitle="Review your selections and submit your inquiry"
   />
 
   <div class="order-container">
-    <!-- Status Banner -->
-    <div class="status-banner">
-      <h2>💝 {featuredMenu.title} Orders Now Open!</h2>
-      <p>Order early to secure your dates — orders must be placed at least 5 days in advance.</p>
-    </div>
-
-    <!-- How to Order -->
-    <section class="how-to-order">
-      <h2>How to Order</h2>
-      <p class="intro">Pick what works best for you! Browse our menus for ideas, then fill out the order form below.</p>
-      
-      <div class="order-options">
-        <a href="/holidays/" class="option-card">
-          <div class="option-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
-              <line x1="12" y1="6" x2="12" y2="10"></line>
-              <line x1="10" y1="8" x2="14" y2="8"></line>
-            </svg>
-          </div>
-          <h3 class="option-title">Seasonal Menus</h3>
-          <p class="option-description">Browse our current offerings with photos and pricing for each season.</p>
-          <span class="option-link">View Menus →</span>
-        </a>
-
-        <a href="/cookies/" class="option-card">
-          <div class="option-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <circle cx="8" cy="9" r="1" fill="currentColor"></circle>
-              <circle cx="15" cy="8" r="1" fill="currentColor"></circle>
-              <circle cx="10" cy="14" r="1" fill="currentColor"></circle>
-              <circle cx="16" cy="13" r="1" fill="currentColor"></circle>
-              <circle cx="12" cy="11" r="1" fill="currentColor"></circle>
-            </svg>
-          </div>
-          <h3 class="option-title">Custom Cookies</h3>
-          <p class="option-description">Planning a birthday, shower, or special event? We create custom designs!</p>
-          <span class="option-link">Learn More →</span>
-        </a>
-
-        <a href="/cakes/" class="option-card">
-          <div class="option-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"></path>
-              <path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"></path>
-              <path d="M2 21h20"></path>
-              <path d="M7 8v3"></path>
-              <path d="M12 8v3"></path>
-              <path d="M17 8v3"></path>
-              <path d="M7 4h.01"></path>
-              <path d="M12 4h.01"></path>
-              <path d="M17 4h.01"></path>
-            </svg>
-          </div>
-          <h3 class="option-title">Custom Cakes</h3>
-          <p class="option-description">Celebrate with a beautiful custom cake designed just for your occasion.</p>
-          <span class="option-link">View Gallery →</span>
-        </a>
+    <!-- Cart Section -->
+    <section class="cart-section">
+      <h2>Your Selections</h2>
+      <div class="empty-cart" id="empty-cart">
+        <h3>No items selected yet</h3>
+        <p>Browse our menus and add items you'd like to inquire about!</p>
+        <a href={featuredSlug} class="browse-btn">Browse {featuredMenu.title}</a>
+      </div>
+      <div class="cart-items" id="cart-items"></div>
+      <div class="cart-actions" id="cart-actions">
+        <button type="button" class="clear-cart-btn" id="clear-cart-btn">Clear all</button>
+        <a href={featuredSlug} class="add-more-link">+ Add more items</a>
       </div>
     </section>
 
     <!-- Order Form Section -->
     <section class="order-form-section" id="order-form">
-      <h2>Place Your Order</h2>
-      <p class="intro">Fill out the form below and I'll get back to you within 24 hours with availability and pricing!</p>
+      <h2>Complete Your Inquiry</h2>
+      <p class="intro">Fill out the details below and I'll get back to you within 24 hours!</p>
       
-      <GoogleFormEmbed 
-        formUrl={googleFormUrl}
-        title="Thymeless Treats Order Form"
-        height="1200px"
-      />
+      <form action="https://api.web3forms.com/submit" method="POST" class="inquiry-form" id="inquiry-form">
+        <input type="hidden" name="access_key" value={formConfig.web3formsAccessKey} />
+        <input type="hidden" name="subject" value="New Order Inquiry - Thymeless Treats" />
+        <input type="hidden" name="from_name" value="Thymeless Treats Website" />
+        <input type="hidden" name="redirect" value={redirectUrl} />
+        <input type="hidden" name="items_summary" id="items-summary" value="" />
+        <input type="checkbox" name="botcheck" style="display:none" />
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="name">Your Name *</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" />
+          </div>
+          <div class="form-group">
+            <label for="event_date">Event/Pickup Date *</label>
+            <input type="date" id="event_date" name="event_date" required />
+          </div>
+          <div class="form-group full-width">
+            <label for="message">Additional Details</label>
+            <textarea id="message" name="message" rows="4" placeholder="Tell me about your event, special requests, or dietary restrictions!"></textarea>
+          </div>
+        </div>
+        
+        <div class="form-submit">
+          <button type="submit" class="submit-btn">Submit Inquiry</button>
+          <p class="submit-note">I'll respond within 24 hours with pricing and availability.</p>
+        </div>
+      </form>
     </section>
 
     <!-- What to Expect -->
     <section class="what-to-expect">
-      <h2>What Happens Next?</h2>
+      <h2>How It Works</h2>
       <div class="steps-grid">
         <div class="step">
           <div class="step-number">1</div>
-          <h3>Submit Your Request</h3>
-          <p>Fill out the form with your details and what you'd like to order.</p>
+          <h3>Browse & Select</h3>
+          <p>Browse our menus and click "Add to Inquiry" on items you like.</p>
         </div>
         <div class="step">
           <div class="step-number">2</div>
-          <h3>Get a Quote</h3>
-          <p>I'll review your request and send you pricing within 24 hours.</p>
+          <h3>Submit Your Inquiry</h3>
+          <p>Fill out the form above with your details and event date.</p>
         </div>
         <div class="step">
           <div class="step-number">3</div>
-          <h3>Confirm & Pay</h3>
-          <p>Once you approve, a 50% deposit secures your order date.</p>
+          <h3>Get Your Quote</h3>
+          <p>I'll review your request and send you pricing within 24 hours.</p>
         </div>
         <div class="step">
           <div class="step-number">4</div>
-          <h3>Pickup Your Treats!</h3>
-          <p>Pick up your fresh-baked goodies on your scheduled date.</p>
+          <h3>Confirm & Enjoy!</h3>
+          <p>Approve, pay deposit, and pick up your fresh-baked treats!</p>
         </div>
       </div>
     </section>
@@ -130,39 +115,118 @@ const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSf_VXJVtlP_7VwEm
   />
 </BaseLayout>
 
+<script>
+  import { getItems, removeItem, updateQuantity, clear, getCartSummary } from '../scripts/inquiry-store';
+  
+  function renderCart() {
+    const items = getItems();
+    const emptyCart = document.getElementById('empty-cart');
+    const cartItems = document.getElementById('cart-items');
+    const cartActions = document.getElementById('cart-actions');
+    const itemsSummary = document.getElementById('items-summary') as HTMLInputElement;
+    
+    if (items.length === 0) {
+      if (emptyCart) emptyCart.style.display = 'flex';
+      if (cartItems) cartItems.style.display = 'none';
+      if (cartActions) cartActions.style.display = 'none';
+      if (itemsSummary) itemsSummary.value = '';
+      return;
+    }
+    
+    if (emptyCart) emptyCart.style.display = 'none';
+    if (cartItems) cartItems.style.display = 'flex';
+    if (cartActions) cartActions.style.display = 'flex';
+    if (itemsSummary) itemsSummary.value = getCartSummary();
+    
+    if (cartItems) {
+      let html = '';
+      for (const item of items) {
+        const img = item.image ? '<img src="' + item.image + '" alt="' + item.name + '" class="cart-item-image" />' : '';
+        html += '<div class="cart-item" data-id="' + item.id + '">' +
+          img +
+          '<div class="cart-item-details">' +
+            '<h4>' + item.name + '</h4>' +
+            '<p class="cart-item-menu">' + item.menu + '</p>' +
+            '<p class="cart-item-price">' + item.price + '</p>' +
+          '</div>' +
+          '<div class="cart-item-quantity">' +
+            '<button type="button" class="qty-btn minus" data-id="' + item.id + '" aria-label="Decrease quantity">−</button>' +
+            '<span class="qty-value">' + item.quantity + '</span>' +
+            '<button type="button" class="qty-btn plus" data-id="' + item.id + '" aria-label="Increase quantity">+</button>' +
+          '</div>' +
+          '<button type="button" class="remove-btn" data-id="' + item.id + '" aria-label="Remove item">×</button>' +
+        '</div>';
+      }
+      cartItems.innerHTML = html;
+    }
+  }
+
+  function setupEventListeners() {
+    const cartItems = document.getElementById('cart-items');
+    if (cartItems) {
+      cartItems.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        const button = target.closest('.qty-btn, .remove-btn') as HTMLElement;
+        if (!button) return;
+        
+        const id = button.dataset.id;
+        if (!id) return;
+        
+        if (button.classList.contains('minus')) {
+          const item = getItems().find(i => i.id === id);
+          if (item && item.quantity > 1) {
+            updateQuantity(id, item.quantity - 1);
+          } else {
+            removeItem(id);
+          }
+          renderCart();
+        } else if (button.classList.contains('plus')) {
+          const item = getItems().find(i => i.id === id);
+          if (item) {
+            updateQuantity(id, item.quantity + 1);
+            renderCart();
+          }
+        } else if (button.classList.contains('remove-btn')) {
+          removeItem(id);
+          renderCart();
+        }
+      });
+    }
+    
+    const clearBtn = document.getElementById('clear-cart-btn');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        if (confirm('Remove all items?')) {
+          clear();
+          renderCart();
+        }
+      });
+    }
+  }
+
+  function setMinDate() {
+    const dateInput = document.getElementById('event_date') as HTMLInputElement;
+    if (dateInput) {
+      const minDate = new Date();
+      minDate.setDate(minDate.getDate() + 5);
+      dateInput.min = minDate.toISOString().split('T')[0];
+    }
+  }
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    renderCart();
+    setupEventListeners();
+    setMinDate();
+  });
+</script>
+
 <style>
   .order-container {
-    max-width: 1000px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 0 var(--space-lg);
+    padding: 0 var(--space-lg) var(--space-3xl);
   }
 
-  /* Status Banner */
-  .status-banner {
-    background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
-    color: var(--white);
-    padding: var(--space-xl) var(--space-2xl);
-    border-radius: 16px;
-    text-align: center;
-    margin-bottom: var(--space-3xl);
-    box-shadow: var(--shadow-medium);
-  }
-
-  .status-banner h2 {
-    font-family: var(--font-heading);
-    font-size: clamp(1.5rem, 4vw, 2rem);
-    margin-bottom: var(--space-sm);
-    color: var(--white);
-  }
-
-  .status-banner p {
-    font-size: 1.0625rem;
-    margin: 0;
-    opacity: 0.95;
-    max-width: none;
-  }
-
-  /* Section Styling */
   section {
     margin-bottom: var(--space-3xl);
   }
@@ -172,111 +236,292 @@ const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSf_VXJVtlP_7VwEm
     font-size: clamp(1.75rem, 4vw, 2.25rem);
     color: var(--charcoal);
     text-align: center;
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-lg);
   }
 
   .intro {
     text-align: center;
     color: var(--warm-gray);
-    max-width: 600px;
-    margin: 0 auto var(--space-2xl);
-    font-size: 1.0625rem;
+    max-width: 550px;
+    margin: 0 auto var(--space-xl);
   }
 
-  /* Order Options Grid */
-  .order-options {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--space-xl);
-  }
-
-  /* Option Cards - Custom Design */
-  .option-card {
+  /* Empty Cart */
+  .empty-cart {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: var(--space-2xl) var(--space-xl);
-    background: var(--white);
-    border: 2px solid var(--sage-light);
+    padding: var(--space-3xl) var(--space-xl);
+    background: var(--cream);
     border-radius: 16px;
-    text-decoration: none;
-    color: inherit;
-    transition: all var(--transition-smooth);
+    border: 2px dashed var(--sage-light);
   }
 
-  .option-card:hover {
-    border-color: var(--sage);
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-medium);
-  }
-
-  .option-icon {
-    width: 64px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--sage-light);
-    border-radius: 50%;
-    color: var(--sage-dark);
-    margin-bottom: var(--space-lg);
-    transition: all var(--transition-smooth);
-  }
-
-  .option-card:hover .option-icon {
-    background: var(--sage);
-    color: var(--white);
-  }
-
-  .option-title {
+  .empty-cart h3 {
     font-family: var(--font-heading);
-    font-size: 1.375rem;
-    font-weight: 600;
+    font-size: 1.5rem;
     color: var(--charcoal);
     margin: 0 0 var(--space-sm) 0;
   }
 
-  .option-description {
-    font-size: 0.9375rem;
+  .empty-cart p {
     color: var(--warm-gray);
-    line-height: 1.6;
-    margin: 0 0 var(--space-lg) 0;
-    flex-grow: 1;
+    margin: 0 0 var(--space-xl) 0;
   }
 
-  .option-link {
-    font-family: var(--font-body);
-    font-size: 0.9375rem;
+  .browse-btn {
+    display: inline-block;
+    padding: var(--space-md) var(--space-xl);
+    background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 8px;
     font-weight: 500;
+    min-height: 44px;
+  }
+
+  /* Cart Items */
+  .cart-items {
+    display: none;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .cart-item {
+    display: grid;
+    grid-template-columns: 48px 1fr auto auto;
+    gap: var(--space-md);
+    align-items: center;
+    padding: var(--space-md) var(--space-lg);
+    background: var(--white);
+    border-radius: 12px;
+    border: 1px solid var(--sage-light);
+  }
+
+  .cart-item-image {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .cart-item-details h4 {
+    margin: 0 0 4px 0;
+    font-family: var(--font-heading);
+    font-size: 1.0625rem;
+    color: var(--charcoal);
+  }
+
+  .cart-item-menu {
+    font-size: 0.8125rem;
+    color: var(--warm-gray);
+    margin: 0;
+  }
+
+  .cart-item-price {
+    font-family: var(--font-accent);
+    font-size: 0.9375rem;
     color: var(--sage-dark);
-    transition: color var(--transition-smooth);
+    margin: 4px 0 0 0;
   }
 
-  .option-card:hover .option-link {
+  /* Elegant quantity stepper */
+  .cart-item-quantity {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: 1px solid var(--sage-light);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--cream);
+  }
+
+  .qty-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1.125rem;
+    color: var(--sage-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .qty-btn:hover {
+    background: var(--sage-light);
+  }
+
+  .qty-btn:active {
+    background: var(--sage);
+    color: white;
+  }
+
+  .qty-value {
+    min-width: 32px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--charcoal);
+    background: var(--white);
+    padding: 0 4px;
+    height: 36px;
+    line-height: 36px;
+    border-left: 1px solid var(--sage-light);
+    border-right: 1px solid var(--sage-light);
+  }
+
+  /* Elegant remove button */
+  .remove-btn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--warm-gray);
+    cursor: pointer;
+    font-size: 1.25rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+  }
+
+  .remove-btn:hover {
+    border-color: var(--sage-light);
+    background: var(--cream);
+    color: var(--charcoal);
+  }
+
+  .cart-actions {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--space-lg);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--sage-light);
+  }
+
+  .clear-cart-btn {
+    padding: var(--space-sm) var(--space-md);
+    background: transparent;
+    border: 1px solid var(--sage-light);
+    border-radius: 8px;
+    color: var(--warm-gray);
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.15s ease;
+  }
+
+  .clear-cart-btn:hover {
+    border-color: var(--warm-gray);
+    color: var(--charcoal);
+  }
+
+  .add-more-link {
+    color: var(--sage-dark);
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 0.9375rem;
+    transition: color 0.15s ease;
+  }
+
+  .add-more-link:hover {
     color: var(--sage);
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
-  /* Order Form Section */
-  .order-form-section {
-    padding-top: var(--space-xl);
+  /* Form Styles */
+  .inquiry-form {
+    background: var(--white);
+    padding: var(--space-2xl);
+    border-radius: 16px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .form-group.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .form-group label {
+    font-weight: 500;
+    color: var(--charcoal);
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: var(--space-md);
+    border: 1px solid var(--sage-light);
+    border-radius: 8px;
+    font-size: 1rem;
+    min-height: 44px;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--sage);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .form-submit {
+    margin-top: var(--space-xl);
+    text-align: center;
+  }
+
+  .submit-btn {
+    padding: var(--space-md) var(--space-2xl);
+    background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    cursor: pointer;
+    min-height: 48px;
+  }
+
+  .submit-note {
+    margin-top: var(--space-md);
+    font-size: 0.875rem;
+    color: var(--warm-gray);
   }
 
   /* Steps Grid */
   .steps-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: var(--space-xl);
   }
 
   .step {
     text-align: center;
-    padding: var(--space-lg);
+    padding: var(--space-md);
   }
 
   .step-number {
-    width: 50px;
-    height: 50px;
+    width: 44px;
+    height: 44px;
     background: var(--sage);
     color: var(--white);
     border-radius: 50%;
@@ -284,39 +529,79 @@ const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSf_VXJVtlP_7VwEm
     align-items: center;
     justify-content: center;
     font-family: var(--font-heading);
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
     margin: 0 auto var(--space-md);
   }
 
   .step h3 {
     font-family: var(--font-heading);
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     color: var(--charcoal);
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-xs);
   }
 
   .step p {
     color: var(--warm-gray);
-    font-size: 0.9375rem;
-    max-width: none;
+    font-size: 0.875rem;
   }
 
-  /* What to Expect Background */
   .what-to-expect {
     background: var(--cream);
     margin-left: calc(-1 * var(--space-lg));
     margin-right: calc(-1 * var(--space-lg));
     padding: var(--space-3xl) var(--space-lg);
-    border-radius: 0;
   }
 
-  @media (min-width: 1000px) {
+  @media (max-width: 600px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .inquiry-form {
+      padding: var(--space-lg);
+    }
+
+    .cart-item {
+      grid-template-columns: 40px 1fr auto;
+      gap: var(--space-sm);
+    }
+
+    .cart-item-image {
+      width: 40px;
+      height: 40px;
+    }
+
+    .cart-item-quantity {
+      grid-column: 2 / -1;
+      justify-self: start;
+      margin-top: var(--space-xs);
+    }
+
+    .remove-btn {
+      grid-row: 1;
+      grid-column: 3;
+    }
+
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+    }
+
+    .qty-value {
+      min-width: 28px;
+      height: 32px;
+      line-height: 32px;
+      font-size: 0.875rem;
+    }
+  }
+
+  @media (min-width: 932px) {
     .what-to-expect {
-      margin-left: calc(-50vw + 500px - var(--space-lg));
-      margin-right: calc(-50vw + 500px - var(--space-lg));
-      padding-left: calc(50vw - 500px + var(--space-lg));
-      padding-right: calc(50vw - 500px + var(--space-lg));
+      margin-left: calc(-50vw + 450px - var(--space-lg));
+      margin-right: calc(-50vw + 450px - var(--space-lg));
+      padding-left: calc(50vw - 450px + var(--space-lg));
+      padding-right: calc(50vw - 450px + var(--space-lg));
     }
   }
 </style>

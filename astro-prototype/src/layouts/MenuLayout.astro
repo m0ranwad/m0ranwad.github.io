@@ -57,7 +57,12 @@ const {
       <p class="intro-text">{introText}</p>
     </div>
     
-    <MenuGrid items={menu.items} orderLink="/order/" />
+    <MenuGrid 
+      items={menu.items} 
+      menuSlug={menu.slug}
+      menuTitle={menu.title}
+      orderLink="/order/" 
+    />
     
     <CTASection 
       title={ctaTitle}

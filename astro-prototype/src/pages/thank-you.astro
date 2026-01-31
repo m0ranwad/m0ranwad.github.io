@@ -1,0 +1,118 @@
+---
+/**
+ * Thank You Page
+ * 
+ * Shown after successful form submission.
+ * Also clears the inquiry cart.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import Button from '../components/ui/Button.astro';
+---
+
+<BaseLayout 
+  title="Thank You!" 
+  description="Your inquiry has been submitted to Thymeless Treats Bakery."
+>
+  <PageHeader 
+    title="Thank You!"
+    subtitle="Your inquiry has been submitted"
+  />
+  
+  <div class="thank-you-container">
+    <div class="thank-you-card">
+      <div class="checkmark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      </div>
+      
+      <h2>We Got Your Request!</h2>
+      
+      <p>
+        Thanks for reaching out! I'll review your inquiry and get back to you 
+        within <strong>24 hours</strong> with availability and pricing details.
+      </p>
+      
+      <p class="note">
+        Keep an eye on your email — I'll send you a confirmation and next steps soon.
+      </p>
+      
+      <div class="actions">
+        <Button href="/" variant="primary">Back to Home</Button>
+        <Button href="/holidays/" variant="secondary">Browse More Treats</Button>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // Clear the inquiry cart after successful submission
+  if (typeof localStorage !== 'undefined') {
+    localStorage.removeItem('thymeless-inquiry-cart');
+    console.log('Inquiry cart cleared after successful submission');
+  }
+</script>
+
+<style>
+  .thank-you-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-lg) var(--space-3xl);
+  }
+  
+  .thank-you-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: var(--space-2xl) var(--space-xl);
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .checkmark {
+    width: 80px;
+    height: 80px;
+    background: var(--sage-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--space-xl);
+    color: var(--sage-dark);
+  }
+  
+  .thank-you-card h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    color: var(--charcoal);
+    margin-bottom: var(--space-lg);
+  }
+  
+  .thank-you-card p {
+    color: var(--warm-gray);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    margin-bottom: var(--space-md);
+    max-width: none;
+  }
+  
+  .thank-you-card .note {
+    font-style: italic;
+    color: var(--sage-dark);
+    margin-bottom: var(--space-xl);
+  }
+  
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+  
+  @media (min-width: 480px) {
+    .actions {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+</style>
