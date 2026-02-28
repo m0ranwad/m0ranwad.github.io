@@ -6,7 +6,6 @@ export const thanksgivingMenu: Menu = {
   subtitle: 'Fresh baked treats for your holiday feast',
   headerImage: '/assets/img/thanksgivingMenu.jpg',
   season: 'fall',
-  orderFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSf_VXJVtlP_7VwEm6qwcfbmFA719NcxRj-Rs8WCRxmUYEDqDg/viewform',
   items: [
     {
       name: 'Large Bread Loaf',
@@ -22,7 +21,7 @@ export const thanksgivingMenu: Menu = {
     },
     {
       name: 'Muffins',
-      image: '/assets/img/headers/home/cranmuffins.jpg',
+      image: '/assets/img/headers/home/cranMuffins.jpg',
       description: 'Cranberry orange muffins, available in a minimum order of 6.',
       price: '$2.50 each',
     },

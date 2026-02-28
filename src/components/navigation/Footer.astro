@@ -1,18 +1,12 @@
 ---
-interface FooterLink {
-  label: string;
-  href: string;
-}
+import { footerNavLinks } from '../../data/navigation';
+import type { NavLink } from '../../data/types';
 
 interface Props {
-  links?: FooterLink[];
+  links?: NavLink[];
 }
 
-const { links = [
-  { label: 'Contact', href: '/contact/' },
-  { label: 'About', href: '/about/' },
-  { label: 'Gallery', href: '/gallery/' },
-]} = Astro.props;
+const { links = footerNavLinks } = Astro.props;
 
 const year = new Date().getFullYear();
 ---

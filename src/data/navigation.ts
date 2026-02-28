@@ -4,7 +4,7 @@ import type { NavLink, SocialLink } from './types';
  * Main navigation links
  */
 export const mainNavLinks: NavLink[] = [
-  { label: 'Order', href: '/valentines/' },  // Points to featured menu
+  { label: 'Order', href: '/order/' },
   { label: 'Menus', href: '/holidays/' },
   { label: 'Gallery', href: '/gallery/' },
   { label: 'Contact', href: '/contact/' },
@@ -14,6 +14,8 @@ export const mainNavLinks: NavLink[] = [
  * Footer navigation links
  */
 export const footerNavLinks: NavLink[] = [
+  { label: 'Order', href: '/order/' },
+  { label: 'Menus', href: '/holidays/' },
   { label: 'Contact', href: '/contact/' },
   { label: 'About', href: '/about/' },
   { label: 'Gallery', href: '/gallery/' },
