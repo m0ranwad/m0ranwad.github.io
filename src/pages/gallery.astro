@@ -385,13 +385,12 @@ import { galleryImages, galleryFilters } from '../data';
     }
   }
 
-  // Initialize on DOM ready
-  document.addEventListener('DOMContentLoaded', () => {
-    new GalleryLightbox();
-  });
-
-  // Also init if script loads after DOM
-  if (document.readyState !== 'loading') {
+  // Initialize on DOM ready (handles both pre- and post-loaded states)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      new GalleryLightbox();
+    });
+  } else {
     new GalleryLightbox();
   }
 </script>

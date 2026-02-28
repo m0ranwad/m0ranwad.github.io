@@ -7,16 +7,19 @@ interface Props {
   subtitle?: string;
   description?: string;
   image?: string;
+  noindex?: boolean;
 }
 
 const { 
   title, 
   subtitle, 
   description = "Thymeless Treats Bakery - Handcrafted seasonal baked goods",
-  image = "/assets/img/valentines/menu1.jpg"
+  image = "/assets/img/homepageCookie.jpg",
+  noindex = false
 } = Astro.props;
 
-const siteUrl = "https://thymelesstreatsbakery.com";
+const siteUrl = (Astro.site?.origin ?? "https://www.thymelesstreatsbakery.com");
+const pageUrl = `${siteUrl}${Astro.url.pathname}`;
 const fullTitle = `${title} | Thymeless Treats Bakery`;
 ---
 
@@ -26,13 +29,14 @@ const fullTitle = `${title} | Thymeless Treats Bakery`;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     
     <!-- Open Graph / Social sharing -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={`${siteUrl}${image}`} />
-    <meta property="og:url" content={siteUrl} />
+    <meta property="og:url" content={pageUrl} />
     <meta property="og:site_name" content="Thymeless Treats Bakery" />
     
     <!-- Twitter Card -->
@@ -45,7 +49,7 @@ const fullTitle = `${title} | Thymeless Treats Bakery`;
     <meta name="theme-color" content="#8FA378" />
     
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="canonical" href={siteUrl} />
+    <link rel="canonical" href={pageUrl} />
     <title>{fullTitle}</title>
     
     <!-- Preconnect to Google Fonts (performance optimization) -->

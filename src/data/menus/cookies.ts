@@ -18,7 +18,6 @@ export const cookiesMenu: Menu = {
       image: '/assets/img/sugarCookies.jpg',
       description: 'Soft and sweet sugar cookies with a hint of vanilla. Check out more designs!',
       price: '$24/dozen',
-      link: '/cookies/sugar/',
     },
     {
       name: 'Chewy Gingersnaps',

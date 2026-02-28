@@ -6,7 +6,8 @@ import { formConfig } from '../config/forms';
 import { getFeaturedMenu } from '../data/menus';
 
 const featuredMenu = getFeaturedMenu();
-const featuredSlug = '/' + featuredMenu.slug + '/';
+const featuredSlug = featuredMenu ? '/' + featuredMenu.slug + '/' : '/holidays/';
+const featuredTitle = featuredMenu?.title ?? 'Our Menus';
 const redirectUrl = (Astro.site || 'https://thymelesstreatsbakery.com') + formConfig.thankYouPage;
 ---
 
@@ -26,7 +27,7 @@ const redirectUrl = (Astro.site || 'https://thymelesstreatsbakery.com') + formCo
       <div class="empty-cart" id="empty-cart">
         <h3>No items selected yet</h3>
         <p>Browse our menus and add items you'd like to inquire about!</p>
-        <a href={featuredSlug} class="browse-btn">Browse {featuredMenu.title}</a>
+        <a href={featuredSlug} class="browse-btn">Browse {featuredTitle}</a>
       </div>
       <div class="cart-items" id="cart-items"></div>
       <div class="cart-actions" id="cart-actions">
@@ -139,22 +140,24 @@ const redirectUrl = (Astro.site || 'https://thymelesstreatsbakery.com') + formCo
     if (itemsSummary) itemsSummary.value = getCartSummary();
     
     if (cartItems) {
+      // Escape HTML to prevent XSS from localStorage data
+      const esc = (str: string) => str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
       let html = '';
       for (const item of items) {
-        const img = item.image ? '<img src="' + item.image + '" alt="' + item.name + '" class="cart-item-image" />' : '';
-        html += '<div class="cart-item" data-id="' + item.id + '">' +
+        const img = item.image ? '<img src="' + esc(item.image) + '" alt="' + esc(item.name) + '" class="cart-item-image" />' : '';
+        html += '<div class="cart-item" data-id="' + esc(item.id) + '">' +
           img +
           '<div class="cart-item-details">' +
-            '<h4>' + item.name + '</h4>' +
-            '<p class="cart-item-menu">' + item.menu + '</p>' +
-            '<p class="cart-item-price">' + item.price + '</p>' +
+            '<h4>' + esc(item.name) + '</h4>' +
+            '<p class="cart-item-menu">' + esc(item.menu) + '</p>' +
+            '<p class="cart-item-price">' + esc(item.price) + '</p>' +
           '</div>' +
           '<div class="cart-item-quantity">' +
-            '<button type="button" class="qty-btn minus" data-id="' + item.id + '" aria-label="Decrease quantity">−</button>' +
+            '<button type="button" class="qty-btn minus" data-id="' + esc(item.id) + '" aria-label="Decrease quantity">−</button>' +
             '<span class="qty-value">' + item.quantity + '</span>' +
-            '<button type="button" class="qty-btn plus" data-id="' + item.id + '" aria-label="Increase quantity">+</button>' +
+            '<button type="button" class="qty-btn plus" data-id="' + esc(item.id) + '" aria-label="Increase quantity">+</button>' +
           '</div>' +
-          '<button type="button" class="remove-btn" data-id="' + item.id + '" aria-label="Remove item">×</button>' +
+          '<button type="button" class="remove-btn" data-id="' + esc(item.id) + '" aria-label="Remove item">×</button>' +
         '</div>';
       }
       cartItems.innerHTML = html;

@@ -24,6 +24,7 @@ export interface Menu {
   title: string;
   subtitle: string;
   headerImage?: string;  // Path like '/assets/img/valentines/menu1.jpg'
+  /** @deprecated No longer used — site now uses Web3Forms on /order/ page */
   orderFormUrl?: string;
   featured?: boolean;
   season?: 'spring' | 'summer' | 'fall' | 'winter' | 'year-round';

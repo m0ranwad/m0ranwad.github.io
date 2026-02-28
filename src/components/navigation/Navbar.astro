@@ -1,21 +1,13 @@
 ---
 import InquiryBadge from '../InquiryBadge.astro';
-
-interface NavLink {
-  label: string;
-  href: string;
-}
+import { mainNavLinks } from '../../data/navigation';
+import type { NavLink } from '../../data/types';
 
 interface Props {
   links?: NavLink[];
 }
 
-const { links = [
-  { label: 'Order', href: '/valentines/' },
-  { label: 'Menus', href: '/holidays/' },
-  { label: 'Gallery', href: '/gallery/' },
-  { label: 'Contact', href: '/contact/' },
-]} = Astro.props;
+const { links = mainNavLinks } = Astro.props;
 ---
 
 <header class="site-header">
@@ -23,7 +15,7 @@ const { links = [
     <a href="/" class="nav-brand">Thymeless Treats</a>
     <div class="nav-actions">
       <InquiryBadge />
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
         <span class="hamburger"></span>
       </button>
     </div>

@@ -1,12 +1,6 @@
 ---
-interface MenuItem {
-  name: string;
-  image: string;
-  description: string;
-  price: string;
-  sold_out?: boolean;
-  link?: string;
-}
+import type { MenuItem } from '../data/types';
+import { createItemId } from '../scripts/inquiry-store';
 
 interface Props {
   items: MenuItem[];
@@ -16,22 +10,16 @@ interface Props {
 }
 
 const { items, menuSlug, menuTitle, orderLink } = Astro.props;
-
-// Generate unique IDs for each item
-function createItemId(itemName: string): string {
-  const slug = itemName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-  return `${menuSlug}-${slug}`;
-}
 ---
 
 <div class="menu-grid">
   {items.map((item) => {
     const itemLink = item.link || orderLink;
-    const canOrder = !item.sold_out;
-    const itemId = createItemId(item.name);
+    const canOrder = !item.soldOut;
+    const itemId = createItemId(menuSlug, item.name);
     
     return (
-      <div class={`menu-item-card ${item.sold_out ? 'sold-out' : ''}`}>
+      <div class={`menu-item-card ${item.soldOut ? 'sold-out' : ''}`}>
         <div class="menu-item-image">
           <img 
             src={item.image} 
@@ -39,7 +27,7 @@ function createItemId(itemName: string): string {
             loading="lazy" 
             decoding="async"
           />
-          {item.sold_out && <span class="sold-out-badge">Sold Out</span>}
+          {item.soldOut && <span class="sold-out-badge">Sold Out</span>}
         </div>
         <div class="menu-item-content">
           <h3 class="menu-item-name">{item.name}</h3>
@@ -211,7 +199,7 @@ function createItemId(itemName: string): string {
   }
   
   .menu-item-price {
-    font-family: 'Caveat', cursive;
+    font-family: var(--font-accent);
     font-size: 1.25rem;
     color: var(--sage);
     font-weight: 600;
