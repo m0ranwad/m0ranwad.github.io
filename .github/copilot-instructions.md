@@ -150,7 +150,7 @@ astro-prototype/
 
 │   │   ├── index.astro           # Homepage### Branch Strategy
 
-│   │   ├── valentines.astro      # Current featured season```
+│   │   ├── easter.astro          # Current featured season```
 
 │   │   └── ...                   # More pages as migratedtheme/beautiful-jekyll   Production (live site)
 
@@ -500,11 +500,11 @@ Edit `src/pages/index.astro`:
 
   title="Featured This Season"- **Action-oriented**: "Order Now" not "Submit Inquiry"
 
-  menuLink="/valentines/"- **Confident**: "Beautiful custom cakes" not "We try to make nice cakes"
+  menuLink="/easter/"- **Confident**: "Beautiful custom cakes" not "We try to make nice cakes"
 
-  menuImage="/assets/img/valentines/menu1.jpg"
+  menuImage="/assets/img/easter/IMG_6388.jpg"
 
-  ctaText="Order Valentine's Treats"---
+  ctaText="Order Easter Treats"---
 
 />
 

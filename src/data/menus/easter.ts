@@ -5,7 +5,9 @@ export const easterMenu: Menu = {
   title: 'Easter Menu',
   subtitle: 'Spring celebrations made sweeter',
   headerImage: '/assets/img/easter/IMG_6388.jpg',
+  featured: true,
   season: 'spring',
+  orderDeadline: '2026-03-30',  // Easter 2026 order cutoff
   items: [
     {
       name: 'Assorted Easter Cookie Box',

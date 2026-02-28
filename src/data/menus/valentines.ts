@@ -5,9 +5,7 @@ export const valentinesMenu: Menu = {
   title: "Valentine's Menu",
   subtitle: 'Sweet treats to celebrate love',
   headerImage: '/assets/img/valentines/menu1.jpg',
-  featured: true,
   season: 'winter',
-  orderDeadline: '2026-02-10',  // Valentine's order cutoff
   items: [
     {
       name: 'Lemon Raspberry',

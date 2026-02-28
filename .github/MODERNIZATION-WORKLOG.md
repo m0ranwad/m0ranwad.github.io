@@ -2,7 +2,7 @@
 
 > **Purpose**: Step-by-step iterative guide for AI-assisted modernization  
 > **How to Use**: Say "Continue with Task X" or "Start the next task" to resume work  
-> **Last Updated**: February 19, 2026
+> **Last Updated**: February 28, 2026
 
 ---
 
@@ -102,8 +102,7 @@ Stop-Process -Name "node" -Force
 | Phase 2B: Astro Migration | ✅ Complete | 8/8 |
 | Phase 3: Enhanced Features | ✅ Complete | 4/4 |
 | Phase 4: Merge & Deploy | ✅ Complete | 5/5 (LIVE!) |
-| Phase 5: Inquiry Cart System | ✅ Complete | 6/6 |
-
+| Phase 5: Inquiry Cart System | ✅ Complete | 6/6 || Phase 6: Seasonal Updates | 🔄 In Progress | 1/1 |
 ---
 
 ## 🚀 PHASE 1: Quick Wins (Current Jekyll Stack)
@@ -848,6 +847,14 @@ git push --force origin main
 - Updated README.md with Astro instructions and rollback procedure
 - **Ready for deployment** - just need to push and merge to `theme/beautiful-jekyll`
 
+### February 28, 2026 (Session - Easter Season Update)
+- Switched featured menu from Valentine's → Easter
+- Set Easter order deadline to March 30, 2026 (Easter is April 5)
+- Removed `featured` flag and `orderDeadline` from Valentine's menu
+- Updated homepage fallback image to Easter
+- Updated holidays page meta description
+- Merged feature/astro-prototype → main for deployment
+
 ### January 30, 2026 (Session 3 - Phase 3 Complete)
 - Completed all Phase 3 tasks (3.1-3.4)
 - Task 3.1: Image optimization (78MB → 17MB), then simplified workflow for owner
@@ -873,6 +880,31 @@ git push --force origin main
 - Created this worklog for iterative progress
 - Completed all Phase 1 tasks (8/8)
 - Built Astro prototype with homepage + Valentine's menu
+
+---
+
+## 🌸 PHASE 6: Seasonal Updates
+
+**Goal**: Keep the site current by featuring the right seasonal menu.
+
+### Task 6.1: Switch Featured Menu to Easter ✅
+**Status**: ✅ Complete  
+**Date**: February 28, 2026
+
+**What was done**:
+- [x] Removed `featured: true` and `orderDeadline` from Valentine's menu data
+- [x] Added `featured: true` and `orderDeadline: '2026-03-30'` to Easter menu data
+- [x] Updated homepage fallback image from Valentine's to Easter
+- [x] Updated holidays page meta description to lead with Easter
+- [x] Verified build succeeds (16 pages, all clean)
+
+**Files modified**:
+- `src/data/menus/valentines.ts` — Removed featured flag, removed expired deadline
+- `src/data/menus/easter.ts` — Added featured flag, added order deadline
+- `src/pages/index.astro` — Updated fallback hero image
+- `src/pages/holidays.astro` — Updated meta description
+
+**How to repeat for next season**: Change `featured: true` to the next seasonal menu in `src/data/menus/`, set an appropriate `orderDeadline`, and remove the flag from the previous season.
 
 ---
 
