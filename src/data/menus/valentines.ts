@@ -4,7 +4,7 @@ export const valentinesMenu: Menu = {
   slug: 'valentines',
   title: "Valentine's Menu",
   subtitle: 'Sweet treats to celebrate love',
-  headerImage: '/assets/img/valentines/menu1.jpg',
+  headerImage: '/assets/img/valentines/tastersBox.jpg',
   season: 'winter',
   items: [
     {

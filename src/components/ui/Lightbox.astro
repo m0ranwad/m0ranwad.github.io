@@ -1,0 +1,261 @@
+---
+/**
+ * Shared lightbox component used by Gallery and Menu pages.
+ * Provides only the HTML structure + CSS — the opening/navigation
+ * logic is wired up by each consuming component's own <script>.
+ *
+ * Standard IDs exposed to scripts:
+ *   #lightbox          – the overlay element
+ *   #lightboxImg       – the <img> that displays the photo
+ *   #lightboxCaption   – caption text
+ *   #lightboxCounter   – "2 / 12" counter text
+ *   #lightboxLoading   – spinner wrapper (show/hide as needed)
+ *   #lightboxClose     – close button
+ *   #lightboxPrev      – previous nav button
+ *   #lightboxNext      – next nav button
+ *   #lightboxContent   – main content area (used for click-outside & touch)
+ */
+interface Props {
+  /** Initial counter label, e.g. "1 / 24". Leave empty to hide. */
+  counterLabel?: string;
+}
+
+const { counterLabel = '' } = Astro.props;
+---
+
+<div
+  class="lightbox"
+  id="lightbox"
+  role="dialog"
+  aria-label="Image viewer"
+  aria-modal="true"
+  aria-hidden="true"
+>
+  <!-- Header: counter + close -->
+  <div class="lightbox-header">
+    <span class="lightbox-counter" id="lightboxCounter">{counterLabel}</span>
+    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close image viewer">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Main image + nav arrows -->
+  <div class="lightbox-content" id="lightboxContent">
+    <button type="button" class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </button>
+
+    <div class="lightbox-image-container">
+      <div class="lightbox-loading" id="lightboxLoading">
+        <div class="loading-spinner"></div>
+      </div>
+      <img src="" alt="" id="lightboxImg" />
+    </div>
+
+    <button type="button" class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Caption -->
+  <div class="lightbox-footer">
+    <p class="lightbox-caption" id="lightboxCaption"></p>
+  </div>
+</div>
+
+<style>
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-smooth);
+  }
+
+  .lightbox[aria-hidden="false"] {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Header */
+  .lightbox-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-md) var(--space-lg);
+    flex-shrink: 0;
+  }
+
+  .lightbox-counter {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+
+  .lightbox-close {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--white);
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition-fast);
+  }
+
+  .lightbox-close:hover,
+  .lightbox-close:focus-visible {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .lightbox-close:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 2px;
+  }
+
+  /* Content area */
+  .lightbox-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 0;
+    padding: 0 var(--space-md);
+  }
+
+  .lightbox-image-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: calc(100% - 120px);
+    max-height: 100%;
+  }
+
+  .lightbox-content img {
+    max-width: 100%;
+    max-height: calc(100vh - 180px);
+    object-fit: contain;
+    border-radius: 8px;
+    transition: opacity var(--transition-smooth);
+  }
+
+  /* Loading spinner */
+  .lightbox-loading {
+    position: absolute;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-top-color: var(--white);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Navigation */
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--white);
+    cursor: pointer;
+    width: 50px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition-fast);
+    border-radius: 8px;
+  }
+
+  .lightbox-nav:hover,
+  .lightbox-nav:focus-visible {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .lightbox-nav:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 2px;
+  }
+
+  .lightbox-nav:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .lightbox-prev { left: var(--space-md); }
+  .lightbox-next { right: var(--space-md); }
+
+  /* Footer / Caption */
+  .lightbox-footer {
+    padding: var(--space-md) var(--space-lg) var(--space-xl);
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .lightbox-caption {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    margin: 0 auto;
+    max-width: 600px;
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .lightbox-image-container {
+      max-width: 100%;
+    }
+
+    .lightbox-content img {
+      max-height: calc(100vh - 200px);
+    }
+
+    .lightbox-nav {
+      width: 44px;
+      height: 60px;
+    }
+
+    .lightbox-nav svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .lightbox-footer::after {
+      content: 'Swipe to navigate';
+      display: block;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.75rem;
+      margin-top: var(--space-sm);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .lightbox-prev { left: var(--space-xs); }
+    .lightbox-next { right: var(--space-xs); }
+  }
+</style>

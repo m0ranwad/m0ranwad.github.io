@@ -1,6 +1,7 @@
 ---
 import type { MenuItem } from '../data/types';
 import { createItemId } from '../scripts/inquiry-store';
+import Lightbox from './ui/Lightbox.astro';
 
 interface Props {
   items: MenuItem[];
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const { items, menuSlug, menuTitle, orderLink } = Astro.props;
+const itemCount = items.length;
 ---
 
 <div class="menu-grid">
@@ -20,15 +22,28 @@ const { items, menuSlug, menuTitle, orderLink } = Astro.props;
     
     return (
       <div class={`menu-item-card ${item.soldOut ? 'sold-out' : ''}`}>
-        <div class="menu-item-image">
+        <button 
+          class="menu-item-image" 
+          type="button"
+          data-src={item.image}
+          data-alt={item.name}
+          aria-label={`View full photo of ${item.name}`}
+        >
           <img 
             src={item.image} 
             alt={item.name} 
             loading="lazy" 
             decoding="async"
           />
+          <div class="photo-zoom-hint">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+              <path d="M11 8v6M8 11h6"/>
+            </svg>
+          </div>
           {item.soldOut && <span class="sold-out-badge">Sold Out</span>}
-        </div>
+        </button>
         <div class="menu-item-content">
           <h3 class="menu-item-name">{item.name}</h3>
           <p class="menu-item-description">{item.description}</p>
@@ -61,11 +76,118 @@ const { items, menuSlug, menuTitle, orderLink } = Astro.props;
   })}
 </div>
 
+<!-- Shared lightbox (same component used by Gallery) -->
+<Lightbox counterLabel={`1 / ${itemCount}`} />
+
 <script>
   import { addItem, hasItem } from '../scripts/inquiry-store';
 
   document.addEventListener('DOMContentLoaded', () => {
-    // Handle all "Add to Inquiry" buttons
+    // =============================================
+    // LIGHTBOX — uses shared #lightbox IDs (same as Gallery)
+    // =============================================
+    const lightbox = document.getElementById('lightbox')!;
+    const lightboxImg = document.getElementById('lightboxImg') as HTMLImageElement;
+    const lightboxCaption = document.getElementById('lightboxCaption')!;
+    const lightboxCounter = document.getElementById('lightboxCounter')!;
+    const lightboxLoading = document.getElementById('lightboxLoading')!;
+    const lightboxContent = document.getElementById('lightboxContent')!;
+    const imageButtons = document.querySelectorAll<HTMLButtonElement>('.menu-item-image');
+
+    let currentIndex = 0;
+    let previousFocus: HTMLElement | null = null;
+    let touchStartX = 0;
+
+    function openLightbox(index: number) {
+      currentIndex = index;
+      previousFocus = document.activeElement as HTMLElement;
+      showLightboxImage();
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('lightboxClose')?.focus(), 100);
+    }
+
+    function closeLightbox() {
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      previousFocus?.focus();
+    }
+
+    function showLightboxImage() {
+      const btn = imageButtons[currentIndex];
+      if (!btn) return;
+
+      const src = btn.dataset.src || '';
+      const alt = btn.dataset.alt || '';
+
+      // Show loading spinner
+      lightboxLoading.style.display = 'flex';
+      lightboxImg.style.opacity = '0';
+
+      const img = new Image();
+      img.onload = () => {
+        lightboxImg.src = src;
+        lightboxImg.alt = alt;
+        lightboxLoading.style.display = 'none';
+        lightboxImg.style.opacity = '1';
+      };
+      img.onerror = () => {
+        lightboxLoading.style.display = 'none';
+      };
+      img.src = src;
+
+      lightboxCaption.textContent = alt;
+      lightboxCounter.textContent = `${currentIndex + 1} / ${imageButtons.length}`;
+
+      // Hide nav arrows if there's only one item
+      const showNav = imageButtons.length > 1;
+      const prevBtn = document.getElementById('lightboxPrev') as HTMLButtonElement;
+      const nextBtn = document.getElementById('lightboxNext') as HTMLButtonElement;
+      if (prevBtn) prevBtn.style.display = showNav ? '' : 'none';
+      if (nextBtn) nextBtn.style.display = showNav ? '' : 'none';
+    }
+
+    function prevImage() {
+      currentIndex = currentIndex > 0 ? currentIndex - 1 : imageButtons.length - 1;
+      showLightboxImage();
+    }
+
+    function nextImage() {
+      currentIndex = currentIndex < imageButtons.length - 1 ? currentIndex + 1 : 0;
+      showLightboxImage();
+    }
+
+    imageButtons.forEach((btn, i) => {
+      btn.addEventListener('click', () => openLightbox(i));
+    });
+
+    document.getElementById('lightboxClose')?.addEventListener('click', closeLightbox);
+    document.getElementById('lightboxPrev')?.addEventListener('click', prevImage);
+    document.getElementById('lightboxNext')?.addEventListener('click', nextImage);
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox || e.target === lightboxContent) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (lightbox.getAttribute('aria-hidden') !== 'false') return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') { e.preventDefault(); prevImage(); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); nextImage(); }
+    });
+
+    // Touch/swipe
+    lightboxContent.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    lightboxContent.addEventListener('touchend', (e) => {
+      const diff = touchStartX - e.changedTouches[0].screenX;
+      if (Math.abs(diff) > 50) { diff > 0 ? nextImage() : prevImage(); }
+    }, { passive: true });
+
+    // =============================================
+    // "Add to Inquiry" buttons
+    // =============================================
     document.querySelectorAll('.add-to-inquiry-btn').forEach(button => {
       const btn = button as HTMLButtonElement;
       
@@ -154,6 +276,12 @@ const { items, menuSlug, menuTitle, orderLink } = Astro.props;
     position: relative;
     aspect-ratio: 4 / 3;
     overflow: hidden;
+    cursor: zoom-in;
+    border: none;
+    padding: 0;
+    background: none;
+    width: 100%;
+    display: block;
   }
   
   .menu-item-image img {
@@ -261,4 +389,36 @@ const { items, menuSlug, menuTitle, orderLink } = Astro.props;
       grid-template-columns: 1fr;
     }
   }
+
+  /* Photo zoom hint icon */
+  .photo-zoom-hint {
+    position: absolute;
+    bottom: var(--space-sm);
+    right: var(--space-sm);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--transition-smooth);
+    pointer-events: none;
+  }
+
+  .menu-item-image:hover .photo-zoom-hint,
+  .menu-item-image:focus-visible .photo-zoom-hint {
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    /* Always show zoom hint on mobile (no hover) */
+    .photo-zoom-hint {
+      opacity: 0.7;
+    }
+  }
+
+  /* Lightbox styles live in src/components/ui/Lightbox.astro */
 </style>

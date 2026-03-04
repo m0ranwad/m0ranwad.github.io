@@ -4,7 +4,7 @@ export const thanksgivingMenu: Menu = {
   slug: 'thanksgiving',
   title: 'Thanksgiving Menu',
   subtitle: 'Fresh baked treats for your holiday feast',
-  headerImage: '/assets/img/thanksgivingMenu.jpg',
+  headerImage: '/assets/img/bread.jpg',
   season: 'fall',
   items: [
     {

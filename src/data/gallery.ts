@@ -27,6 +27,7 @@ export const galleryImages: GalleryImage[] = [
   { src: '/assets/img/box.jpg', category: 'cookies', alt: 'Packaged cookie gift box' },
   { src: '/assets/img/bridalShower.jpg', category: 'events', alt: 'Bridal shower cookies' },
   { src: '/assets/img/easter/IMG_6394.jpg', category: 'holiday', alt: 'Easter basket treats' },
+  { src: '/assets/img/easter/IMG_6440.jpg', category: 'holiday', alt: 'Customized Easter egg cookies' },
   { src: '/assets/img/chocolateChip.JPG', category: 'cookies', alt: 'Chewy chocolate chip cookies' },
   { src: '/assets/img/headers/home/grinch.jpg', category: 'holiday', alt: 'Grinch-themed cookies' },
   { src: '/assets/img/homepageCake.jpg', category: 'cakes', alt: 'Custom decorated cake' },
