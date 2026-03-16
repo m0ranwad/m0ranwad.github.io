@@ -7,6 +7,7 @@ import { getFeaturedMenu, siteInfo } from '../data';
 
 // Get the featured menu dynamically
 const featuredMenu = getFeaturedMenu();
+const isFeaturedSoldOut = featuredMenu?.items.every(item => item.soldOut) ?? false;
 
 const categoryCards = [
   {
@@ -56,9 +57,10 @@ const categoryCards = [
       title="Featured This Season"
       menuLink={`/${featuredMenu.slug}/`}
       menuImage={featuredMenu.headerImage || '/assets/img/easter/IMG_6388.jpg'}
-      menuAlt={`${featuredMenu.title} - Order Now`}
-      ctaText={`Order ${featuredMenu.title}`}
-      orderDeadline={featuredMenu.orderDeadline}
+      menuAlt={isFeaturedSoldOut ? `${featuredMenu.title} — Sold Out` : `${featuredMenu.title} - Order Now`}
+      ctaText={isFeaturedSoldOut ? `View ${featuredMenu.title}` : `Order ${featuredMenu.title}`}
+      soldOut={isFeaturedSoldOut}
+      orderDeadline={isFeaturedSoldOut ? undefined : featuredMenu.orderDeadline}
       deadlineLabel={`${featuredMenu.title.split(' ')[0]} orders`}
     />
   )}

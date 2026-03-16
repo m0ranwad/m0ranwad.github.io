@@ -7,6 +7,7 @@ interface Props {
   menuImage: string;
   menuAlt: string;
   ctaText: string;
+  soldOut?: boolean;
   orderDeadline?: string;  // ISO date for countdown (e.g., '2025-02-10')
   deadlineLabel?: string;  // Label for countdown (e.g., "Valentine's orders")
 }
@@ -17,6 +18,7 @@ const {
   menuImage, 
   menuAlt, 
   ctaText,
+  soldOut = false,
   orderDeadline,
   deadlineLabel = "Orders"
 } = Astro.props;
@@ -34,6 +36,7 @@ const {
   <div class="featured-menu-container">
     <a href={menuLink} class="featured-menu-link">
       <img src={menuImage} alt={menuAlt} loading="eager" />
+      {soldOut && <span class="sold-out-overlay">Sold Out</span>}
     </a>
     <a href={menuLink} class="btn-primary featured-cta">
       {ctaText}
@@ -61,6 +64,7 @@ const {
   }
   
   .featured-menu-link {
+    position: relative;
     display: block;
     border-radius: 16px;
     overflow: hidden;
@@ -78,6 +82,20 @@ const {
     display: block;
     width: 100%;
     height: auto;
+  }
+
+  .sold-out-overlay {
+    position: absolute;
+    top: var(--space-lg);
+    right: var(--space-lg);
+    background: var(--terracotta, #D4806F);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.4rem 1.2rem;
+    border-radius: 8px;
+    letter-spacing: 0.02em;
   }
   
   .featured-cta {
