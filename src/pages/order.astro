@@ -8,7 +8,7 @@ import { getFeaturedMenu } from '../data/menus';
 const featuredMenu = getFeaturedMenu();
 const featuredSlug = featuredMenu ? '/' + featuredMenu.slug + '/' : '/holidays/';
 const featuredTitle = featuredMenu?.title ?? 'Our Menus';
-const redirectUrl = (Astro.site || 'https://thymelesstreatsbakery.com') + formConfig.thankYouPage;
+const redirectUrl = new URL(formConfig.thankYouPage, Astro.site ?? 'https://www.thymelesstreatsbakery.com').href;
 ---
 
 <BaseLayout 

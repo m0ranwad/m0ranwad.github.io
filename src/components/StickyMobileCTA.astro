@@ -38,7 +38,7 @@ const {
     const ctaSection = document.querySelector('.cta-section');
     const showThreshold = window.innerHeight * 0.5; // Show after scrolling half viewport
     
-    function updateStickyCta() {
+    const updateStickyCta = () => {
       const scrollY = window.scrollY;
       
       // Don't show on desktop (handled by CSS, but double-check)
@@ -67,8 +67,8 @@ const {
       }
       
       ticking = false;
-    }
-    
+    };
+
     function onScroll() {
       lastScrollY = window.scrollY;
       if (!ticking) {
