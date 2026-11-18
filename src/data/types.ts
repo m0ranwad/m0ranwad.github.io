@@ -23,7 +23,7 @@ export interface Menu {
   slug: string;
   title: string;
   subtitle: string;
-  headerImage?: string;  // Path like '/assets/img/valentines/header.jpg'
+  headerImage?: string;  // Path like '/assets/img/easter/IMG_6388.jpg'
   featured?: boolean;
   season?: 'spring' | 'summer' | 'fall' | 'winter' | 'year-round';
   orderDeadline?: string;  // ISO date like '2025-02-10' for countdown

@@ -15,6 +15,7 @@ npm-debug.log*
 # Environment variables (the site has none; never commit secrets)
 .env
 .env.*
+!.env.example
 
 # Editors and operating systems
 .vscode/
@@ -23,3 +24,5 @@ npm-debug.log*
 Thumbs.db
 [Dd]esktop.ini
 *.stackdump
+*.swp
+*~
