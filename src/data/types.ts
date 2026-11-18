@@ -23,9 +23,7 @@ export interface Menu {
   slug: string;
   title: string;
   subtitle: string;
-  headerImage?: string;  // Path like '/assets/img/valentines/menu1.jpg'
-  /** @deprecated No longer used — site now uses Web3Forms on /order/ page */
-  orderFormUrl?: string;
+  headerImage?: string;  // Path like '/assets/img/valentines/header.jpg'
   featured?: boolean;
   season?: 'spring' | 'summer' | 'fall' | 'winter' | 'year-round';
   orderDeadline?: string;  // ISO date like '2025-02-10' for countdown
