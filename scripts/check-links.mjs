@@ -10,6 +10,7 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { decodeHTMLAttribute } from 'entities';
 import { createExactPathChecker } from './lib/exact-path.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
@@ -29,15 +30,8 @@ function walk(dir) {
   );
 }
 
-/** @param {string} s */
-function decodeEntities(s) {
-  return s
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;|&#x27;/g, "'")
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&amp;/g, '&');
-}
+/** Decode an attribute value the way a browser does: every entity, in one pass. */
+const decodeEntities = decodeHTMLAttribute;
 
 /** URL path a dist file is served at, e.g. dist/about/index.html -> /about/ */
 function pageUrlPath(file) {
@@ -88,7 +82,7 @@ for (const file of htmlFiles) {
     .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/(<script\b[^>]*>)[\s\S]*?(<\/script>)/gi, '$1$2');
   const tags = html.replace(/(<style\b[^>]*>)[\s\S]*?(<\/style>)/gi, '$1$2');
-  idsByPage.set(page, new Set([...tags.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1])));
+  idsByPage.set(page, new Set([...tags.matchAll(/\sid="([^"]+)"/g)].map((m) => decodeEntities(m[1]))));
 
   for (const m of tags.matchAll(/\s([a-zA-Z][\w:.-]*)=("([^"]*)"|'([^']*)')/g)) {
     const name = m[1].toLowerCase();
@@ -144,8 +138,10 @@ function problemWith({ url, rawPath }) {
     result = lookup(pagePath + 'index.html');
   }
   if (!result.found) {
-    return result.suggestion ? `not found (capitals differ: ${result.suggestion})` : 'not found';
+    return result.suggestion ? `not found (did you mean ${result.suggestion}?)` : 'not found';
   }
+  // /about/index.html is the same page as /about/.
+  if (pagePath.endsWith('/index.html')) pagePath = pagePath.slice(0, -'index.html'.length);
   const fragment = decodeURIComponent(url.hash.slice(1));
   if (fragment && idsByPage.has(pagePath) && !idsByPage.get(pagePath)?.has(fragment)) {
     return `no element with id="${fragment}" on ${pagePath}`;

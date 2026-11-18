@@ -49,8 +49,10 @@ jobs:
         run: npm ci
         working-directory: ${{ env.BUILD_PATH }}
 
-      - name: Build with Astro
-        run: npm run build
+      # Type check, build, then check every photo path and internal link,
+      # so a broken reference stops the deploy even if it skipped review.
+      - name: Check and build
+        run: npm run check
         working-directory: ${{ env.BUILD_PATH }}
 
       - name: Upload artifact

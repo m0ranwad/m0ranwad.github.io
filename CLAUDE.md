@@ -14,7 +14,7 @@ npm run shots:compare -- main <branch>   # list what changed between two sets of
 
 **Before calling a change done,** run `npm run check`; it also runs on every pull request. If the change could affect any page, run `npm run shots` on `main` and on your branch, then compare. Every difference must be intended and listed in the pull request. Screenshots need Chrome, Edge, or `npx playwright install chromium`.
 
-The build itself fails when menu or gallery data names a photo that doesn't exist, letter case included, so a mistyped path cannot deploy.
+The build itself fails when menu or gallery data names a photo that doesn't exist, letter case included. The deploy runs the whole check, so a mistyped photo path or broken internal link cannot go live.
 
 ## Rules
 
@@ -61,7 +61,7 @@ Season state is split across several places today (epic #1 Phase 5 makes it one 
 2. **Check page copy.** Look at `src/pages/<season>.astro` for `introText`, `ctaTitle` and `ctaText` overrides left over from the last time it sold out. `easter.astro` is the sold-out example.
 3. **Mark sold out.** Set `soldOut: true` on each item. When all items are sold out, also update the page copy (step 2) and `subtitle`. The "Now Available!" badge in `holidays.astro` stays until the menu is no longer featured.
 4. **Close a season.** Remove `featured` and `orderDeadline`. Past menus keep their "Add to Inquiry" buttons and prices unless each item is marked `soldOut`.
-5. **Redeploy after dates pass.** The order countdown and the footer year are computed at build time, so they are only correct as of the last deploy.
+5. **Redeploy in January.** The footer year is computed at build time. The order countdown is not stale: the browser recounts it on load and hourly, and hides it after `orderDeadline`.
 
 Runbooks for these tasks will live in `.claude/skills/` (epic #1 Phase 8).
 

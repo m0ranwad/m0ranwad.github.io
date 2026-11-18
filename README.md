@@ -28,7 +28,7 @@ npm run shots     # screenshot every page at phone and desktop width into shots/
 
 ## How it deploys
 
-Every push to `main` runs [`.github/workflows/astro.yml`](.github/workflows/astro.yml), which builds the site and publishes it to GitHub Pages. **Pushing to `main` is publishing to production.** Make changes on a branch and merge them by pull request.
+Every push to `main` runs [`.github/workflows/astro.yml`](.github/workflows/astro.yml), which runs `npm run check` (that includes the build) and publishes the site to GitHub Pages. **Pushing to `main` is publishing to production.** Make changes on a branch and merge them by pull request.
 
 Avoid risky changes while a season is taking orders. A broken order page then costs real orders.
 

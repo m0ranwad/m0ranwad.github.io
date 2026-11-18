@@ -29,9 +29,12 @@ export function createExactPathChecker(rootDir) {
 
   /**
    * Look up a path such as `/assets/img/cake.jpg` under rootDir.
+   * A trailing slash means a directory, as on GitHub Pages: `cake.jpg/` is
+   * not found even though `cake.jpg` exists.
    * @param {string} urlPath
    * @returns {{ found: boolean, isDir?: boolean, suggestion?: string }}
-   * `suggestion` is the same path with corrected capitalisation, when one exists.
+   * `suggestion` is the path that does exist (capitals corrected, or a
+   * trailing slash removed), when there is one.
    */
   function lookup(urlPath) {
     const parts = urlPath.split('/').filter(Boolean);
@@ -50,8 +53,13 @@ export function createExactPathChecker(rootDir) {
       corrected.push(match);
       dir = join(dir, match);
     }
-    if (!exact) return { found: false, suggestion: '/' + corrected.join('/') };
-    return { found: true, isDir: statSync(dir).isDirectory() };
+    const isDir = statSync(dir).isDirectory();
+    const slashAfterFile = urlPath.endsWith('/') && !isDir;
+    if (!exact || slashAfterFile) {
+      const suggestion = '/' + corrected.join('/') + (isDir && urlPath.endsWith('/') ? '/' : '');
+      return { found: false, suggestion };
+    }
+    return { found: true, isDir };
   }
 
   return { lookup };

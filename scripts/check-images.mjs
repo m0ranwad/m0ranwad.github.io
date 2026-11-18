@@ -36,9 +36,7 @@ function findProblems(publicDir) {
     }
     const result = lookup(decodeURI(path));
     if (result.found && !result.isDir) continue;
-    const hint = result.suggestion
-      ? ` (capitals differ: the file is ${result.suggestion})`
-      : '';
+    const hint = result.suggestion ? ` (did you mean ${result.suggestion}?)` : '';
     problems.push(`${where}: ${path} is not in public/${hint}`);
   }
   return problems;
