@@ -16,9 +16,9 @@ npm run shots:compare -- main <branch>   # list what changed between two sets of
 
 **Changing dependencies:** write the lockfile with the npm that ships with the Node in `.nvmrc`. On older Node, run `npx npm@<that version> install --package-lock-only` afterwards. An older npm on Windows leaves out nested entries that CI's `npm ci` requires.
 
-**After a large chunk of work** (a phase, a pull request, anything you'd ask to merge), end your reply with a review prompt for Codex, and check its findings yourself before acting on them. See [`.claude/skills/codex-review/`](.claude/skills/codex-review/SKILL.md).
+**After a large chunk of work** (a phase, a pull request, anything you'd ask to merge), end your reply with a review prompt for Codex, and check its findings yourself before acting on them. See [`.claude/skills/codex-review/`](.claude/skills/codex-review/SKILL.md). Codex's own reviewer instructions are in [`AGENTS.md`](AGENTS.md); Codex maintains that file.
 
-The build itself fails when menu or gallery data names a photo that doesn't exist, letter case included. The deploy runs the whole check, so a mistyped photo path or broken internal link cannot go live.
+The build itself fails when menu or gallery data names a photo that doesn't exist, letter case included, or when the season data breaks its rules (two menus open, a malformed date). The deploy runs the whole check, so a mistyped photo path, a broken internal link or an image over 400 KB cannot go live.
 
 ## Carry work through
 
@@ -54,7 +54,7 @@ Do the routine steps of a task without being asked, then report what you did. Do
 | `src/assets/img/` | Every photo the site shows, named in data and pages as `/assets/img/...`. Anything here may be published. |
 | `src/lib/photos.ts`, `src/components/ui/Photo.astro` | The only way photos reach a page: resized AVIF and WebP via `<Photo>`, plus the lightbox, thumbnail, link-preview and background versions. |
 | `public/` | Files served as-is: `CNAME`, `favicon.ico`, `robots.txt`. No photos. |
-| `scripts/` | `check-images.mjs` and `check-seasons.mjs` (build-time data checks), `check-links.mjs`, `shots.mjs`. |
+| `scripts/` | `check-images.mjs` and `check-seasons.mjs` (build-time data checks), `check-links.mjs` and `check-image-sizes.mjs` (run over `dist/`), `shots.mjs`. |
 
 ## Known leftovers
 
@@ -79,4 +79,4 @@ Page copy for each state (subtitle, intro, the box at the bottom) is in `menuVie
 - [#1](https://github.com/m0ranwad/m0ranwad.github.io/issues/1): tech debt and agent readiness, in eight phases, one pull request each.
 - [#2](https://github.com/m0ranwad/m0ranwad.github.io/issues/2): farm-stand redesign. It adds design guardrails to this file when it starts.
 
-Read the epic before starting a phase, and tick its boxes in the issue when the pull request merges.
+**Where to resume:** progress lives in the epics' checkboxes, and decisions and exceptions in their comments. Read the epic, including its comments, before starting a phase, and tick its boxes when the pull request merges. Before starting, check whether a season is taking orders (see Rules): Phases 4–7 of #1 must not merge then.

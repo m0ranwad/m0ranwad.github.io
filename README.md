@@ -55,13 +55,14 @@ src/
   config/      Web3Forms settings
   scripts/     browser code for the inquiry list
   assets/img/  every photo; the build resizes them (see ADDING_PHOTOS.md)
+  assets/brand/ logos kept for the redesign; not published
   lib/         photos.ts: turns a photo path into resized images
 public/        files served as-is: CNAME, favicon, robots.txt
 ```
 
 ## Work in progress
 
-- [#1 Tech debt and agent readiness](https://github.com/m0ranwad/m0ranwad.github.io/issues/1): cleanup, checks, an image pipeline and a simpler season model. No visual change.
+- [#1 Tech debt and agent readiness](https://github.com/m0ranwad/m0ranwad.github.io/issues/1): cleanup, checks, a one-field season model, an image pipeline, and runbooks for recurring tasks. Progress is in the issue's checkboxes.
 - [#2 Farm-stand redesign](https://github.com/m0ranwad/m0ranwad.github.io/issues/2): a new look, built on a branch and approved by the owner before launch.
 
 If you work on this repo with an AI assistant, it should read [CLAUDE.md](CLAUDE.md) first.

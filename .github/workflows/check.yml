@@ -1,4 +1,4 @@
-# Runs `npm run check` (types, build, photo paths, internal links) on every
+# Runs `npm run check` (types, build, photo paths, internal links, image sizes) on every
 # pull request, so a broken change is caught before it reaches main.
 
 name: Check
