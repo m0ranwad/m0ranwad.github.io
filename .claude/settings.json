@@ -6,11 +6,17 @@
       "Bash(npm run check *)",
       "Bash(npm run shots *)",
       "Bash(npm run shots:compare *)",
+      "Bash(gh pr merge *)",
+      "Bash(git branch -d *)",
+      "Bash(git push origin --delete *)",
       "PowerShell(npm run dev *)",
       "PowerShell(npm run build *)",
       "PowerShell(npm run check *)",
       "PowerShell(npm run shots *)",
-      "PowerShell(npm run shots:compare *)"
+      "PowerShell(npm run shots:compare *)",
+      "PowerShell(gh pr merge *)",
+      "PowerShell(git branch -d *)",
+      "PowerShell(git push origin --delete *)"
     ]
   }
 }

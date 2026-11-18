@@ -20,10 +20,17 @@ npm run shots:compare -- main <branch>   # list what changed between two sets of
 
 The build itself fails when menu or gallery data names a photo that doesn't exist, letter case included. The deploy runs the whole check, so a mistyped photo path or broken internal link cannot go live.
 
+## Carry work through
+
+Do the routine steps of a task without being asked, then report what you did. Don't end with a to-do list for the maintainer.
+
+- **Without asking:** branch, commit, push, open the pull request, and fix failing checks. Once the review is handled (large changes get the Codex review, small ones need none) and checks pass, merge. Then watch the deploy, check the live pages, tick the epic's boxes, delete the merged branch locally and on GitHub, and update local `main`. Record exceptions and decisions where the next session will look: the pull request, the epic or this file. Stop leftover dev or preview servers that get in the way.
+- **Ask only for:** GitHub settings; merging while a season is taking orders; content, photos, prices or anything else customers read; privacy; deleting things other than merged branches that you didn't create; and product decisions with no sensible default. Recommend an option when you ask.
+
 ## Rules
 
 - **`main` is production.** Every push to `main` deploys. Work on a branch from `main`, one change per pull request.
-- **GitHub settings are the maintainer's.** Prepare changes to the Pages source, default branch, environments or branches, then stop and ask.
+- **GitHub settings are the maintainer's.** Prepare changes to the Pages source, default branch, environments or branch protection, then stop and ask.
 - **Hold risky changes while a season is taking orders.** If a seasonal menu has `featured: true` and items without `soldOut`, orders are open.
 - **Privacy.** This repo and its issues are public. Never add a street address, the owner's surname, or any customer's name or details. The owner's first name and town are already public on the site. The Web3Forms access key in `src/config/forms.ts` is public by design; add no other secrets.
 - **Don't run `npm run optimize-images`.** It overwrites the original photos in place.
