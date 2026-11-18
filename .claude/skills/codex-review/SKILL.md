@@ -13,18 +13,13 @@ After a large chunk of work: a phase of an epic, a pull request, or anything you
 
 ## Writing the prompt
 
-Codex can run git and npm in a clone of this repo but may not have GitHub access. Make the prompt stand on its own:
+Codex reads [`AGENTS.md`](../../../AGENTS.md) on its own. It sets Codex's role (review only, experiments in temporary copies), evidence standards, the site's review priorities and the report format: verdict, findings by severity with `path:line`, failure scenario and evidence, "Checked and fine" and "Couldn't check". Don't repeat any of that. The prompt carries only what is specific to this change, and must stand on its own, because Codex may not have GitHub access:
 
-1. **Role and limits.** Review only: no edits, commits, pushes or GitHub comments. Experiments go in temporary copies.
-2. **Context.** One paragraph on the site (static Astro site for a seasonal bakery; every push to `main` deploys). Point it at `README.md` and `CLAUDE.md`. Name the branches and pull requests, say what each contains, and list the files that matter most.
-3. **How to see the change.** Exact `git diff main...<branch>` commands; for stacked branches, diff each against its base. Commands to run, such as `npm ci && npm run check`, and which ones need a browser.
-4. **Questions.** Three to seven specific ones aimed at where this change could be wrong: what could reach production broken, what a check could pass when it shouldn't, behaviour that must not change. Not "review everything".
+1. **What changed.** Name the branches and pull requests, say what each contains and what it is for (link the epic phase), and list the files that matter most.
+2. **How to see it.** The exact `git diff main...<branch>` commands; for stacked branches, diff each against its base. Say which checks matter for this change and which need a browser.
+3. **Questions.** Three to seven specific ones aimed at where this change could be wrong: what could reach production broken, what a check could pass when it shouldn't, behaviour that must not change. Not "review everything".
+4. **Intended behaviour changes and decisions,** so Codex doesn't report them as regressions. Include maintainer decisions taken during the work.
 5. **Out of scope.** Known leftovers and later phases from `CLAUDE.md` and the epic, so it doesn't spend findings on them.
-6. **Report format.** Ask for:
-   - a one-line verdict: merge as is / merge after fixes / needs rework
-   - findings, most severe first, each with severity (blocker / should-fix / nit), `path:line` and branch, the problem in one sentence, a concrete failure scenario, evidence (ran it / traced the code / suspicion only), and a one- or two-line fix
-   - at most five nits
-   - "Checked and fine" and "Couldn't check" lists
 
 Never put secrets, the owner's surname, a street address or customer details in the prompt.
 
