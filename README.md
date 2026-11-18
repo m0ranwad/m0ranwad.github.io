@@ -20,7 +20,7 @@ You need Node 24 or later, and npm. CI uses the version in `.nvmrc` (Node 26). I
 ```sh
 npm ci            # install exact dependency versions
 npm run dev       # dev server at http://localhost:4321
-npm run check     # type check, build, and check every photo path and internal link
+npm run check     # type check, build, check every photo path and internal link, and that no image is over 400 KB
 npm run shots     # screenshot every page at phone and desktop width into shots/
 ```
 
@@ -38,7 +38,7 @@ Avoid risky changes while a season is taking orders. A broken order page then co
 |---|---|
 | Change a menu item, price or sold-out flag | `src/data/menus/<menu>.ts` |
 | Announce, open, sell out or close a season | `status` in `src/data/menus/<menu>.ts` |
-| Add or swap a photo | See [ADDING_PHOTOS.md](ADDING_PHOTOS.md) |
+| Add or swap a photo | `src/assets/img/`; see [ADDING_PHOTOS.md](ADDING_PHOTOS.md) |
 | Change the gallery | `src/data/gallery.ts` |
 | Change contact links, FAQ or About text | `src/data/navigation.ts`, `src/data/content.ts` |
 
@@ -54,7 +54,9 @@ src/
   data/        menus, gallery, navigation and page text
   config/      Web3Forms settings
   scripts/     browser code for the inquiry list
-public/        files served as-is: photos (assets/img/), CNAME, favicon, robots.txt
+  assets/img/  every photo; the build resizes them (see ADDING_PHOTOS.md)
+  lib/         photos.ts: turns a photo path into resized images
+public/        files served as-is: CNAME, favicon, robots.txt
 ```
 
 ## Work in progress

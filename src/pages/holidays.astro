@@ -4,6 +4,7 @@ import PageHeader from '../components/ui/PageHeader.astro';
 import Card from '../components/ui/Card.astro';
 import CTASection from '../components/ui/CTASection.astro';
 import DateSwitch from '../components/ui/DateSwitch.astro';
+import Photo from '../components/ui/Photo.astro';
 import { seasonalMenus, yearRoundMenus, leadMenu, menuView, closesOn } from '../data';
 
 // The same season the home page features, labelled from its status
@@ -31,7 +32,7 @@ const featured = featuredMenu && {
       <section class="featured-callout">
         <a href={`/${featuredMenu.slug}/`} class="featured-link">
           <div class="featured-image">
-            <img src={featuredMenu.headerImage} alt={featuredMenu.title} loading="eager" />
+            <Photo src={featuredMenu.headerImage || '/assets/img/thumbprint.jpg'} alt={featuredMenu.title} sizes="(max-width: 768px) 100vw, 600px" loading="eager" />
             <div class="featured-badge">
               <DateSwitch date={featured.closeDate}>{featured.view.badge}<Fragment slot="after">{featured.closed.badge}</Fragment></DateSwitch>
             </div>
@@ -56,7 +57,7 @@ const featured = featuredMenu && {
         {seasonalMenus.map((menu) => (
           <Card href={`/${menu.slug}/`} variant="default" padding="md">
             <div slot="image">
-              <img src={menu.headerImage || '/assets/img/thumbprint.jpg'} alt={menu.title} loading="lazy" />
+              <Photo src={menu.headerImage || '/assets/img/thumbprint.jpg'} alt={menu.title} sizes="(max-width: 768px) 100vw, 400px" loading="lazy" />
             </div>
             <h3 slot="title">{menu.title}</h3>
             <p slot="description">
@@ -76,7 +77,7 @@ const featured = featuredMenu && {
         {yearRoundMenus.map((menu) => (
           <Card href={`/${menu.slug}/`} variant="default" padding="md">
             <div slot="image">
-              <img src={menu.headerImage || '/assets/img/thumbprint.jpg'} alt={menu.title} loading="lazy" />
+              <Photo src={menu.headerImage || '/assets/img/thumbprint.jpg'} alt={menu.title} sizes="(max-width: 768px) 100vw, 400px" loading="lazy" />
             </div>
             <h3 slot="title">{menu.title}</h3>
             <p slot="description">{menu.subtitle}</p>

@@ -1,4 +1,6 @@
 ---
+import Photo from './ui/Photo.astro';
+
 interface Card {
   title: string;
   description: string;
@@ -19,7 +21,7 @@ const { cards } = Astro.props;
     <div class="category-card">
       <a href={card.link}>
         <div class="card-img-wrapper">
-          <img src={card.image} alt={card.title} class="card-img" loading="lazy" />
+          <Photo src={card.image} alt={card.title} class="card-img" sizes="(max-width: 768px) 100vw, 400px" loading="lazy" />
         </div>
         <div class="card-content">
           <h3>{card.title}</h3>

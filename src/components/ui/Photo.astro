@@ -1,0 +1,46 @@
+---
+/**
+ * A photo from src/assets/img/, as a responsive <picture>: AVIF and WebP at
+ * a few widths, with width and height set so the page doesn't shift while
+ * it loads. Browsers without AVIF use the WebP files; every browser the
+ * site supports (astro.config.mjs) reads WebP.
+ *
+ *   <Photo src="/assets/img/cake.jpg" alt="Birthday cake" sizes="(max-width: 768px) 100vw, 400px" />
+ *
+ * `sizes` says how wide the photo is drawn, so the browser picks the
+ * smallest file that is sharp enough. Other attributes go on the <img>.
+ * Keep to the default widths where possible: photos used in several places
+ * then share the same files.
+ */
+import { getImage } from 'astro:assets';
+import type { HTMLAttributes } from 'astro/types';
+import { photo } from '../../lib/photos';
+
+type Props = Omit<HTMLAttributes<'img'>, 'src' | 'width' | 'height' | 'srcset' | 'sizes'> & {
+  src: string;
+  alt: string;
+  sizes: string;
+  /** Widths to offer, in px. Widths at or above the original become the original. */
+  widths?: number[];
+};
+
+const { src, alt, sizes, widths = [400, 800, 1200], ...attrs } = Astro.props;
+const image = photo(src);
+const offered = [...new Set(widths.map((w) => Math.min(w, image.width)))].sort((a, b) => a - b);
+
+const versions = (format: 'avif' | 'webp') =>
+  Promise.all(offered.map((width) => getImage({ src: image, width, format })));
+const [avif, webp] = await Promise.all([versions('avif'), versions('webp')]);
+const srcset = (list: { src: string }[]) => list.map((v, i) => `${v.src} ${offered[i]}w`).join(', ');
+
+// Width and height give the aspect ratio before the photo arrives. The
+// largest offered width matches how wide the original drew before.
+const width = offered[offered.length - 1];
+const height = Math.round((image.height * width) / image.width);
+const fallback = webp[Math.min(1, webp.length - 1)];
+---
+
+<picture>
+  <source type="image/avif" srcset={srcset(avif)} sizes={sizes} />
+  <img src={fallback.src} srcset={srcset(webp)} sizes={sizes} width={width} height={height} alt={alt} {...attrs} />
+</picture>

@@ -7,6 +7,7 @@
  */
 import OrderDeadline from './OrderDeadline.astro';
 import DateSwitch from './ui/DateSwitch.astro';
+import Photo from './ui/Photo.astro';
 import { closesOn, menuView } from '../data/season';
 import type { SeasonalMenu } from '../data/types';
 
@@ -35,7 +36,12 @@ const badge = view && !view.canOrder ? view.badge : undefined;
     )}
     <div class="featured-menu-container">
       <a href={menuLink} class="featured-menu-link">
-        <img src={menu.headerImage || '/assets/img/easter/IMG_6388.jpg'} alt={menu.title} loading="eager" />
+        <Photo
+          src={menu.headerImage || '/assets/img/easter/IMG_6388.jpg'}
+          alt={menu.title}
+          sizes="(max-width: 900px) 100vw, 900px"
+          loading="eager"
+        />
         {badge && <span class="sold-out-overlay">{badge}</span>}
         {closeDate && (
           <DateSwitch date={closeDate}><Fragment slot="after"><span class="sold-out-overlay">{closed.badge}</span></Fragment></DateSwitch>

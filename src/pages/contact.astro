@@ -2,6 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/ui/Button.astro';
 import { faqItems } from '../data';
+import { backgroundUrl } from '../lib/photos';
+
+const heroPhoto = await backgroundUrl('/assets/img/bridalShower.jpg');
 ---
 
 <BaseLayout 
@@ -9,7 +12,7 @@ import { faqItems } from '../data';
   description="Get in touch with Thymeless Treats Bakery. Follow us on Instagram, message on Facebook, or send an email for custom orders."
 >
   <!-- Hero Section with Image -->
-  <section class="contact-hero">
+  <section class="contact-hero" style={`--hero-photo: url(${heroPhoto})`}>
     <div class="hero-overlay">
       <h1>Let's Create Something Sweet Together</h1>
       <p class="hero-tagline">Reach out through your favorite platform</p>
@@ -94,7 +97,7 @@ import { faqItems } from '../data';
         rgba(143, 163, 120, 0.85) 0%,
         rgba(96, 122, 77, 0.9) 100%
       ),
-      url('/assets/img/bridalShower.jpg');
+      var(--hero-photo);
     background-size: cover;
     background-position: center;
     display: flex;

@@ -4,6 +4,9 @@ import FeaturedSection from '../components/FeaturedSection.astro';
 import CategoryCards from '../components/CategoryCards.astro';
 import CTASection from '../components/ui/CTASection.astro';
 import { leadMenu, siteInfo } from '../data';
+import { backgroundUrl } from '../lib/photos';
+
+const heroPhoto = await backgroundUrl('/assets/img/bridalShower.jpg');
 
 // The season to feature, from the menus' status fields (none between seasons)
 const featuredMenu = leadMenu();
@@ -43,7 +46,7 @@ const categoryCards = [
 <BaseLayout title="Home" description={siteInfo.description}>
   
   <!-- Hero Section -->
-  <section class="hero-section">
+  <section class="hero-section" style={`--hero-photo: url(${heroPhoto})`}>
     <div class="hero-content">
       <h1>{siteInfo.name}</h1>
       <p class="hero-tagline">{siteInfo.tagline}</p>
@@ -85,7 +88,7 @@ const categoryCards = [
       rgba(251, 248, 243, 0.90) 50%,
       rgba(251, 248, 243, 0.95) 100%
     ),
-    url('/assets/img/bridalShower.jpg');
+    var(--hero-photo);
     background-size: cover;
     background-position: center;
     text-align: center;
