@@ -3,7 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/ui/PageHeader.astro';
 import CTASection from '../components/ui/CTASection.astro';
 import Lightbox from '../components/ui/Lightbox.astro';
+import Photo from '../components/ui/Photo.astro';
 import { galleryImages, galleryFilters } from '../data';
+import { largeUrl } from '../lib/photos';
+
+// The lightbox opens one large version of each photo
+const largeUrls = await Promise.all(galleryImages.map((image) => largeUrl(image.src)));
 ---
 
 <BaseLayout 
@@ -42,18 +47,20 @@ import { galleryImages, galleryFilters } from '../data';
           class="gallery-item" 
           data-category={image.category}
           data-index={index}
-          data-src={image.src}
+          data-src={largeUrls[index]}
           data-alt={image.alt}
           type="button"
           aria-label={`View ${image.alt}`}
         >
           <div class="gallery-placeholder"></div>
-          <img 
+          <Photo 
             src={image.src} 
             alt={image.alt} 
+            sizes="(max-width: 768px) 50vw, 300px"
+            widths={[400, 800]}
             loading="lazy"
             decoding="async"
-            onload="this.parentElement.classList.add('loaded')"
+            onload="this.closest('.gallery-item').classList.add('loaded')"
           />
           <div class="gallery-overlay">
             <span class="gallery-caption">{image.alt}</span>

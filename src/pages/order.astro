@@ -154,7 +154,8 @@ const redirectUrl = new URL(formConfig.thankYouPage, Astro.site ?? 'https://www.
       const esc = (str: string) => str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
       let html = '';
       for (const item of items) {
-        const img = item.image ? '<img src="' + esc(item.image) + '" alt="' + esc(item.name) + '" class="cart-item-image" />' : '';
+        // A thumbnail saved by an older version of the site may no longer exist
+        const img = item.image ? '<img src="' + esc(item.image) + '" alt="' + esc(item.name) + '" class="cart-item-image" onerror="this.remove()" />' : '';
         html += '<div class="cart-item" data-id="' + esc(item.id) + '">' +
           img +
           '<div class="cart-item-details">' +

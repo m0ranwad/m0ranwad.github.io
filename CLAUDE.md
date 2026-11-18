@@ -7,7 +7,7 @@ Static Astro site for a seasonal cottage bakery. Read [README.md](README.md) for
 ```sh
 npm ci                                   # install (Node version is in .nvmrc)
 npm run dev                              # http://localhost:4321
-npm run check                            # types, build, photo paths, internal links
+npm run check                            # types, build, photo paths, internal links, image sizes
 npm run shots                            # every page at 390px and 1280px -> shots/<branch>/
 npm run shots:compare -- main <branch>   # list what changed between two sets of shots
 ```
@@ -33,7 +33,6 @@ Do the routine steps of a task without being asked, then report what you did. Do
 - **GitHub settings are the maintainer's.** Prepare changes to the Pages source, default branch, environments or branch protection, then stop and ask.
 - **Hold risky changes while a season is taking orders.** Orders are open when a seasonal menu has `status: 'open'` and its `orderBy` date, if set, hasn't passed.
 - **Privacy.** This repo and its issues are public. Never add a street address, the owner's surname, or any customer's name or details. The owner's first name and town are already public on the site. The Web3Forms access key in `src/config/forms.ts` is public by design; add no other secrets.
-- **Don't run `npm run optimize-images`.** It overwrites the original photos in place.
 - **Leave CSS alone** unless the task is about styling. Epic #2 replaces the visual layer, so consolidating CSS now is work done twice.
 
 ## Map
@@ -52,14 +51,16 @@ Do the routine steps of a task without being asked, then report what you did. Do
 | `src/scripts/inquiry-store.ts` | The inquiry list in `localStorage` (key `thymeless-inquiry-cart`). |
 | `src/layouts/BaseLayout.astro` | Page shell, global styles, colour and font tokens on `:root`. |
 | `src/components/` | `MenuGrid` (item cards, "Add to Inquiry", menu lightbox), `FeaturedSection`, `OrderDeadline` (countdown), `StickyMobileCTA`, `InquiryBadge`, `ui/` (incl. `DateSwitch`, which flips open wording to closed after `orderBy` in the browser), `navigation/`. |
-| `public/assets/img/` | Every photo the site serves, referenced as `/assets/img/...`. |
+| `src/assets/img/` | Every photo the site shows, named in data and pages as `/assets/img/...`. Anything here may be published. |
+| `src/lib/photos.ts`, `src/components/ui/Photo.astro` | The only way photos reach a page: resized AVIF and WebP via `<Photo>`, plus the lightbox, thumbnail, link-preview and background versions. |
+| `public/` | Files served as-is: `CNAME`, `favicon.ico`, `robots.txt`. No photos. |
 | `scripts/` | `check-images.mjs` and `check-seasons.mjs` (build-time data checks), `check-links.mjs`, `shots.mjs`. |
 
 ## Known leftovers
 
 - **`LICENSE`** is still the old Jekyll theme's MIT licence, naming the theme's author. Replacing it is the owner's decision; don't edit it.
-- **Unused photos kept on purpose.** `logo.png`, `logo.jpg`, `thymeless.jpg` and `404.jpg` are kept for the redesign (#2). Don't delete them as unused.
-- **Image sizes.** Photos are served at full size with no resizing (Phase 6). Keep new ones under about 500 KB; see [ADDING_PHOTOS.md](ADDING_PHOTOS.md).
+- **Unused photos kept on purpose.** `src/assets/brand/` holds `logo.png`, `logo.jpg`, `thymeless.jpg` and `404.jpg` for the redesign (#2). They sit outside `src/assets/img/` so they aren't published. Don't delete them as unused.
+- **Photos.** The build resizes every photo (Phase 6); originals of any size can go in `src/assets/img/`. See [ADDING_PHOTOS.md](ADDING_PHOTOS.md). A new place that shows a photo uses `<Photo>` or a helper in `src/lib/photos.ts`, never a `/assets/img/` URL: that path is not served.
 
 ## Seasonal updates
 

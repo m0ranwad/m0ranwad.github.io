@@ -1,7 +1,9 @@
 // Astro integration: fail the build when menu or gallery data points at a
-// photo that is not in public/. A mistyped photo path is the most likely
-// mistake in a seasonal update, and without this check it ships as a broken
-// image. Runs on `astro build` (fails) and `astro dev` (warns at startup).
+// photo that is not in src/assets/img/. A mistyped photo path is the most
+// likely mistake in a seasonal update. The build would fail on it anyway
+// (src/lib/photos.ts), but this check names the file and item, and suggests
+// the right letter case. Runs on `astro build` (fails) and `astro dev`
+// (warns at startup).
 
 import { fileURLToPath } from 'node:url';
 import { allMenus, galleryImages } from '../src/data/index.ts';
@@ -25,34 +27,34 @@ function imageReferences() {
   return refs;
 }
 
-/** @param {string} publicDir */
-function findProblems(publicDir) {
-  const { lookup } = createExactPathChecker(publicDir);
+/** @param {string} srcDir Photo paths '/assets/img/...' resolve under src/. */
+function findProblems(srcDir) {
+  const { lookup } = createExactPathChecker(srcDir);
   const problems = [];
   for (const { where, path } of imageReferences()) {
-    if (!path || !path.startsWith('/')) {
+    if (!path || !path.startsWith('/assets/img/')) {
       problems.push(`${where}: "${path ?? ''}" should start with /assets/img/`);
       continue;
     }
     const result = lookup(decodeURI(path));
     if (result.found && !result.isDir) continue;
     const hint = result.suggestion ? ` (did you mean ${result.suggestion}?)` : '';
-    problems.push(`${where}: ${path} is not in public/${hint}`);
+    problems.push(`${where}: ${path} is not in src/assets/img/${hint}`);
   }
   return problems;
 }
 
 /** @returns {import('astro').AstroIntegration} */
 export default function checkImages() {
-  let publicDir = '';
+  let srcDir = '';
   return {
     name: 'check-images',
     hooks: {
       'astro:config:done': ({ config }) => {
-        publicDir = fileURLToPath(config.publicDir);
+        srcDir = fileURLToPath(config.srcDir);
       },
       'astro:build:start': ({ logger }) => {
-        const problems = findProblems(publicDir);
+        const problems = findProblems(srcDir);
         if (problems.length) {
           for (const p of problems) logger.error(p);
           throw new Error(
@@ -62,7 +64,7 @@ export default function checkImages() {
         logger.info('All menu and gallery photo paths exist.');
       },
       'astro:server:start': ({ logger }) => {
-        for (const p of findProblems(publicDir)) logger.warn(p);
+        for (const p of findProblems(srcDir)) logger.warn(p);
       },
     },
   };

@@ -12,6 +12,7 @@ import CTASection from '../components/ui/CTASection.astro';
 import DateSwitch from '../components/ui/DateSwitch.astro';
 import StickyMobileCTA from '../components/StickyMobileCTA.astro';
 import OrderDeadline from '../components/OrderDeadline.astro';
+import Photo from '../components/ui/Photo.astro';
 import { closesOn, menuView } from '../data/season';
 import type { Menu } from '../data/types';
 
@@ -32,10 +33,11 @@ const closed = menuView(menu, 'closed');
   <section class="menu-page">
     {menu.headerImage && (
       <div class="menu-header">
-        <img 
+        <Photo 
           src={menu.headerImage} 
           alt={menu.title} 
           class="menu-hero-image" 
+          sizes="(max-width: 800px) 100vw, 800px"
           loading="eager"
           fetchpriority="high"
           decoding="async"

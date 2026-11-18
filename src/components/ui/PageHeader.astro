@@ -1,8 +1,10 @@
 ---
+import Photo from './Photo.astro';
+
 interface Props {
   title: string;
   subtitle?: string;
-  heroImage?: string;
+  heroImage?: string;  // Photo path, '/assets/img/...'
   heroAlt?: string;
   centered?: boolean;
 }
@@ -19,7 +21,7 @@ const {
 <header class={`page-header ${heroImage ? 'has-hero' : ''} ${centered ? 'centered' : ''}`}>
   {heroImage && (
     <div class="hero-image">
-      <img src={heroImage} alt={heroAlt} loading="eager" />
+      <Photo src={heroImage} alt={heroAlt} sizes="100vw" loading="eager" />
       <div class="hero-overlay"></div>
     </div>
   )}

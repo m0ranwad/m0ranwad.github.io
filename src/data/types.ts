@@ -2,7 +2,8 @@
  * Shared TypeScript interfaces for menu items, gallery, and site content
  * 
  * NOTE: Images use simple string paths like '/assets/img/photo.jpg'
- * Just drop photos in public/assets/img/ and reference them by path.
+ * Just drop photos in src/assets/img/ and reference them by path; the build
+ * resizes them (src/lib/photos.ts).
  * See ADDING_PHOTOS.md for the full guide.
  */
 

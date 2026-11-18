@@ -1,12 +1,13 @@
 ---
 import Navbar from '../components/navigation/Navbar.astro';
 import Footer from '../components/navigation/Footer.astro';
+import { socialUrl } from '../lib/photos';
 
 interface Props {
   title: string;
   subtitle?: string;
   description?: string;
-  image?: string;
+  image?: string;  // Photo path for link previews, '/assets/img/...'
   noindex?: boolean;
 }
 
@@ -21,6 +22,7 @@ const {
 const siteUrl = (Astro.site?.origin ?? "https://www.thymelesstreatsbakery.com");
 const pageUrl = `${siteUrl}${Astro.url.pathname}`;
 const fullTitle = `${title} | Thymeless Treats Bakery`;
+const socialImage = new URL(await socialUrl(image), siteUrl).href;
 ---
 
 <!DOCTYPE html>
@@ -35,7 +37,7 @@ const fullTitle = `${title} | Thymeless Treats Bakery`;
     <meta property="og:type" content="website" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={`${siteUrl}${image}`} />
+    <meta property="og:image" content={socialImage} />
     <meta property="og:url" content={pageUrl} />
     <meta property="og:site_name" content="Thymeless Treats Bakery" />
     
@@ -43,7 +45,7 @@ const fullTitle = `${title} | Thymeless Treats Bakery`;
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={`${siteUrl}${image}`} />
+    <meta name="twitter:image" content={socialImage} />
     
     <!-- Theme color for mobile browsers -->
     <meta name="theme-color" content="#8FA378" />
@@ -184,6 +186,12 @@ a:hover {
 img {
   max-width: 100%;
   height: auto;
+}
+
+/* Photos are <picture> elements (ui/Photo.astro); lay out the <img> as if
+   it were a direct child, as before */
+picture {
+  display: contents;
 }
 
 /* Skip Link */

@@ -9,11 +9,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check && astro build && node scripts/check-links.mjs",
+    "check": "astro check && astro build && node scripts/check-links.mjs && node scripts/check-image-sizes.mjs",
     "shots": "astro build && node scripts/shots.mjs",
     "shots:compare": "node scripts/shots.mjs --compare",
-    "astro": "astro",
-    "optimize-images": "node scripts/optimize-images.mjs"
+    "astro": "astro"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.5",
