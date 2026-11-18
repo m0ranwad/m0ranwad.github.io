@@ -10,6 +10,8 @@ A person can follow these steps by hand too; [ADDING_PHOTOS.md](../../../ADDING_
 ## 1. Check the photo
 
 - **Only the owner's own photos** of her baking: no stock photos and nothing found online.
+- **It shows what it's for.** Look at it. If it doesn't show the item it's meant for, ask the owner rather than publishing it.
+- **It's new.** If it's the same picture as a photo already in `src/assets/img/` (compare with `git hash-object <file>` against the existing files, or by eye), don't add a second copy: point at the existing path, and tell the owner if she meant to send a different one.
 - **Privacy.** This repository is public, and the original file is committed as-is. No customer names, faces or addresses unless the owner has approved that photo. (She has approved the existing ones with names piped on cakes and cookies.) `npm run check` fails if the file carries a GPS location or an author name in its metadata; the fix is in its message.
 - **Size.** Use the largest copy available, ideally 2000 px or more on the long side, under about 10 MB. The build makes the small versions; don't resize or compress it yourself.
 

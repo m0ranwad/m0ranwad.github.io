@@ -20,9 +20,11 @@ A person can follow these steps by hand too. Everything happens in **one file**,
 
 - **Dates.** Turn relative dates ("Friday", "the 12th") into `YYYY-MM-DD` from today's date, and say which date you used in your report.
 - **When orders open.** If they open today, the status is `'open'`. If they open later, announce now with `'coming-soon'` and an `opens` date (step 3), and prepare the switch to `'open'` for that day (step 6).
-- **Last day to order** (`orderBy`, inclusive). If you weren't given one, leave it out: there is simply no countdown. Mention that in your report.
-- **Items, descriptions and prices** are the owner's words. Copy them exactly. Never invent or "fix" a price. If an item has no price, or you'd have to guess, ask before going further.
-- **Photos** for new items: add them with the `add-photos` skill (`.claude/skills/add-photos/`), then come back.
+- **Last day to order** (`orderBy`, inclusive). Set it now even when the menu is coming soon; it shows once orders open. If you weren't given one, leave it out: there is simply no countdown. Mention that in your report.
+- **Items and prices** are the owner's. Copy prices exactly; never invent or "fix" one. Her list is the whole menu: remove last year's items she didn't mention.
+- **Descriptions.** For an item that's new or that she describes differently, use her words, tidied only for capitals and full stops. Owners often summarise an unchanged item in a few words: then keep last year's description, especially details customers rely on ("gift card not included", what's in a tray), and list it under "questions for the owner" in your report. If her wording conflicts with last year's, or a detail is ambiguous, ask.
+- **Notes with no field**, such as "(new!)", stay out of item names. Mention them in your report.
+- **Photos** for new items: add them with the `add-photos` skill (`.claude/skills/add-photos/`), then come back. A new item with no photo yet blocks publishing: ask for one.
 
 ## 2. Check no other season is open
 
@@ -46,7 +48,8 @@ opens: '2026-12-01',     // only with 'coming-soon'; optional
 
 - Replace the `items` list with this year's items. Each item is `{ name, image, description, price }`; `image` is a path such as `'/assets/img/christmas/thumbprint.jpg'`. Keep last year's photo for an item that hasn't changed.
 - Remove every `soldOut: true` left over from last year.
-- Leave `subtitle`, `intro`, `description` and `headerImage` alone unless you were given new wording or a new header photo.
+- Leave `subtitle`, `intro` and `description` alone unless you were given new wording.
+- `headerImage` is the big photo on the home page, the menus page and the menu. If it shows an item that's no longer on the menu, ask the owner which photo to use instead, and suggest one of this year's items.
 
 Don't edit any page or component. Every page reads the status from this file: the home page features the season, the menus page labels it, the countdown appears, and "Add to Inquiry" turns on. After `orderBy` the site shows "orders closed" by itself.
 
@@ -68,7 +71,9 @@ The owner asking for the change is the approval: seasonal data changes merge wit
 
 ## 6. If orders open later
 
-The site can't switch itself from coming soon to open: the status is set by hand. Open a second pull request that changes only `status: 'coming-soon'` to `status: 'open'`, leave it unmerged, and tell the maintainer the date to merge it. Merging it on that day is the whole opening.
+The site can't switch itself from coming soon to open: the status is set by hand. Open a second pull request that changes only `status: 'coming-soon'` to `status: 'open'`, title it with the date (for example "Open Christmas orders on 2026-11-20"), and leave it unmerged. Merging it on that day is the whole opening.
+
+This is the one step that needs a person on the day, so it is not a to-do list in the "Carry work through" sense: state the date and the pull request link plainly at the top of your report. If the owner would rather take orders from today, use `status: 'open'` now and skip this step.
 
 ## 7. Report
 
@@ -79,4 +84,4 @@ git diff main --stat
 git diff main -- src/data/menus/
 ```
 
-Say which dates you used, what you left out (for example no `orderBy`), and the pull request links.
+Say which dates you used, what you left out (for example no `orderBy`), and the pull request links. List your questions for the owner (descriptions kept from last year, the header photo, notes with no field) so she can answer them in one reply.
