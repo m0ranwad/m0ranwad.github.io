@@ -22,16 +22,21 @@ function walk(dir) {
   );
 }
 
-const images = walk(dist).filter((f) => /\.(avif|webp|jpe?g|png|gif)$/i.test(f));
+// Every image format a browser can show, including icons and vector images
+const IMAGE = /\.(avif|webp|jpe?g|jfif|pjpeg|pjp|png|apng|gif|svgz?|ico|cur|bmp|tiff?|heic|heif|jxl)$/i;
+
+const images = walk(dist).filter((f) => IMAGE.test(f));
 const tooBig = images
-  .map((f) => ({ file: relative(dist, f).split(sep).join('/'), kb: Math.round(statSync(f).size / 1024) }))
-  .filter(({ kb }) => kb > LIMIT_KB);
+  .map((f) => ({ file: relative(dist, f).split(sep).join('/'), bytes: statSync(f).size }))
+  .filter(({ bytes }) => bytes > LIMIT_KB * 1024);
 
 if (tooBig.length) {
   console.error(`\nImages over ${LIMIT_KB} KB (${tooBig.length}):\n`);
-  for (const { file, kb } of tooBig) console.error(`  /${file}: ${kb} KB`);
+  for (const { file, bytes } of tooBig) {
+    console.error(`  /${file}: ${(bytes / 1024).toFixed(1)} KB (${bytes} bytes; the limit is ${LIMIT_KB * 1024})`);
+  }
   console.error(`\nA photo in src/assets/img/ that no page shows is published at full size: remove it or move it`);
-  console.error(`to src/assets/brand/. See ADDING_PHOTOS.md.\n`);
+  console.error(`to src/assets/brand/. An image in public/ is published as-is: shrink it. See ADDING_PHOTOS.md.\n`);
   process.exit(1);
 }
 console.log(`Image size check passed: ${images.length} images, none over ${LIMIT_KB} KB.`);
