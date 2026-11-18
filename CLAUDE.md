@@ -47,12 +47,8 @@ The build itself fails when menu or gallery data names a photo that doesn't exis
 
 ## Known leftovers
 
-Removed by epic #1 Phase 3. Until then, don't let them mislead you:
-
-- **`assets/` at the root is a duplicate of `public/assets/`.** The build never reads it, so every search returns each asset twice. On some clones `public/assets` is a symlink to it. Add and edit files under `public/assets/`. If the root copy also shows up in `git status`, commit it too so the two stay identical.
-- **`assets/css/` and `assets/js/` are the old Jekyll theme.** Nothing in `src/` uses them, so editing them changes nothing you mean to change. Styles live in each component's `<style>` block and in `BaseLayout.astro`.
-- **Unused code.** `HomeCTA.astro` is imported nowhere. `Menu.orderFormUrl` is deprecated, and `formConfig.settings` is never read because `order.astro` hard-codes the same values.
-- **Theme files.** `LICENSE`, `.gitattributes` and much of `.gitignore` still come from the Jekyll theme.
+- **`LICENSE`** is still the old Jekyll theme's MIT licence, naming the theme's author. Replacing it is the owner's decision; don't edit it.
+- **Unused photos kept on purpose.** `logo.png`, `logo.jpg`, `thymeless.jpg` and `404.jpg` are kept for the redesign (#2). Don't delete them as unused.
 - **Image sizes.** Photos are served at full size with no resizing (Phase 6). Keep new ones under about 500 KB; see [ADDING_PHOTOS.md](ADDING_PHOTOS.md).
 
 ## Seasonal updates
