@@ -25,12 +25,14 @@ export const galleryImages: GalleryImage[] = [
   { src: '/assets/img/cakePage.JPG', category: 'cakes', alt: 'Assorted buttercream cupcakes' },
   { src: '/assets/img/headers/home/gingerbread.jpg', category: 'holiday', alt: 'Gingerbread cookies' },
   { src: '/assets/img/box.jpg', category: 'cookies', alt: 'Packaged cookie gift box' },
+  { src: '/assets/img/valentines/rose-heart-cookies.jpg', category: 'holiday', alt: "Valentine's heart cookies with buttercream roses" },
   { src: '/assets/img/bridalShower.jpg', category: 'events', alt: 'Bridal shower cookies' },
   { src: '/assets/img/easter/IMG_6394.jpg', category: 'holiday', alt: 'Easter basket treats' },
   { src: '/assets/img/easter/IMG_6440.jpg', category: 'holiday', alt: 'Customized Easter egg cookies' },
   { src: '/assets/img/chocolateChip.JPG', category: 'cookies', alt: 'Chewy chocolate chip cookies' },
   { src: '/assets/img/headers/home/grinch.jpg', category: 'holiday', alt: 'Grinch-themed cookies' },
   { src: '/assets/img/homepageCake.jpg', category: 'cakes', alt: 'Custom decorated cake' },
+  { src: '/assets/img/christmas-treat-boxes.jpg', category: 'holiday', alt: 'Christmas treat boxes tied with red and white twine' },
   { src: '/assets/img/babyShower.jpg', category: 'events', alt: 'Baby shower themed cookies' },
   { src: '/assets/img/noBake.jpg', category: 'cookies', alt: 'No-bake chocolate cookies' },
   { src: '/assets/img/headers/home/Valentines.jpg', category: 'holiday', alt: "Valentine's Day cookies" },
@@ -40,6 +42,7 @@ export const galleryImages: GalleryImage[] = [
   { src: '/assets/img/buckeyes.jpg', category: 'holiday', alt: 'Chocolate peanut butter buckeyes' },
   { src: '/assets/img/weddingCookies2.jpg', category: 'events', alt: 'Wedding favor cookies' },
   { src: '/assets/img/headers/home/cupcakes1.jpg', category: 'cakes', alt: 'Buttercream decorated cupcakes' },
+  { src: '/assets/img/valentines/anti-valentine-hearts.jpg', category: 'holiday', alt: 'Anti-Valentine black cocoa heart cookies' },
   { src: '/assets/img/glazed-sugar.jpg', category: 'holiday', alt: 'Glazed sugar cookies' },
   { src: '/assets/img/headers/home/thumbprint.jpg', category: 'cookies', alt: 'Thumbprint cookies closeup' },
   { src: '/assets/img/headers/home/halloweenCupcakes.jpg', category: 'holiday', alt: 'Halloween themed cupcakes' },
@@ -49,6 +52,7 @@ export const galleryImages: GalleryImage[] = [
   { src: '/assets/img/easter/IMG_6471.jpg', category: 'holiday', alt: 'Chocolate egg nest cookies' },
   { src: '/assets/img/Valentines.jpg', category: 'holiday', alt: "Valentine's Day treats" },
   { src: '/assets/img/oatmeal-shortbread.jpg', category: 'cookies', alt: 'Oatmeal shortbread cookies' },
+  { src: '/assets/img/crepe.jpg', category: 'cakes', alt: 'Crepe with chocolate drizzle, fruit and ice cream' },
   { src: '/assets/img/snowball.jpg', category: 'holiday', alt: 'Snowball Christmas cookies' },
   { src: '/assets/img/teacher-box.jpg', category: 'events', alt: 'Gift boxes for teachers' },
   { src: '/assets/img/cashews.jpg', category: 'cookies', alt: 'Chocolate covered cashews' },
@@ -56,6 +60,7 @@ export const galleryImages: GalleryImage[] = [
   { src: '/assets/img/bread.jpg', category: 'holiday', alt: 'Fresh baked cranberry orange bread' },
   { src: '/assets/img/headers/home/cranMuffins.jpg', category: 'holiday', alt: 'Cranberry orange muffins' },
   { src: '/assets/img/mothersday/1.jpg', category: 'holiday', alt: "Mother's Day floral cupcakes" },
+  { src: '/assets/img/mothersday/flower-cupcakes-box.jpg', category: 'holiday', alt: "Mother's Day flower cupcakes in pink, blue and yellow" },
 ];
 
 /**
