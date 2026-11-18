@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev *)",
+      "Bash(npm run build *)",
+      "Bash(npm run check *)",
+      "Bash(npm run shots *)",
+      "Bash(npm run shots:compare *)",
+      "PowerShell(npm run dev *)",
+      "PowerShell(npm run build *)",
+      "PowerShell(npm run check *)",
+      "PowerShell(npm run shots *)",
+      "PowerShell(npm run shots:compare *)"
+    ]
+  }
+}

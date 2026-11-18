@@ -2,10 +2,16 @@
   "name": "thymeless-treats-bakery",
   "type": "module",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "check": "astro check && astro build && node scripts/check-links.mjs",
+    "shots": "astro build && node scripts/shots.mjs",
+    "shots:compare": "node scripts/shots.mjs --compare",
     "astro": "astro",
     "optimize-images": "node scripts/optimize-images.mjs"
   },
@@ -13,5 +19,11 @@
     "@astrojs/sitemap": "^3.7.0",
     "astro": "^5.17.1",
     "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "entities": "^6.0.1",
+    "playwright": "^1.64.1",
+    "typescript": "^6.0.3"
   }
 }
