@@ -34,6 +34,7 @@ export const galleryImages: GalleryImage[] = [
   { src: '/assets/img/homepageCake.jpg', category: 'cakes', alt: 'Custom decorated cake' },
   { src: '/assets/img/christmas-treat-boxes.jpg', category: 'holiday', alt: 'Christmas treat boxes tied with red and white twine' },
   { src: '/assets/img/babyShower.jpg', category: 'events', alt: 'Baby shower themed cookies' },
+  { src: '/assets/img/mothersday/flower-cupcakes-box.jpg', category: 'holiday', alt: "Mother's Day flower cupcakes in pink, blue and yellow" },
   { src: '/assets/img/noBake.jpg', category: 'cookies', alt: 'No-bake chocolate cookies' },
   { src: '/assets/img/headers/home/Valentines.jpg', category: 'holiday', alt: "Valentine's Day cookies" },
   { src: '/assets/img/weddingCake.jpg', category: 'cakes', alt: 'Elegant wedding cake' },
@@ -60,7 +61,6 @@ export const galleryImages: GalleryImage[] = [
   { src: '/assets/img/bread.jpg', category: 'holiday', alt: 'Fresh baked cranberry orange bread' },
   { src: '/assets/img/headers/home/cranMuffins.jpg', category: 'holiday', alt: 'Cranberry orange muffins' },
   { src: '/assets/img/mothersday/1.jpg', category: 'holiday', alt: "Mother's Day floral cupcakes" },
-  { src: '/assets/img/mothersday/flower-cupcakes-box.jpg', category: 'holiday', alt: "Mother's Day flower cupcakes in pink, blue and yellow" },
 ];
 
 /**
