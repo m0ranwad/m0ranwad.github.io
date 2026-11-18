@@ -1,141 +1,49 @@
-# 📸 Adding Photos to Thymeless Treats Website
+# Adding photos
 
-> **Quick Summary**: Drop photos in the right folder, edit one text file, done.
+> **In short:** put the photo in `public/assets/img/`, then add one entry to a menu file.
 
----
+## 1. Prepare the photo
 
-## The Simple Process (3 Steps)
+The site does not shrink photos yet, so a large file makes the page slow to load on a phone. Before adding a photo:
 
-### Step 1: Add Your Photo
+- Save it as a **JPG** (use PNG only if it needs a transparent background).
+- Resize it to about **1600 to 2000 pixels** on the long side.
+- Aim for **under 500 KB**. Most phone and photo apps can do this in their export or share settings.
+- Give it a clear name in lowercase with dashes: `red-velvet-heart.jpg`, not `IMG_1234.jpg`.
 
-1. Open the `astro-prototype/public/assets/img/` folder
-2. Put your photo in the appropriate subfolder:
-   - `valentines/` — Valentine's Day products
-   - `christmas/` — Christmas products  
-   - `easter/` — Easter products
-   - `thanksgiving/` — Thanksgiving products
-   - `halloween/` — Halloween products
-   - `mothersday/` — Mother's Day products
-   - `cookies/` — Year-round cookie products
-   - `cakes/` — Cake products
-   - `gifts/` — Gift boxes and party favors
-   - `gallery/` — General gallery photos (coming soon)
+## 2. Put it in the photo folder
 
-**Photo Tips:**
-- Use JPG format for photos (not PNG, unless it has transparency)
-- Name files descriptively: `lemon-raspberry-cookie.jpg` not `IMG_1234.jpg`
-- Photos should be at least 800px wide for best quality
-- Don't worry about file size — the site compresses automatically!
+All photos the site uses live in `public/assets/img/`. A few seasons have their own subfolder (`easter/`, `valentines/`, `mothersday/`). If yours does not, you can create one, such as `christmas/`, or put the photo straight in `img/`.
 
-### Step 2: Add to the Menu
+## 3. Add it to a menu
 
-1. Open the menu data file: `astro-prototype/src/data/menus/[season].ts`
-2. Add a new item to the `items` array:
+Open the menu file in `src/data/menus/` (for example `christmas.ts`) and add an entry to the `items` list. The image path starts at `/assets/img/` and leaves out `public`:
 
-```typescript
+```ts
 {
-  name: 'Your Product Name',
-  image: '/assets/img/valentines/your-photo-name.jpg',
-  description: 'A delicious description of your product.',
-  price: '$X.XX per dozen',
+  name: 'Red Velvet Heart',
+  image: '/assets/img/valentines/red-velvet-heart.jpg',
+  description: 'Red velvet cookie with cream cheese frosting.',
+  price: '$4.00 per cookie / $42 per dozen',
 },
 ```
 
-### Step 3: Test & Deploy
+For the gallery, add an entry to `src/data/gallery.ts` in the same way.
 
-```powershell
-cd astro-prototype
+## 4. Check it, then publish
+
+```sh
 npm run dev
 ```
 
-Open http://localhost:4321 to preview. When happy, commit and push!
+Open http://localhost:4321 and find the page. When it looks right, commit the change and open a pull request into `main`. Merging it publishes the site.
 
----
+## If the photo does not show
 
-## Example: Adding a New Valentine's Cookie
+1. Check the path letter for letter. Capitals matter on the live site: `Cake.JPG` and `cake.jpg` are different files.
+2. Check the file is under `public/assets/img/`, not somewhere else.
+3. Stop the dev server and run `npm run dev` again.
 
-**Scenario**: You baked a new "Red Velvet Heart" cookie and want to add it to the Valentine's menu.
+## Removing a photo
 
-### 1. Add the photo
-Save your photo as: `astro-prototype/public/assets/img/valentines/red-velvet-heart.jpg`
-
-### 2. Edit the menu file
-Open `astro-prototype/src/data/menus/valentines.ts` and add to the `items` array:
-
-```typescript
-items: [
-  // ... existing items ...
-  {
-    name: 'Red Velvet Heart',
-    image: '/assets/img/valentines/red-velvet-heart.jpg',
-    description: 'Rich red velvet cookie with cream cheese frosting, shaped like a heart.',
-    price: '$4.00 per cookie / $42 per dozen',
-  },
-],
-```
-
-### 3. Test
-```powershell
-npm run dev
-```
-
----
-
-## FAQ
-
-### Do I need to run any special commands for images?
-**No!** Just add the photo to the folder. Astro automatically optimizes images when the site builds.
-
-### What size should my photos be?
-- Minimum: 800px wide
-- Recommended: 1200-2000px wide  
-- Maximum: No limit (they'll be resized automatically)
-
-### What format should I use?
-- **JPG** for photos (most common)
-- **PNG** only if you need transparency
-- **WebP** is generated automatically — you don't need to create it
-
-### Can I delete old photos?
-Yes! Just remove the file from `public/assets/img/` and remove the reference from the menu data file.
-
-### The image isn't showing up?
-1. Check the file path matches exactly (case-sensitive!)
-2. Make sure the file is in `public/assets/img/` not somewhere else
-3. Restart the dev server: `npm run dev`
-
----
-
-## Folder Structure Reference
-
-```
-astro-prototype/
-├── public/
-│   └── assets/
-│       └── img/           ← PUT PHOTOS HERE
-│           ├── valentines/
-│           ├── christmas/
-│           ├── easter/
-│           ├── thanksgiving/
-│           ├── halloween/
-│           ├── mothersday/
-│           ├── cookies/
-│           ├── cakes/
-│           └── gifts/
-└── src/
-    └── data/
-        └── menus/         ← EDIT MENU FILES HERE
-            ├── valentines.ts
-            ├── christmas.ts
-            └── ... etc
-```
-
----
-
-## Need Help?
-
-If you get stuck, the key files are:
-- **Photos go in**: `public/assets/img/[category]/`
-- **Menu data in**: `src/data/menus/[season].ts`
-
-The website automatically handles compression, WebP generation, and responsive sizes. You just add the original photo!
+Delete its entry from the menu or gallery file first, then delete the file from `public/assets/img/`.

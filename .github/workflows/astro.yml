@@ -1,8 +1,5 @@
-# Astro GitHub Pages Deployment
-# This workflow builds and deploys the Astro site to GitHub Pages
-# 
-# IMPORTANT: This only runs when Astro files are in the ROOT directory.
-# See Task 2B.9 in MIGRATION_PLAN.md for the migration steps.
+# Builds the Astro site and deploys it to GitHub Pages.
+# Every push to main publishes to production.
 
 name: Deploy Astro to GitHub Pages
 
