@@ -35,3 +35,24 @@ export function hasPassed(iso: string, now: Date = new Date()): boolean {
 export function daysUntil(target: Date, now: Date = new Date()): number {
   return Math.ceil((target.getTime() - now.getTime()) / DAY_MS);
 }
+
+/**
+ * Browser only. Runs `update` now, at each boundary in `boundaries` (to the
+ * millisecond), whenever the tab becomes visible again (timers stall while
+ * a laptop sleeps), and hourly as a fallback.
+ */
+export function onDateBoundaries(boundaries: Date[], update: () => void): void {
+  const HOUR = 60 * 60 * 1000;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const run = () => {
+    update();
+    clearTimeout(timer);
+    const now = Date.now();
+    const next = boundaries.map((d) => d.getTime() - now).filter((ms) => ms > 0);
+    timer = setTimeout(run, Math.min(HOUR, ...next.map((ms) => ms + 1)));
+  };
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') run();
+  });
+  run();
+}

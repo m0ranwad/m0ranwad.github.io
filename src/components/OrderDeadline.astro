@@ -35,9 +35,10 @@ const target = opens ? startOfDay(deadline) : endOfDay(deadline);
 const initialDays = daysUntil(target);
 const verb = opens ? 'open' : 'close';
 
-// Determine urgency level for initial render
+// Determine urgency level for initial render. Rendered even when the build
+// thinks the day has arrived: the build runs in UTC, so the viewer's
+// calendar may be a day behind. The browser shows or hides it.
 const getUrgencyClass = (days: number) => {
-  if (days <= 0) return 'expired';
   if (opens) return 'normal';
   if (days <= 2) return 'urgent';
   if (days <= 5) return 'soon';
@@ -47,10 +48,10 @@ const getUrgencyClass = (days: number) => {
 const urgencyClass = getUrgencyClass(initialDays);
 ---
 
-{initialDays > 0 && (
-  <a 
+<a 
     href={href}
     class={`order-deadline ${urgencyClass}`}
+    style={initialDays > 0 ? undefined : 'display: none'}
     data-deadline={deadline}
     data-opens={opens ? '' : undefined}
     id="order-deadline"
@@ -61,10 +62,9 @@ const urgencyClass = getUrgencyClass(initialDays);
     </span>
     <span class="deadline-arrow">→</span>
   </a>
-)}
 
 <script>
-  import { daysUntil, endOfDay, startOfDay } from '../scripts/dates';
+  import { daysUntil, endOfDay, onDateBoundaries, startOfDay } from '../scripts/dates';
 
   // Recount in the browser, in the viewer's own time zone, so the page is
   // right without a redeploy
@@ -79,10 +79,8 @@ const urgencyClass = getUrgencyClass(initialDays);
       const daysLeft = daysUntil(target);
       if (!deadlineEl) return;
 
-      if (daysLeft <= 0) {
-        deadlineEl.style.display = 'none';
-        return;
-      }
+      deadlineEl.style.display = daysLeft > 0 ? '' : 'none';
+      if (daysLeft <= 0) return;
 
       const daysEl = deadlineEl.querySelector('.days-count');
       const unitEl = deadlineEl.querySelector('.days-unit');
@@ -99,9 +97,11 @@ const urgencyClass = getUrgencyClass(initialDays);
       }
     }
 
-    // Update immediately and then every hour
-    updateCountdown();
-    setInterval(updateCountdown, 60 * 60 * 1000);
+    // Update now, as each day ticks over (the count changes at midnight
+    // before the target too), and when the tab is shown again
+    const DAY = 24 * 60 * 60 * 1000;
+    const ticks = Array.from({ length: 60 }, (_, i) => new Date(target.getTime() - i * DAY));
+    onDateBoundaries(ticks, updateCountdown);
   }
 </script>
 

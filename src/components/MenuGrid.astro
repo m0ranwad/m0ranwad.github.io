@@ -99,6 +99,7 @@ const itemCount = items.length;
 
 <script>
   import { addItem, hasItem } from '../scripts/inquiry-store';
+  import { hasPassed } from '../scripts/dates';
 
   document.addEventListener('DOMContentLoaded', () => {
     // =============================================
@@ -216,6 +217,13 @@ const itemCount = items.length;
       }
       
       btn.addEventListener('click', () => {
+        // Orders closed while the page was open: DateSwitch hides the button
+        // on its own, but never add an item after the cutoff
+        const closesOn = btn.closest<HTMLElement>('[data-through]')?.dataset.through;
+        if (closesOn && hasPassed(closesOn)) {
+          btn.closest<HTMLElement>('[data-through]')!.hidden = true;
+          return;
+        }
         const id = btn.dataset.itemId!;
         const name = btn.dataset.itemName!;
         const price = btn.dataset.itemPrice!;

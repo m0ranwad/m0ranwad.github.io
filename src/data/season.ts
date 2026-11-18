@@ -5,8 +5,10 @@
  * the menus page ask `leadMenu()` which season to feature, so no page can
  * disagree with another. The status is set by hand because selling out does
  * not follow a calendar; the only date that changes the output on its own is
- * `orderBy`, which turns an open menu into a closed one (also in the browser,
- * see `DateSwitch.astro`).
+ * `orderBy`, which turns an open menu into a closed one. That is decided in
+ * the viewer's browser, never at build time (the build runs in UTC, hours
+ * ahead of the bakery's customers): pages render both wordings and
+ * `DateSwitch.astro` picks one.
  */
 
 import { hasPassed, isIsoDate } from '../scripts/dates';
@@ -52,19 +54,18 @@ export function seasonName(menu: Menu): string {
   return menu.title.replace(/ Menu$/, '');
 }
 
-export function menuState(menu: Menu, now: Date = new Date()): MenuState {
-  if (menu.kind === 'year-round') return 'year-round';
-  if (menu.status === 'open' && menu.orderBy && hasPassed(menu.orderBy, now)) return 'closed';
-  return menu.status;
+/** The state from the status alone. 'closed' is applied in the browser, via closesOn(). */
+export function menuState(menu: Menu): MenuState {
+  return menu.kind === 'year-round' ? 'year-round' : menu.status;
 }
 
 /**
- * The `orderBy` date of a menu that is open now. Pages render both the open
- * and the closed wording, wrapped in `DateSwitch`, so the page switches
- * itself after that day without a redeploy.
+ * The `orderBy` date of an open menu, even one already past at build time.
+ * Pages render the open wording and the closed wording (menuView(menu,
+ * 'closed')) inside `DateSwitch`, which shows the right one in the browser.
  */
-export function closesOn(menu: Menu, now: Date = new Date()): string | undefined {
-  return menuState(menu, now) === 'open' && menu.kind === 'seasonal' ? menu.orderBy : undefined;
+export function closesOn(menu: Menu): string | undefined {
+  return menu.kind === 'seasonal' && menu.status === 'open' ? menu.orderBy : undefined;
 }
 
 export function menuView(menu: Menu, state: MenuState = menuState(menu)): MenuView {
@@ -160,9 +161,9 @@ export function leadMenu(menus: Menu[] = allMenus): SeasonalMenu | undefined {
   return withStatus('open')[0] ?? comingSoon[0] ?? withStatus('sold-out')[0];
 }
 
-/** The menu customers can order from now, if any. */
+/** The menu that is taking orders, if any. Its `orderBy` still applies: see closesOn(). */
 export function openMenu(menus: Menu[] = allMenus): SeasonalMenu | undefined {
-  return menus.filter(isSeasonal).find((m) => menuState(m) === 'open');
+  return menus.filter(isSeasonal).find((m) => m.status === 'open');
 }
 
 const STATUSES: SeasonStatus[] = ['coming-soon', 'open', 'sold-out', 'past'];
@@ -190,7 +191,7 @@ export function checkMenus(menus: Menu[], now: Date = new Date()): { errors: str
     }
     if (menu.status === 'open' && isIsoDate(menu.orderBy) && hasPassed(menu.orderBy, now)) {
       warnings.push(
-        `${file(menu)}: orderBy ${menu.orderBy} has passed, so the site shows orders as closed. Set status to 'sold-out' or 'past'.`,
+        `${file(menu)}: orderBy ${menu.orderBy} has passed, so browsers show orders as closed. Set status to 'sold-out' or 'past'.`,
       );
     }
     if (menu.status === 'coming-soon' && isIsoDate(menu.opens) && hasPassed(menu.opens, now)) {
