@@ -24,8 +24,8 @@ const {
 
 <section class={`cta-section cta-${variant}`}>
   <div class="cta-content">
-    <h2 class="cta-title">{title}</h2>
-    {subtitle && <p class="cta-subtitle">{subtitle}</p>}
+    <h2 class="cta-title"><slot name="title">{title}</slot></h2>
+    {subtitle && <p class="cta-subtitle"><slot name="subtitle">{subtitle}</slot></p>}
     <slot />
     {(primaryText || secondaryText) && (
       <div class="cta-buttons">

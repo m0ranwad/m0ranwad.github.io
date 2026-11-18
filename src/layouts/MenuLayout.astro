@@ -1,35 +1,33 @@
 ---
 /**
  * Shared layout for all menu pages
- * Provides consistent structure: hero image, intro text, menu grid, CTA
+ * Provides consistent structure: hero image, intro text, menu grid, CTA.
+ * What it says comes from menuView(), driven by the menu's status. While a
+ * menu is open, the closed wording is rendered too and DateSwitch shows it
+ * after `orderBy`.
  */
 import BaseLayout from './BaseLayout.astro';
 import MenuGrid from '../components/MenuGrid.astro';
 import CTASection from '../components/ui/CTASection.astro';
+import DateSwitch from '../components/ui/DateSwitch.astro';
 import StickyMobileCTA from '../components/StickyMobileCTA.astro';
 import OrderDeadline from '../components/OrderDeadline.astro';
+import { closesOn, menuView } from '../data/season';
 import type { Menu } from '../data/types';
 
 interface Props {
   menu: Menu;
-  description: string;
-  introText?: string;
-  ctaTitle?: string;
-  ctaText?: string;
 }
 
-const { 
-  menu, 
-  description,
-  introText = `Handcrafted with love. All treats made fresh to order.`,
-  ctaTitle = "Ready to Order?",
-  ctaText = "Orders must be placed at least 5 days in advance. Contact us for large orders or custom designs."
-} = Astro.props;
+const { menu } = Astro.props;
+const view = menuView(menu);
+const closeDate = closesOn(menu);
+const closed = menuView(menu, 'closed');
 ---
 
-<BaseLayout 
+<BaseLayout
   title={menu.title}
-  description={description}
+  description={menu.description}
 >
   <section class="menu-page">
     {menu.headerImage && (
@@ -47,32 +45,44 @@ const {
     
     <div class="menu-intro">
       <h1>{menu.title}</h1>
-      {menu.subtitle && <p class="subtitle">{menu.subtitle}</p>}
-      {menu.orderDeadline && (
-        <OrderDeadline 
-          deadline={menu.orderDeadline} 
-          label={`${menu.title.split(' ')[0]} orders`}
+      <p class="subtitle">
+        <DateSwitch date={closeDate}>{view.subtitle}<Fragment slot="after">{closed.subtitle}</Fragment></DateSwitch>
+      </p>
+      {view.countdown && (
+        <OrderDeadline
+          deadline={view.countdown.date}
+          label={view.countdown.label}
+          opens={view.countdown.opens}
         />
       )}
-      <p class="intro-text">{introText}</p>
+      <p class="intro-text">
+        <DateSwitch date={closeDate}>{view.intro}<Fragment slot="after">{closed.intro}</Fragment></DateSwitch>
+      </p>
     </div>
-    
-    <MenuGrid 
-      items={menu.items} 
+
+    <MenuGrid
+      items={menu.items}
       menuSlug={menu.slug}
       menuTitle={menu.title}
-      orderLink="/order/" 
+      orderLink="/order/"
+      showPrices={view.showPrices}
+      canOrder={view.canOrder}
+      allSoldOut={view.allSoldOut}
+      closesOn={closeDate}
     />
-    
-    <CTASection 
-      title={ctaTitle}
-      subtitle={ctaText}
+
+    <CTASection
+      title={view.cta.title}
+      subtitle={view.cta.text}
       primaryText="Place Your Order"
       primaryHref="/order/"
       secondaryText="Ask a Question"
       secondaryHref="/contact/"
       variant="sage"
-    />
+    >
+      <DateSwitch slot="title" date={closeDate}>{view.cta.title}<Fragment slot="after">{closed.cta.title}</Fragment></DateSwitch>
+      <DateSwitch slot="subtitle" date={closeDate}>{view.cta.text}<Fragment slot="after">{closed.cta.text}</Fragment></DateSwitch>
+    </CTASection>
   </section>
   
   <!-- Mobile-only sticky order button -->

@@ -1,11 +1,16 @@
-import type { Menu } from '../types';
+import type { SeasonalMenu } from '../types';
 
-export const valentinesMenu: Menu = {
+export const valentinesMenu: SeasonalMenu = {
   slug: 'valentines',
+  kind: 'seasonal',
+  // What the site says about this menu. One of 'coming-soon', 'open',
+  // 'sold-out' or 'past'; see SeasonStatus in ../types.ts.
+  status: 'past',
   title: "Valentine's Menu",
   subtitle: 'Sweet treats to celebrate love',
+  description: "Valentine's Day cookies and treats from Thymeless Treats Bakery. Order beautiful buttercream sugar cookies for your sweetheart.",
+  intro: 'Handcrafted with love for your special Valentine. All cookies made fresh to order.',
   headerImage: '/assets/img/valentines/tastersBox.jpg',
-  season: 'winter',
   items: [
     {
       name: 'Lemon Raspberry',

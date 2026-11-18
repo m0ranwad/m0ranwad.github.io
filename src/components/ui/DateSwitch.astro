@@ -1,0 +1,55 @@
+---
+/**
+ * Shows the default slot through the end of `date` and the "after" slot once
+ * that day has passed in the viewer's time zone. The build picks a first
+ * guess; the browser decides on load, at midnight after `date`, when the tab
+ * becomes visible again, and hourly. Without a date it renders only the
+ * default slot. isClosed() lets a click handler check the same rule.
+ *
+ *   <DateSwitch date={menu.orderBy}>Order now<Fragment slot="after">Orders closed</Fragment></DateSwitch>
+ *
+ * `block` wraps the content in a div instead of a span, for block content.
+ * The wrapper has `display: contents`, so it does not change the layout.
+ */
+import { hasPassed } from '../../scripts/dates';
+
+interface Props {
+  date?: string;
+  block?: boolean;
+}
+
+const { date, block = false } = Astro.props;
+const Tag = block ? 'div' : 'span';
+const passed = date ? hasPassed(date) : false;
+---
+
+{date ? (
+  <>
+    <Tag class="date-switch" data-through={date} hidden={passed}><slot /></Tag>
+    <Tag class="date-switch" data-after={date} hidden={!passed}><slot name="after" /></Tag>
+  </>
+) : (
+  <slot />
+)}
+
+<script>
+  import { endOfDay, hasPassed, onDateBoundaries } from '../../scripts/dates';
+
+  const before = [...document.querySelectorAll<HTMLElement>('[data-through]')];
+  const after = [...document.querySelectorAll<HTMLElement>('[data-after]')];
+  const dates = new Set([...before.map((el) => el.dataset.through!), ...after.map((el) => el.dataset.after!)]);
+
+  onDateBoundaries([...dates].map(endOfDay), () => {
+    for (const el of before) el.hidden = hasPassed(el.dataset.through!);
+    for (const el of after) el.hidden = !hasPassed(el.dataset.after!);
+  });
+</script>
+
+<style is:global>
+  .date-switch {
+    display: contents;
+  }
+  .date-switch[hidden] {
+    display: none;
+  }
+</style>

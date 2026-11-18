@@ -1,11 +1,16 @@
-import type { Menu } from '../types';
+import type { SeasonalMenu } from '../types';
 
-export const halloweenMenu: Menu = {
+export const halloweenMenu: SeasonalMenu = {
   slug: 'halloween',
+  kind: 'seasonal',
+  // What the site says about this menu. One of 'coming-soon', 'open',
+  // 'sold-out' or 'past'; see SeasonStatus in ../types.ts.
+  status: 'past',
   title: 'Halloween Menu',
   subtitle: 'Spooky-cute treats for Halloween fun',
+  description: 'Halloween cookies and spooky treats from Thymeless Treats Bakery. Order fun and festive sugar cookies for your Halloween party.',
+  intro: 'Spooky-sweet treats that are frighteningly delicious!',
   headerImage: '/assets/img/headers/home/halloweenCupcakes.jpg',
-  season: 'fall',
   items: [
     {
       name: 'Spooktacular Boo Box',

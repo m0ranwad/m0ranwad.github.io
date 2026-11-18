@@ -1,48 +1,60 @@
 ---
+/**
+ * The season on the home page: the menu leadMenu() picks, with a countdown,
+ * a status label on the photo (unless orders are open) and a button. With no
+ * menu, the between-seasons message. The redesign (#2) decides how that
+ * state looks; this one reuses the section's styles.
+ */
 import OrderDeadline from './OrderDeadline.astro';
+import DateSwitch from './ui/DateSwitch.astro';
+import { closesOn, menuView } from '../data/season';
+import type { SeasonalMenu } from '../data/types';
 
 interface Props {
-  title: string;
-  menuLink: string;
-  menuImage: string;
-  menuAlt: string;
-  ctaText: string;
-  soldOut?: boolean;
-  orderDeadline?: string;  // ISO date for countdown (e.g., '2025-02-10')
-  deadlineLabel?: string;  // Label for countdown (e.g., "Valentine's orders")
+  menu?: SeasonalMenu;
 }
 
-const { 
-  title, 
-  menuLink, 
-  menuImage, 
-  menuAlt, 
-  ctaText,
-  soldOut = false,
-  orderDeadline,
-  deadlineLabel = "Orders"
-} = Astro.props;
+const { menu } = Astro.props;
+const view = menu && menuView(menu);
+const closed = menu && menuView(menu, 'closed');
+const closeDate = menu && closesOn(menu);
+const menuLink = menu && `/${menu.slug}/`;
+const badge = view && !view.canOrder ? view.badge : undefined;
 ---
 
-<section class="featured-section">
-  <h2>{title}</h2>
-  {orderDeadline && (
-    <OrderDeadline 
-      deadline={orderDeadline} 
-      label={deadlineLabel}
-      href={menuLink}
-    />
-  )}
-  <div class="featured-menu-container">
-    <a href={menuLink} class="featured-menu-link">
-      <img src={menuImage} alt={menuAlt} loading="eager" />
-      {soldOut && <span class="sold-out-overlay">Sold Out</span>}
-    </a>
-    <a href={menuLink} class="btn-primary featured-cta">
-      {ctaText}
-    </a>
-  </div>
-</section>
+{menu && view && closed ? (
+  <section class="featured-section">
+    <h2>Featured This Season</h2>
+    {view.countdown && (
+      <OrderDeadline 
+        deadline={view.countdown.date} 
+        label={view.countdown.label}
+        opens={view.countdown.opens}
+        href={menuLink}
+      />
+    )}
+    <div class="featured-menu-container">
+      <a href={menuLink} class="featured-menu-link">
+        <img src={menu.headerImage || '/assets/img/easter/IMG_6388.jpg'} alt={menu.title} loading="eager" />
+        {badge && <span class="sold-out-overlay">{badge}</span>}
+        {closeDate && (
+          <DateSwitch date={closeDate}><Fragment slot="after"><span class="sold-out-overlay">{closed.badge}</span></Fragment></DateSwitch>
+        )}
+      </a>
+      <a href={menuLink} class="btn-primary featured-cta">
+        <DateSwitch date={closeDate}>{view.homeButton}<Fragment slot="after">{closed.homeButton}</Fragment></DateSwitch>
+      </a>
+    </div>
+  </section>
+) : (
+  <section class="featured-section between-seasons">
+    <h2>Between Seasons</h2>
+    <p>Our next seasonal menu is on its way. Custom cookies, cakes and gifts are available year-round.</p>
+    <div class="featured-menu-container">
+      <a href="/holidays/" class="btn-primary featured-cta">Browse Our Menus</a>
+    </div>
+  </section>
+)}
 
 <style>
   .featured-section {

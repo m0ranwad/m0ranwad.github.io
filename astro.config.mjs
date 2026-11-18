@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import checkImages from './scripts/check-images.mjs';
+import checkSeasons from './scripts/check-seasons.mjs';
 
 // The oldest browsers the site supports: Vite 6's default ("modules"), which
 // the site was built with until Astro 7. Pinned so an upgrade cannot raise
@@ -43,5 +44,7 @@ export default defineConfig({
     sitemap(),
     // Fails the build if menu or gallery data names a photo that doesn't exist
     checkImages(),
+    // Fails the build if more than one seasonal menu is open, or a status or date is malformed
+    checkSeasons(),
   ],
 });
