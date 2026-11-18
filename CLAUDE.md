@@ -14,6 +14,8 @@ npm run shots:compare -- main <branch>   # list what changed between two sets of
 
 **Before calling a change done,** run `npm run check`; it also runs on every pull request. If the change could affect any page, run `npm run shots` on `main` and on your branch, then compare. Every difference must be intended and listed in the pull request. Screenshots need Chrome, Edge, or `npx playwright install chromium`.
 
+**After a large chunk of work** (a phase, a pull request, anything you'd ask to merge), end your reply with a review prompt for Codex, and check its findings yourself before acting on them. See [`.claude/skills/codex-review/`](.claude/skills/codex-review/SKILL.md).
+
 The build itself fails when menu or gallery data names a photo that doesn't exist, letter case included. The deploy runs the whole check, so a mistyped photo path or broken internal link cannot go live.
 
 ## Rules
