@@ -24,6 +24,8 @@ concurrency:
 
 env:
   BUILD_PATH: "."  # Root directory after migration
+  # Screenshots (npm run shots) are a local tool; the build doesn't need a browser.
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
 
 jobs:
   build:
@@ -36,7 +38,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version-file: .nvmrc
           cache: 'npm'
 
       - name: Setup Pages
@@ -47,8 +49,10 @@ jobs:
         run: npm ci
         working-directory: ${{ env.BUILD_PATH }}
 
-      - name: Build with Astro
-        run: npm run build
+      # Type check, build, then check every photo path and internal link,
+      # so a broken reference stops the deploy even if it skipped review.
+      - name: Check and build
+        run: npm run check
         working-directory: ${{ env.BUILD_PATH }}
 
       - name: Upload artifact

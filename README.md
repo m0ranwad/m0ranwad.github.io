@@ -15,20 +15,20 @@ The bakery takes orders a few times a year (Valentine's Day, Easter, Mother's Da
 
 ## Run it locally
 
-You need Node 20 or newer and npm.
+You need Node 24 (the version is in `.nvmrc`) and npm.
 
 ```sh
 npm ci            # install exact dependency versions
 npm run dev       # dev server at http://localhost:4321
-npm run build     # build the site into dist/
-npm run preview   # serve dist/ to check the production build
+npm run check     # type check, build, and check every photo path and internal link
+npm run shots     # screenshot every page at phone and desktop width into shots/
 ```
 
-There are no tests yet. `npm run build` succeeding is the current check.
+`npm run check` also runs automatically on every pull request.
 
 ## How it deploys
 
-Every push to `main` runs [`.github/workflows/astro.yml`](.github/workflows/astro.yml), which builds the site and publishes it to GitHub Pages. **Pushing to `main` is publishing to production.** Make changes on a branch and merge them by pull request.
+Every push to `main` runs [`.github/workflows/astro.yml`](.github/workflows/astro.yml), which runs `npm run check` (that includes the build) and publishes the site to GitHub Pages. **Pushing to `main` is publishing to production.** Make changes on a branch and merge them by pull request.
 
 Avoid risky changes while a season is taking orders. A broken order page then costs real orders.
 

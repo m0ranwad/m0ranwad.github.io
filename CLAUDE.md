@@ -5,13 +5,16 @@ Static Astro site for a seasonal cottage bakery. Read [README.md](README.md) for
 ## Commands
 
 ```sh
-npm ci              # install
-npm run dev         # http://localhost:4321
-npm run build       # the only automated check today: it must pass
-npm run preview     # serve dist/
+npm ci                                   # install (Node version is in .nvmrc)
+npm run dev                              # http://localhost:4321
+npm run check                            # types, build, photo paths, internal links
+npm run shots                            # every page at 390px and 1280px -> shots/<branch>/
+npm run shots:compare -- main <branch>   # list what changed between two sets of shots
 ```
 
-There is no typecheck, lint or test yet; epic #1 Phase 2 adds `npm run check` and `npm run shots`. Until then, run `npm run build` and look at the changed pages in `npm run dev` before calling a change done.
+**Before calling a change done,** run `npm run check`; it also runs on every pull request. If the change could affect any page, run `npm run shots` on `main` and on your branch, then compare. Every difference must be intended and listed in the pull request. Screenshots need Chrome, Edge, or `npx playwright install chromium`.
+
+The build itself fails when menu or gallery data names a photo that doesn't exist, letter case included. The deploy runs the whole check, so a mistyped photo path or broken internal link cannot go live.
 
 ## Rules
 
@@ -38,6 +41,7 @@ There is no typecheck, lint or test yet; epic #1 Phase 2 adds `npm run check` an
 | `src/layouts/BaseLayout.astro` | Page shell, global styles, colour and font tokens on `:root`. |
 | `src/components/` | `MenuGrid` (item cards, "Add to Inquiry", menu lightbox), `FeaturedSection`, `OrderDeadline`, `StickyMobileCTA`, `InquiryBadge`, `ui/`, `navigation/`. |
 | `public/assets/img/` | Every photo the site serves, referenced as `/assets/img/...`. |
+| `scripts/` | `check-images.mjs` (build-time photo check), `check-links.mjs`, `shots.mjs`. |
 
 ## Known leftovers
 
@@ -57,7 +61,7 @@ Season state is split across several places today (epic #1 Phase 5 makes it one 
 2. **Check page copy.** Look at `src/pages/<season>.astro` for `introText`, `ctaTitle` and `ctaText` overrides left over from the last time it sold out. `easter.astro` is the sold-out example.
 3. **Mark sold out.** Set `soldOut: true` on each item. When all items are sold out, also update the page copy (step 2) and `subtitle`. The "Now Available!" badge in `holidays.astro` stays until the menu is no longer featured.
 4. **Close a season.** Remove `featured` and `orderDeadline`. Past menus keep their "Add to Inquiry" buttons and prices unless each item is marked `soldOut`.
-5. **Redeploy after dates pass.** The order countdown and the footer year are computed at build time, so they are only correct as of the last deploy.
+5. **Redeploy in January.** The footer year is computed at build time. The order countdown is not stale: the browser recounts it on load and hourly, and hides it after `orderDeadline`.
 
 Runbooks for these tasks will live in `.claude/skills/` (epic #1 Phase 8).
 

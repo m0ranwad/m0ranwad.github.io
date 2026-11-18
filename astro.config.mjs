@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import checkImages from './scripts/check-images.mjs';
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,5 +14,7 @@ export default defineConfig({
   },
   integrations: [
     sitemap(),
+    // Fails the build if menu or gallery data names a photo that doesn't exist
+    checkImages(),
   ],
 });

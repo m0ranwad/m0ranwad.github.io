@@ -38,6 +38,8 @@ npm run dev
 
 Open http://localhost:4321 and find the page. When it looks right, commit the change and open a pull request into `main`. Merging it publishes the site.
 
+If a path in a menu or gallery file is wrong, the site will not build. The error names the file, the item and the path, and says so if only the capital letters are wrong. A broken menu or gallery photo path therefore never reaches the live site.
+
 ## If the photo does not show
 
 1. Check the path letter for letter. Capitals matter on the live site: `Cake.JPG` and `cake.jpg` are different files.
