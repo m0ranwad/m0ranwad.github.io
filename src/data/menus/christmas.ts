@@ -1,11 +1,16 @@
-import type { Menu } from '../types';
+import type { SeasonalMenu } from '../types';
 
-export const christmasMenu: Menu = {
+export const christmasMenu: SeasonalMenu = {
   slug: 'christmas',
+  kind: 'seasonal',
+  // What the site says about this menu. One of 'coming-soon', 'open',
+  // 'sold-out' or 'past'; see SeasonStatus in ../types.ts.
+  status: 'past',
   title: 'Christmas Menu',
   subtitle: 'Festive treats for your holiday celebrations',
+  description: 'Christmas cookies and holiday treats from Thymeless Treats Bakery. Order festive sugar cookies for your holiday celebrations.',
+  intro: 'Festive treats to make your holidays extra sweet. All cookies made fresh to order.',
   headerImage: '/assets/img/gingerbread.jpg',
-  season: 'winter',
   items: [
     {
       name: 'Teacher Boxes',
@@ -30,49 +35,42 @@ export const christmasMenu: Menu = {
       image: '/assets/img/thumbprint.jpg',
       description: 'Buttery, sweet bite-sized cookies with a pop of raspberry. A Christmas cookie tray must-have that brings you back to a simpler time.',
       price: '$16 per pound',
-      soldOut: true,
     },
     {
       name: 'Grinch Cookies',
       image: '/assets/img/grinch.jpg',
       description: "Chewy green cookies infused with a refreshing peppermint flavor. Each cookie is topped with a little red grinch 'heart'. Approximately ~16 cookies per pound.",
       price: '$16 per pound',
-      soldOut: true,
     },
     {
       name: 'Snowball Cookies',
       image: '/assets/img/snowball.jpg',
       description: 'Classic Christmas cookies that melt in your mouth. These do not contain pecans and are made with nut-free ingredients.',
       price: '$16 per pound',
-      soldOut: true,
     },
     {
       name: 'Oatmeal Shortbread',
       image: '/assets/img/oatmeal-shortbread.jpg',
       description: 'Simple, yet delicious! Hearty oats give these melt-in-your-mouth cookies a slight bite. Offered as part of an assorted cookie tray, as well as by the pound.',
       price: '$16 per pound',
-      soldOut: true,
     },
     {
       name: 'Chewy Gingersnaps',
       image: '/assets/img/gingerbread.jpg',
       description: 'Rich with holiday spices like cinnamon, ginger, and cloves, these gingersnaps pack a punch. Perfectly soft and chewy with a rich molasses flavor.',
       price: '$16 per pound',
-      soldOut: true,
     },
     {
       name: 'Glazed Sugar Cookies',
       image: '/assets/img/glazed-sugar.jpg',
       description: 'Classic glazed sugar cookies with designs that vary.',
       price: '$16 per pound',
-      soldOut: true,
     },
     {
       name: 'Christmas Cookie Tray',
       image: '/assets/img/box.jpg',
       description: 'A beautiful tray featuring 38 cookies, including 8 Thumbprints, 8 Gingersnaps, 8 Snowball Cookies, 2 ABC Sugar Cookies (Christmas Tree), 2 ABC Sugar Cookies (Snowflake), 2 ABC Sugar Cookies (Stocking), and 8 Shortbread Cookies.',
       price: '$40 per tray / Two for $75',
-      soldOut: true,
     },
   ],
 };

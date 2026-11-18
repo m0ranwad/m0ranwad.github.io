@@ -1,11 +1,16 @@
-import type { Menu } from '../types';
+import type { SeasonalMenu } from '../types';
 
-export const thanksgivingMenu: Menu = {
+export const thanksgivingMenu: SeasonalMenu = {
   slug: 'thanksgiving',
+  kind: 'seasonal',
+  // What the site says about this menu. One of 'coming-soon', 'open',
+  // 'sold-out' or 'past'; see SeasonStatus in ../types.ts.
+  status: 'past',
   title: 'Thanksgiving Menu',
   subtitle: 'Fresh baked treats for your holiday feast',
+  description: 'Thanksgiving cookies and fall treats from Thymeless Treats Bakery. Order beautiful autumn-themed sugar cookies for your Thanksgiving gathering.',
+  intro: 'Give thanks with beautifully crafted fall-themed treats.',
   headerImage: '/assets/img/bread.jpg',
-  season: 'fall',
   items: [
     {
       name: 'Large Bread Loaf',

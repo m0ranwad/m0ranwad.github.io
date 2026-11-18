@@ -1,11 +1,17 @@
-import type { Menu } from '../types';
+import type { YearRoundMenu } from '../types';
 
-export const cookiesMenu: Menu = {
+export const cookiesMenu: YearRoundMenu = {
   slug: 'cookies',
+  kind: 'year-round',
   title: 'Cookie Menu',
   subtitle: 'Handcrafted cookies for every occasion',
+  description: 'Custom decorated sugar cookies from Thymeless Treats Bakery. Order personalized cookies for birthdays, weddings, and special occasions year-round.',
+  intro: 'Beautiful custom cookies for any occasion. Available year-round!',
+  cta: {
+    title: 'Custom Orders Welcome',
+    text: 'Have a special design in mind? We love creating custom cookies for your unique celebration.',
+  },
   headerImage: '/assets/img/thumbprint.jpg',
-  season: 'year-round',
   items: [
     {
       name: 'No-Bake Cookies',

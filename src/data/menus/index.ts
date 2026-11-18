@@ -13,7 +13,7 @@ export { cakesMenu } from './cakes';
 export { giftsMenu } from './gifts';
 
 // Re-export types
-export type { Menu, MenuItem } from '../types';
+export type { Menu, MenuItem, SeasonalMenu, YearRoundMenu, SeasonStatus } from '../types';
 
 // Import all menus for iteration
 import { valentinesMenu } from './valentines';
@@ -25,12 +25,13 @@ import { mothersdayMenu } from './mothersday';
 import { cookiesMenu } from './cookies';
 import { cakesMenu } from './cakes';
 import { giftsMenu } from './gifts';
-import type { Menu } from '../types';
+import type { Menu, SeasonalMenu, YearRoundMenu } from '../types';
 
 /**
- * All seasonal menus (for holidays page)
+ * All seasonal menus, in the order the menus page lists them.
+ * Which one is featured comes from each menu's status: see ../season.ts.
  */
-export const seasonalMenus: Menu[] = [
+export const seasonalMenus: SeasonalMenu[] = [
   valentinesMenu,
   easterMenu,
   mothersdayMenu,
@@ -42,7 +43,7 @@ export const seasonalMenus: Menu[] = [
 /**
  * All year-round menus
  */
-export const yearRoundMenus: Menu[] = [
+export const yearRoundMenus: YearRoundMenu[] = [
   cookiesMenu,
   cakesMenu,
   giftsMenu,
@@ -61,11 +62,4 @@ export const allMenus: Menu[] = [
  */
 export function getMenuBySlug(slug: string): Menu | undefined {
   return allMenus.find(menu => menu.slug === slug);
-}
-
-/**
- * Get the currently featured menu
- */
-export function getFeaturedMenu(): Menu | undefined {
-  return allMenus.find(menu => menu.featured);
 }

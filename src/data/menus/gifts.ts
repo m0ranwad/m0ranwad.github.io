@@ -1,11 +1,17 @@
-import type { Menu } from '../types';
+import type { YearRoundMenu } from '../types';
 
-export const giftsMenu: Menu = {
+export const giftsMenu: YearRoundMenu = {
   slug: 'gifts',
+  kind: 'year-round',
   title: 'Gifts & Party Favors',
   subtitle: 'Thoughtful treats for showing appreciation',
+  description: 'Cookie gift boxes and treat bundles from Thymeless Treats Bakery. Perfect for corporate gifts, thank you gifts, and special occasions.',
+  intro: 'Beautifully packaged treats that make the perfect gift. Available year-round!',
+  cta: {
+    title: 'Corporate & Bulk Orders',
+    text: 'Planning a corporate event or need bulk orders? Contact us for special pricing and custom packaging options.',
+  },
   headerImage: '/assets/img/giftsTeacherBox.jpg',
-  season: 'year-round',
   items: [
     {
       name: 'Teacher Appreciation Boxes',

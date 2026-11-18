@@ -1,40 +1,44 @@
 ---
 /**
- * Order Deadline Countdown
- * 
- * Shows a countdown to the order cutoff date for seasonal menus.
- * - Displays "X days left to order" message
- * - Shows urgency colors when deadline approaches
- * - Disappears after deadline passes
- * 
+ * Order countdown for seasonal menus: "Christmas orders close in 5 days",
+ * or with `opens`, "Christmas orders open in 5 days".
+ * - Closing: counts to the end of the day, with urgency colours near the end
+ * - Opening: counts to the start of the day, always in the calm colour
+ * - Recounted in the browser on load and hourly; hides itself once the day arrives
+ *
  * Usage:
  *   <OrderDeadline deadline="2025-02-10" label="Valentine's orders" />
+ *   <OrderDeadline deadline="2025-12-01" label="Christmas orders" opens />
  */
+import { daysUntil, endOfDay, startOfDay } from '../scripts/dates';
 
 interface Props {
-  /** Deadline date in ISO format (YYYY-MM-DD) */
+  /** Date in ISO format (YYYY-MM-DD) */
   deadline: string;
   /** Label text (e.g., "Valentine's orders") */
   label?: string;
   /** Where to link when clicked */
   href?: string;
+  /** Count down to orders opening on this day instead of closing */
+  opens?: boolean;
 }
 
 const { 
   deadline,
   label = "Orders",
-  href = "/order/"
+  href = "/order/",
+  opens = false,
 } = Astro.props;
 
 // Calculate initial days remaining (for SSG)
-const deadlineDate = new Date(deadline + 'T23:59:59');
-const now = new Date();
-const diffTime = deadlineDate.getTime() - now.getTime();
-const initialDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+const target = opens ? startOfDay(deadline) : endOfDay(deadline);
+const initialDays = daysUntil(target);
+const verb = opens ? 'open' : 'close';
 
 // Determine urgency level for initial render
 const getUrgencyClass = (days: number) => {
   if (days <= 0) return 'expired';
+  if (opens) return 'normal';
   if (days <= 2) return 'urgent';
   if (days <= 5) return 'soon';
   return 'normal';
@@ -48,63 +52,56 @@ const urgencyClass = getUrgencyClass(initialDays);
     href={href}
     class={`order-deadline ${urgencyClass}`}
     data-deadline={deadline}
+    data-opens={opens ? '' : undefined}
     id="order-deadline"
   >
     <span class="deadline-icon">⏰</span>
     <span class="deadline-text">
-      <strong>{label}</strong> close in <span class="days-count">{initialDays}</span> {initialDays === 1 ? 'day' : 'days'}
+      <strong>{label}</strong> {verb} in <span class="days-count">{initialDays}</span> <span class="days-unit">{initialDays === 1 ? 'day' : 'days'}</span>
     </span>
     <span class="deadline-arrow">→</span>
   </a>
 )}
 
 <script>
-  // Update countdown in real-time (client-side)
+  import { daysUntil, endOfDay, startOfDay } from '../scripts/dates';
+
+  // Recount in the browser, in the viewer's own time zone, so the page is
+  // right without a redeploy
   const deadlineEl = document.getElementById('order-deadline') as HTMLElement | null;
-  
-  if (deadlineEl) {
-    const deadline = deadlineEl.dataset.deadline;
-    if (deadline) {
-      const deadlineDate = new Date(deadline + 'T23:59:59');
-      
-      function updateCountdown() {
-        const now = new Date();
-        const diffTime = deadlineDate.getTime() - now.getTime();
-        const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        
-        const daysEl = deadlineEl?.querySelector('.days-count');
-        if (!deadlineEl || !daysEl) return;
-        
-        if (daysLeft <= 0) {
-          deadlineEl.style.display = 'none';
-          return;
-        }
-        
-        // Update days count
-        daysEl.textContent = daysLeft.toString();
-        
-        // Update "day" vs "days"
-        const textEl = deadlineEl.querySelector('.deadline-text');
-        if (textEl) {
-          const label = textEl.querySelector('strong')?.textContent || 'Orders';
-          textEl.innerHTML = `<strong>${label}</strong> close in <span class="days-count">${daysLeft}</span> ${daysLeft === 1 ? 'day' : 'days'}`;
-        }
-        
-        // Update urgency class
-        deadlineEl.classList.remove('normal', 'soon', 'urgent', 'expired');
-        if (daysLeft <= 2) {
-          deadlineEl.classList.add('urgent');
-        } else if (daysLeft <= 5) {
-          deadlineEl.classList.add('soon');
-        } else {
-          deadlineEl.classList.add('normal');
-        }
+  const deadline = deadlineEl?.dataset.deadline;
+
+  if (deadlineEl && deadline) {
+    const opens = 'opens' in deadlineEl.dataset;
+    const target = opens ? startOfDay(deadline) : endOfDay(deadline);
+
+    function updateCountdown() {
+      const daysLeft = daysUntil(target);
+      if (!deadlineEl) return;
+
+      if (daysLeft <= 0) {
+        deadlineEl.style.display = 'none';
+        return;
       }
-      
-      // Update immediately and then every hour
-      updateCountdown();
-      setInterval(updateCountdown, 60 * 60 * 1000);
+
+      const daysEl = deadlineEl.querySelector('.days-count');
+      const unitEl = deadlineEl.querySelector('.days-unit');
+      if (daysEl) daysEl.textContent = String(daysLeft);
+      if (unitEl) unitEl.textContent = daysLeft === 1 ? 'day' : 'days';
+
+      deadlineEl.classList.remove('normal', 'soon', 'urgent', 'expired');
+      if (!opens && daysLeft <= 2) {
+        deadlineEl.classList.add('urgent');
+      } else if (!opens && daysLeft <= 5) {
+        deadlineEl.classList.add('soon');
+      } else {
+        deadlineEl.classList.add('normal');
+      }
     }
+
+    // Update immediately and then every hour
+    updateCountdown();
+    setInterval(updateCountdown, 60 * 60 * 1000);
   }
 </script>
 

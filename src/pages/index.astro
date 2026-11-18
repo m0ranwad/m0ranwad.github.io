@@ -3,11 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import FeaturedSection from '../components/FeaturedSection.astro';
 import CategoryCards from '../components/CategoryCards.astro';
 import CTASection from '../components/ui/CTASection.astro';
-import { getFeaturedMenu, siteInfo } from '../data';
+import { leadMenu, siteInfo } from '../data';
 
-// Get the featured menu dynamically
-const featuredMenu = getFeaturedMenu();
-const isFeaturedSoldOut = featuredMenu?.items.every(item => item.soldOut) ?? false;
+// The season to feature, from the menus' status fields (none between seasons)
+const featuredMenu = leadMenu();
 
 const categoryCards = [
   {
@@ -51,19 +50,8 @@ const categoryCards = [
     </div>
   </section>
   
-  <!-- Featured Menu Section -->
-  {featuredMenu && (
-    <FeaturedSection 
-      title="Featured This Season"
-      menuLink={`/${featuredMenu.slug}/`}
-      menuImage={featuredMenu.headerImage || '/assets/img/easter/IMG_6388.jpg'}
-      menuAlt={isFeaturedSoldOut ? `${featuredMenu.title} — Sold Out` : `${featuredMenu.title} - Order Now`}
-      ctaText={isFeaturedSoldOut ? `View ${featuredMenu.title}` : `Order ${featuredMenu.title}`}
-      soldOut={isFeaturedSoldOut}
-      orderDeadline={isFeaturedSoldOut ? undefined : featuredMenu.orderDeadline}
-      deadlineLabel={`${featuredMenu.title.split(' ')[0]} orders`}
-    />
-  )}
+  <!-- Featured Menu Section, or the between-seasons message -->
+  <FeaturedSection menu={featuredMenu} />
   
   <!-- Browse Categories -->
   <section class="browse-section">

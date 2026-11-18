@@ -31,7 +31,7 @@ Do the routine steps of a task without being asked, then report what you did. Do
 
 - **`main` is production.** Every push to `main` deploys. Work on a branch from `main`, one change per pull request.
 - **GitHub settings are the maintainer's.** Prepare changes to the Pages source, default branch, environments or branch protection, then stop and ask.
-- **Hold risky changes while a season is taking orders.** If a seasonal menu has `featured: true` and items without `soldOut`, orders are open.
+- **Hold risky changes while a season is taking orders.** Orders are open when a seasonal menu has `status: 'open'` and its `orderBy` date, if set, hasn't passed.
 - **Privacy.** This repo and its issues are public. Never add a street address, the owner's surname, or any customer's name or details. The owner's first name and town are already public on the site. The Web3Forms access key in `src/config/forms.ts` is public by design; add no other secrets.
 - **Don't run `npm run optimize-images`.** It overwrites the original photos in place.
 - **Leave CSS alone** unless the task is about styling. Epic #2 replaces the visual layer, so consolidating CSS now is work done twice.
@@ -40,19 +40,20 @@ Do the routine steps of a task without being asked, then report what you did. Do
 
 | Path | What it is |
 |---|---|
-| `src/data/menus/*.ts` | One file per menu. The source of truth for items, prices and sold-out flags. |
-| `src/data/menus/index.ts` | Menu lists (`seasonalMenus`, `yearRoundMenus`) and `getFeaturedMenu()`. |
-| `src/data/types.ts` | `Menu`, `MenuItem`, `GalleryImage` and other types. |
+| `src/data/menus/*.ts` | One file per menu: items, prices, sold-out flags, page copy, and a seasonal menu's `status`. |
+| `src/data/menus/index.ts` | Menu lists (`seasonalMenus`, `yearRoundMenus`, `allMenus`). |
+| `src/data/season.ts` | `menuView()`: what every page says and offers for a menu's status. `leadMenu()`: the season to feature. `checkMenus()`: the build's season rules. |
+| `src/data/types.ts` | `Menu`, `SeasonStatus`, `MenuItem`, `GalleryImage` and other types. |
 | `src/data/{gallery,navigation,content}.ts` | Gallery photos; nav and social links, site name; contact, FAQ and About text. |
-| `src/pages/<menu>.astro` | Nine thin wrappers around `MenuLayout`. Some override page copy. |
-| `src/pages/holidays.astro` | The "Menus" page (`/holidays/`). Hard-codes a "Now Available!" badge on the featured menu. |
-| `src/pages/index.astro` | Home page. Features `getFeaturedMenu()` with a "Sold Out" overlay when every item is sold out. |
+| `src/pages/[menu].astro` | One route for every menu (`/christmas/`, `/cookies/`, ...), rendered by `MenuLayout`. |
+| `src/pages/holidays.astro` | The "Menus" page (`/holidays/`). Its callout shows `leadMenu()` with a status badge. |
+| `src/pages/index.astro` | Home page. `FeaturedSection` shows `leadMenu()`, or "Between Seasons" when there is none. |
 | `src/pages/order.astro` | Inquiry list and Web3Forms form. `thank-you.astro` clears the list after sending. |
 | `src/scripts/inquiry-store.ts` | The inquiry list in `localStorage` (key `thymeless-inquiry-cart`). |
 | `src/layouts/BaseLayout.astro` | Page shell, global styles, colour and font tokens on `:root`. |
-| `src/components/` | `MenuGrid` (item cards, "Add to Inquiry", menu lightbox), `FeaturedSection`, `OrderDeadline`, `StickyMobileCTA`, `InquiryBadge`, `ui/`, `navigation/`. |
+| `src/components/` | `MenuGrid` (item cards, "Add to Inquiry", menu lightbox), `FeaturedSection`, `OrderDeadline` (countdown), `StickyMobileCTA`, `InquiryBadge`, `ui/` (incl. `DateSwitch`, which flips open wording to closed after `orderBy` in the browser), `navigation/`. |
 | `public/assets/img/` | Every photo the site serves, referenced as `/assets/img/...`. |
-| `scripts/` | `check-images.mjs` (build-time photo check), `check-links.mjs`, `shots.mjs`. |
+| `scripts/` | `check-images.mjs` and `check-seasons.mjs` (build-time data checks), `check-links.mjs`, `shots.mjs`. |
 
 ## Known leftovers
 
@@ -62,15 +63,15 @@ Do the routine steps of a task without being asked, then report what you did. Do
 
 ## Seasonal updates
 
-Season state is split across several places today (epic #1 Phase 5 makes it one field). Check every step, or pages will contradict each other.
+Each seasonal menu's state is one field, `status`, in `src/data/menus/<season>.ts`. Every page derives from it through `src/data/season.ts`, so pages can't contradict each other. Run `npm run check` after each change.
 
-1. **Open a season.** In `src/data/menus/<season>.ts`, set `featured: true` and `orderDeadline: 'YYYY-MM-DD'`, update `subtitle`, and clear old `soldOut` flags. Remove `featured` and `orderDeadline` from the previous season's file; `getFeaturedMenu()` returns the first match, so only one menu may be featured.
-2. **Check page copy.** Look at `src/pages/<season>.astro` for `introText`, `ctaTitle` and `ctaText` overrides left over from the last time it sold out. `easter.astro` is the sold-out example.
-3. **Mark sold out.** Set `soldOut: true` on each item. When all items are sold out, also update the page copy (step 2) and `subtitle`. The "Now Available!" badge in `holidays.astro` stays until the menu is no longer featured.
-4. **Close a season.** Remove `featured` and `orderDeadline`. Past menus keep their "Add to Inquiry" buttons and prices unless each item is marked `soldOut`.
-5. **Redeploy in January.** The footer year is computed at build time. The order countdown is not stale: the browser recounts it on load and hourly, and hides it after `orderDeadline`.
+1. **Announce (optional).** `status: 'coming-soon'`, plus `opens: 'YYYY-MM-DD'` for an "orders open in N days" countdown. Items and prices show, without "Add to Inquiry". The home and menus pages feature it.
+2. **Open.** `status: 'open'`, plus `orderBy: 'YYYY-MM-DD'` (the last day to order) for a countdown. Update items and prices, and remove leftover `soldOut` flags. The build fails if two menus are open (open decision 2 in #1). After `orderBy` the pages switch to "orders closed" in the browser, without a redeploy.
+3. **Sell out.** One item: `soldOut: true` on it. Everything: `status: 'sold-out'`. The menu stays featured with a "Sold Out" label.
+4. **Close.** `status: 'past'`. The page shows what was made, without prices or ordering. With nothing open, coming soon or sold out, the home page shows "Between Seasons".
+5. **Redeploy in January.** The footer year is computed at build time.
 
-Runbooks for these tasks will live in `.claude/skills/` (epic #1 Phase 8).
+Page copy for each state (subtitle, intro, the box at the bottom) is in `menuView()`. A menu's own `intro` and `cta` are used while it is open. Runbooks for these tasks will live in `.claude/skills/` (epic #1 Phase 8).
 
 ## Planned work
 

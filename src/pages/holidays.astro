@@ -3,9 +3,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/ui/PageHeader.astro';
 import Card from '../components/ui/Card.astro';
 import CTASection from '../components/ui/CTASection.astro';
-import { seasonalMenus, yearRoundMenus, getFeaturedMenu } from '../data';
+import DateSwitch from '../components/ui/DateSwitch.astro';
+import { seasonalMenus, yearRoundMenus, leadMenu, menuView, closesOn } from '../data';
 
-const featuredMenu = getFeaturedMenu();
+// The same season the home page features, labelled from its status
+const featuredMenu = leadMenu();
+const featured = featuredMenu && {
+  view: menuView(featuredMenu),
+  closed: menuView(featuredMenu, 'closed'),
+  closeDate: closesOn(featuredMenu),
+};
 ---
 
 <BaseLayout 
@@ -20,17 +27,21 @@ const featuredMenu = getFeaturedMenu();
   <div class="menus-container">
     
     <!-- Featured Season Callout -->
-    {featuredMenu && (
+    {featuredMenu && featured && (
       <section class="featured-callout">
         <a href={`/${featuredMenu.slug}/`} class="featured-link">
           <div class="featured-image">
             <img src={featuredMenu.headerImage} alt={featuredMenu.title} loading="eager" />
-            <div class="featured-badge">Now Available!</div>
+            <div class="featured-badge">
+              <DateSwitch date={featured.closeDate}>{featured.view.badge}<Fragment slot="after">{featured.closed.badge}</Fragment></DateSwitch>
+            </div>
           </div>
           <div class="featured-content">
             <h2>{featuredMenu.title}</h2>
-            <p>{featuredMenu.subtitle}</p>
-            <span class="featured-cta">View Menu & Order →</span>
+            <p><DateSwitch date={featured.closeDate}>{featured.view.subtitle}<Fragment slot="after">{featured.closed.subtitle}</Fragment></DateSwitch></p>
+            <span class="featured-cta">
+              <DateSwitch date={featured.closeDate}>{featured.view.calloutLink}<Fragment slot="after">{featured.closed.calloutLink}</Fragment></DateSwitch>
+            </span>
           </div>
         </a>
       </section>
@@ -48,7 +59,9 @@ const featuredMenu = getFeaturedMenu();
               <img src={menu.headerImage || '/assets/img/thumbprint.jpg'} alt={menu.title} loading="lazy" />
             </div>
             <h3 slot="title">{menu.title}</h3>
-            <p slot="description">{menu.subtitle}</p>
+            <p slot="description">
+              <DateSwitch date={closesOn(menu)}>{menuView(menu).subtitle}<Fragment slot="after">{menuView(menu, 'closed').subtitle}</Fragment></DateSwitch>
+            </p>
           </Card>
         ))}
       </div>

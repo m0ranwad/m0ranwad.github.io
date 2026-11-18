@@ -2,26 +2,42 @@
 import type { MenuItem } from '../data/types';
 import { createItemId } from '../scripts/inquiry-store';
 import Lightbox from './ui/Lightbox.astro';
+import DateSwitch from './ui/DateSwitch.astro';
 
 interface Props {
   items: MenuItem[];
   menuSlug: string;      // e.g., "valentines" - used to create unique IDs
   menuTitle: string;     // e.g., "Valentine's" - displayed in cart
   orderLink?: string;    // Fallback order link if item doesn't have one
+  showPrices?: boolean;  // false for past menus
+  canOrder?: boolean;    // offer "Add to Inquiry" on items not marked soldOut
+  allSoldOut?: boolean;  // show every item as sold out
+  closesOn?: string;     // hide "Add to Inquiry" after this day (YYYY-MM-DD)
 }
 
-const { items, menuSlug, menuTitle, orderLink } = Astro.props;
+const {
+  items,
+  menuSlug,
+  menuTitle,
+  orderLink,
+  showPrices = true,
+  canOrder: menuCanOrder = true,
+  allSoldOut = false,
+  closesOn,
+} = Astro.props;
 const itemCount = items.length;
 ---
 
 <div class="menu-grid">
   {items.map((item) => {
     const itemLink = item.link || orderLink;
-    const canOrder = !item.soldOut;
+    // Past menus (no prices) ignore leftover per-item soldOut flags
+    const soldOut = allSoldOut || (showPrices && item.soldOut);
+    const canOrder = menuCanOrder && !soldOut;
     const itemId = createItemId(menuSlug, item.name);
     
     return (
-      <div class={`menu-item-card ${item.soldOut ? 'sold-out' : ''}`}>
+      <div class={`menu-item-card ${soldOut ? 'sold-out' : ''}`}>
         <button 
           class="menu-item-image" 
           type="button"
@@ -42,13 +58,14 @@ const itemCount = items.length;
               <path d="M11 8v6M8 11h6"/>
             </svg>
           </div>
-          {item.soldOut && <span class="sold-out-badge">Sold Out</span>}
+          {soldOut && <span class="sold-out-badge">Sold Out</span>}
         </button>
         <div class="menu-item-content">
           <h3 class="menu-item-name">{item.name}</h3>
           <p class="menu-item-description">{item.description}</p>
-          <p class="menu-item-price">{item.price}</p>
+          {showPrices && <p class="menu-item-price">{item.price}</p>}
           {canOrder && (
+            <DateSwitch date={closesOn}>
             <button 
               class="add-to-inquiry-btn"
               data-item-id={itemId}
@@ -69,6 +86,7 @@ const itemCount = items.length;
                 Added!
               </span>
             </button>
+            </DateSwitch>
           )}
         </div>
       </div>

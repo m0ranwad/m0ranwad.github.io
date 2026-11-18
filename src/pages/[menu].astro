@@ -1,0 +1,21 @@
+---
+/**
+ * One page per menu in src/data/menus/: /christmas/, /cookies/ and so on.
+ * Everything a page says comes from its data file.
+ */
+import MenuLayout from '../layouts/MenuLayout.astro';
+import { allMenus } from '../data/menus';
+import type { Menu } from '../data/types';
+
+export function getStaticPaths() {
+  return allMenus.map((menu) => ({ params: { menu: menu.slug }, props: { menu } }));
+}
+
+interface Props {
+  menu: Menu;
+}
+
+const { menu } = Astro.props;
+---
+
+<MenuLayout menu={menu} />

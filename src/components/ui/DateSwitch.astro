@@ -1,0 +1,57 @@
+---
+/**
+ * Shows the default slot through the end of `date` and the "after" slot once
+ * that day has passed. Decided at build time and again in the browser, on
+ * load and hourly, so a page switches over without a redeploy. Without a
+ * date it renders only the default slot.
+ *
+ *   <DateSwitch date={menu.orderBy}>Order now<Fragment slot="after">Orders closed</Fragment></DateSwitch>
+ *
+ * `block` wraps the content in a div instead of a span, for block content.
+ * The wrapper has `display: contents`, so it does not change the layout.
+ */
+import { hasPassed } from '../../scripts/dates';
+
+interface Props {
+  date?: string;
+  block?: boolean;
+}
+
+const { date, block = false } = Astro.props;
+const Tag = block ? 'div' : 'span';
+const passed = date ? hasPassed(date) : false;
+---
+
+{date ? (
+  <>
+    <Tag class="date-switch" data-through={date} hidden={passed}><slot /></Tag>
+    <Tag class="date-switch" data-after={date} hidden={!passed}><slot name="after" /></Tag>
+  </>
+) : (
+  <slot />
+)}
+
+<script>
+  import { hasPassed } from '../../scripts/dates';
+
+  function update() {
+    for (const el of document.querySelectorAll<HTMLElement>('[data-through]')) {
+      el.hidden = hasPassed(el.dataset.through!);
+    }
+    for (const el of document.querySelectorAll<HTMLElement>('[data-after]')) {
+      el.hidden = !hasPassed(el.dataset.after!);
+    }
+  }
+
+  update();
+  setInterval(update, 60 * 60 * 1000);
+</script>
+
+<style is:global>
+  .date-switch {
+    display: contents;
+  }
+  .date-switch[hidden] {
+    display: none;
+  }
+</style>
