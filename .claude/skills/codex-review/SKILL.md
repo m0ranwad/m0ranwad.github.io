@@ -9,7 +9,9 @@ The maintainer pastes this prompt into Codex, which reviews the change and repli
 
 ## When
 
-After a large chunk of work: a phase of an epic, a pull request, or anything you are about to ask to merge. Skip it for small fixes, docs-only typos, and answers to questions. Give the prompt at the end of your reply, in one fenced block, with a line before it saying "Written for: Codex, starting cold in a clone of this repo."
+After a large chunk of work: a phase of an epic, a pull request, or anything you are about to ask to merge. Skip it for small fixes, docs-only typos, and answers to questions.
+
+**One review per change.** Never write a prompt asking Codex to re-review a change it has already reviewed, including your fixes to its findings. You verify the fixes yourself (step 3 below), and then the change can merge. Several open pull requests can share one prompt. Give the prompt at the end of your reply, in one fenced block, with a line before it saying "Written for: Codex, starting cold in a clone of this repo."
 
 ## Writing the prompt
 
@@ -32,3 +34,4 @@ Treat every finding as a claim to test, not an instruction.
 3. **Fix the confirmed ones** with the smallest change that closes the gap. Then re-run `npm run check`, and `npm run shots` with a comparison against `main` if pages could change.
 4. **Leave decisions to the maintainer.** Content, photos, privacy clean-up, GitHub settings, and anything outside the change under review: report these and ask.
 5. **Report back** with one line per finding (what you found, what you did) plus anything new the fixes turned up. Update the pull request description when it changes what the pull request does.
+6. **Then merge.** Once the confirmed findings are fixed and checks pass, the review is handled. Don't hand the fixes back to Codex for another look.

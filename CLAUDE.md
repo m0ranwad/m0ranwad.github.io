@@ -16,7 +16,7 @@ npm run shots:compare -- main <branch>   # list what changed between two sets of
 
 **Changing dependencies:** write the lockfile with the npm that ships with the Node in `.nvmrc`. On older Node, run `npx npm@<that version> install --package-lock-only` afterwards. An older npm on Windows leaves out nested entries that CI's `npm ci` requires.
 
-**After a large chunk of work** (a phase, a pull request, anything you'd ask to merge), end your reply with a review prompt for Codex, and check its findings yourself before acting on them. See [`.claude/skills/codex-review/`](.claude/skills/codex-review/SKILL.md). Codex's own reviewer instructions are in [`AGENTS.md`](AGENTS.md); Codex maintains that file.
+**After a large chunk of work** (a phase, a pull request, anything you'd ask to merge), end your reply with a review prompt for Codex, and check its findings yourself before acting on them. **One Codex review per change:** never ask Codex to re-review your fixes; verify them yourself and merge. See [`.claude/skills/codex-review/`](.claude/skills/codex-review/SKILL.md). Codex's own reviewer instructions are in [`AGENTS.md`](AGENTS.md); Codex maintains that file.
 
 The build itself fails when menu or gallery data names a photo that doesn't exist, letter case included, or when the season data breaks its rules (two menus open, a malformed date). The deploy runs the whole check, so a mistyped photo path, a broken internal link or an image over 400 KB cannot go live.
 
