@@ -15,7 +15,7 @@ The bakery takes orders a few times a year (Valentine's Day, Easter, Mother's Da
 
 ## Run it locally
 
-You need Node 24 (the version is in `.nvmrc`) and npm.
+You need Node 24 or later, and npm. CI uses the version in `.nvmrc` (Node 26).
 
 ```sh
 npm ci            # install exact dependency versions
