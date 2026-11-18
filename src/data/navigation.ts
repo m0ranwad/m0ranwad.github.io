@@ -22,7 +22,8 @@ export const footerNavLinks: NavLink[] = [
 ];
 
 /**
- * Social media links
+ * Social media links and the contact email: the one place they are defined.
+ * Pages look them up with socialLink('instagram') and so on.
  */
 export const socialLinks: SocialLink[] = [
   {
@@ -41,6 +42,13 @@ export const socialLinks: SocialLink[] = [
     label: 'thymelesstreatsbakery@gmail.com',
   },
 ];
+
+/** The social link or email entry for a platform. */
+export function socialLink(platform: SocialLink['platform']): SocialLink {
+  const link = socialLinks.find((l) => l.platform === platform);
+  if (!link) throw new Error(`No social link for ${platform} in src/data/navigation.ts`);
+  return link;
+}
 
 /**
  * Site metadata

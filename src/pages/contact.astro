@@ -1,10 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/ui/Button.astro';
-import { faqItems } from '../data';
+import { faqItems, socialLink } from '../data';
 import { backgroundUrl } from '../lib/photos';
 
 const heroPhoto = await backgroundUrl('/assets/img/bridalShower.jpg');
+const instagram = socialLink('instagram');
+const facebook = socialLink('facebook');
+const email = socialLink('email');
 ---
 
 <BaseLayout 
@@ -23,7 +26,7 @@ const heroPhoto = await backgroundUrl('/assets/img/bridalShower.jpg');
     <!-- Contact Methods - Simplified Visual Cards -->
     <div class="contact-methods">
       
-      <a href="https://www.instagram.com/thymelesstreatsbakery/" class="contact-card instagram" target="_blank" rel="noopener">
+      <a href={instagram.url} class="contact-card instagram" target="_blank" rel="noopener">
         <div class="card-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -33,10 +36,10 @@ const heroPhoto = await backgroundUrl('/assets/img/bridalShower.jpg');
         </div>
         <h3>Instagram</h3>
         <p>Behind-the-scenes baking & new creations</p>
-        <span class="card-handle">@thymelesstreatsbakery</span>
+        <span class="card-handle">{instagram.label}</span>
       </a>
 
-      <a href="https://www.facebook.com/thymelesstreatsbakery/" class="contact-card facebook" target="_blank" rel="noopener">
+      <a href={facebook.url} class="contact-card facebook" target="_blank" rel="noopener">
         <div class="card-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
@@ -47,7 +50,7 @@ const heroPhoto = await backgroundUrl('/assets/img/bridalShower.jpg');
         <span class="card-handle">Visit Page →</span>
       </a>
 
-      <a href="mailto:thymelesstreatsbakery@gmail.com" class="contact-card email">
+      <a href={email.url} class="contact-card email">
         <div class="card-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>

@@ -1,34 +1,4 @@
-import type { FAQItem, ContactMethod } from './types';
-
-/**
- * Contact methods displayed on the contact page
- */
-export const contactMethods: ContactMethod[] = [
-  {
-    icon: '📸',
-    title: 'Instagram',
-    description: 'Follow along for behind-the-scenes baking, new creations, and seasonal menu updates',
-    linkText: '@thymelesstreatsbakery',
-    linkUrl: 'https://www.instagram.com/thymelesstreatsbakery/',
-    external: true,
-  },
-  {
-    icon: '👥',
-    title: 'Facebook',
-    description: 'Join the community for updates on pop-ups, new menu items, and special announcements',
-    linkText: 'Visit Facebook Page',
-    linkUrl: 'https://www.facebook.com/thymelesstreatsbakery/',
-    external: true,
-  },
-  {
-    icon: '✉️',
-    title: 'Email',
-    description: 'Send me a message about custom orders or any questions you have',
-    linkText: 'Send Email',
-    linkUrl: 'mailto:thymelesstreatsbakery@gmail.com',
-    external: false,
-  },
-];
+import type { FAQItem } from './types';
 
 /**
  * FAQ items displayed on the contact page

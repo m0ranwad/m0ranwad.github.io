@@ -1,5 +1,5 @@
 ---
-import { footerNavLinks } from '../../data/navigation';
+import { footerNavLinks, siteInfo } from '../../data/navigation';
 import type { NavLink } from '../../data/types';
 
 interface Props {
@@ -13,14 +13,14 @@ const year = new Date().getFullYear();
 
 <footer class="site-footer">
   <div class="footer-content">
-    <p class="footer-brand">Thymeless Treats Bakery</p>
-    <p class="footer-tagline">Where Every Bite is Timelessly Delicious!</p>
+    <p class="footer-brand">{siteInfo.name}</p>
+    <p class="footer-tagline">{siteInfo.tagline}</p>
     <nav class="footer-links" aria-label="Footer navigation">
       {links.map(link => (
         <a href={link.href}>{link.label}</a>
       ))}
     </nav>
-    <p class="footer-copyright">&copy; {year} Thymeless Treats Bakery</p>
+    <p class="footer-copyright">&copy; {year} {siteInfo.name}</p>
   </div>
 </footer>
 
