@@ -43,14 +43,14 @@ Do the routine steps of a task without being asked, then report what you did. Do
 | `src/data/menus/index.ts` | Menu lists (`seasonalMenus`, `yearRoundMenus`, `allMenus`). |
 | `src/data/season.ts` | `menuView()`: what every page says and offers for a menu's status. `leadMenu()`: the season to feature. `checkMenus()`: the build's season rules. |
 | `src/data/types.ts` | `Menu`, `SeasonStatus`, `MenuItem`, `GalleryImage` and other types. |
-| `src/data/{gallery,navigation,content}.ts` | Gallery photos; nav and social links, site name; contact, FAQ and About text. |
+| `src/data/{gallery,navigation,content}.ts` | Gallery photos; nav links, site name, tagline, social links and contact email (`socialLink()`; each defined once); FAQ and About text. |
 | `src/pages/[menu].astro` | One route for every menu (`/christmas/`, `/cookies/`, ...), rendered by `MenuLayout`. |
 | `src/pages/holidays.astro` | The "Menus" page (`/holidays/`). Its callout shows `leadMenu()` with a status badge. |
 | `src/pages/index.astro` | Home page. `FeaturedSection` shows `leadMenu()`, or "Between Seasons" when there is none. |
-| `src/pages/order.astro` | Inquiry list and Web3Forms form. `thank-you.astro` clears the list after sending. |
+| `src/pages/order.astro` | Inquiry list (rendered from a `<template>`) and Web3Forms form. `thank-you.astro` clears the list after sending. |
 | `src/scripts/inquiry-store.ts` | The inquiry list in `localStorage` (key `thymeless-inquiry-cart`). |
 | `src/layouts/BaseLayout.astro` | Page shell, global styles, colour and font tokens on `:root`. |
-| `src/components/` | `MenuGrid` (item cards, "Add to Inquiry", menu lightbox), `FeaturedSection`, `OrderDeadline` (countdown), `StickyMobileCTA`, `InquiryBadge`, `ui/` (incl. `DateSwitch`, which flips open wording to closed after `orderBy` in the browser), `navigation/`. |
+| `src/components/` | `MenuGrid` (item cards, "Add to Inquiry"), `FeaturedSection`, `OrderDeadline` (countdown), `StickyMobileCTA`, `InquiryBadge`, `ui/`, `navigation/`. In `ui/`: `Lightbox` (the photo viewer's markup and behaviour; any `[data-lightbox]` button opens it), `DateSwitch` (flips open wording to closed after `orderBy` in the browser), `Photo`. |
 | `src/assets/img/` | Every photo the site shows, named in data and pages as `/assets/img/...`. Anything here may be published. |
 | `src/lib/photos.ts`, `src/components/ui/Photo.astro` | The only way photos reach a page: resized AVIF and WebP via `<Photo>`, plus the lightbox, thumbnail, link-preview and background versions. |
 | `public/` | Files served as-is: `CNAME`, `favicon.ico`, `robots.txt`. No photos. |

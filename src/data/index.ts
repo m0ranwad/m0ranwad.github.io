@@ -15,7 +15,7 @@ export type { MenuState, MenuView } from './season';
 export { galleryImages, galleryFilters, getImagesByCategory } from './gallery';
 
 // Navigation
-export { mainNavLinks, footerNavLinks, socialLinks, siteInfo } from './navigation';
+export { mainNavLinks, footerNavLinks, socialLinks, socialLink, siteInfo } from './navigation';
 
 // Content (About, Contact, FAQ)
-export { contactMethods, faqItems, aboutContent } from './content';
+export { faqItems, aboutContent } from './content';

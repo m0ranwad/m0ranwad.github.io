@@ -1,10 +1,17 @@
 ---
 /**
- * Shared lightbox component used by Gallery and Menu pages.
- * Provides only the HTML structure + CSS — the opening/navigation
- * logic is wired up by each consuming component's own <script>.
+ * The full-screen photo viewer used by the gallery and menu pages: markup,
+ * styles and behaviour. Include it once per page, and mark each photo
+ * button that opens it:
  *
- * Standard IDs exposed to scripts:
+ *   <button type="button" data-lightbox data-src={largeUrl} data-alt="Caption">...</button>
+ *
+ * It steps through the marked buttons that are visible (a filtered-out
+ * gallery photo is skipped), loops at either end, preloads the neighbours,
+ * and supports the arrow keys, Escape, swipe, and a focus trap. With one
+ * photo the arrows are hidden.
+ *
+ * Element IDs:
  *   #lightbox          – the overlay element
  *   #lightboxImg       – the <img> that displays the photo
  *   #lightboxCaption   – caption text
@@ -68,6 +75,136 @@ const { counterLabel = '' } = Astro.props;
     <p class="lightbox-caption" id="lightboxCaption"></p>
   </div>
 </div>
+
+<script>
+  const lightbox = document.getElementById('lightbox')!;
+  const img = document.getElementById('lightboxImg') as HTMLImageElement;
+  const caption = document.getElementById('lightboxCaption')!;
+  const counter = document.getElementById('lightboxCounter')!;
+  const loading = document.getElementById('lightboxLoading')!;
+  const content = document.getElementById('lightboxContent')!;
+  const closeBtn = document.getElementById('lightboxClose') as HTMLButtonElement;
+  const prevBtn = document.getElementById('lightboxPrev') as HTMLButtonElement;
+  const nextBtn = document.getElementById('lightboxNext') as HTMLButtonElement;
+
+  let items: HTMLElement[] = [];
+  let current = 0;
+  let previousFocus: HTMLElement | null = null;
+  let touchStartX = 0;
+
+  /** Marked photo buttons that are on screen now, in page order. */
+  const visibleItems = () =>
+    [...document.querySelectorAll<HTMLElement>('[data-lightbox]')].filter((el) => el.getClientRects().length > 0);
+
+  const isOpen = () => lightbox.getAttribute('aria-hidden') === 'false';
+
+  function preload(index: number) {
+    const item = items[(index + items.length) % items.length];
+    if (item?.dataset.src) new Image().src = item.dataset.src;
+  }
+
+  function show() {
+    const item = items[current];
+    if (!item) return;
+    const src = item.dataset.src || '';
+    const alt = item.dataset.alt || '';
+
+    loading.style.display = 'flex';
+    img.style.opacity = '0';
+    const loader = new Image();
+    loader.onload = () => {
+      // Ignore a slow photo the visitor has already moved past
+      if (items[current] !== item) return;
+      img.src = src;
+      img.alt = alt;
+      loading.style.display = 'none';
+      img.style.opacity = '1';
+    };
+    loader.onerror = () => {
+      if (items[current] !== item) return;
+      loading.style.display = 'none';
+      caption.textContent = 'Failed to load image';
+    };
+    loader.src = src;
+
+    caption.textContent = alt;
+    counter.textContent = `${current + 1} / ${items.length}`;
+    const several = items.length > 1;
+    prevBtn.style.display = several ? '' : 'none';
+    nextBtn.style.display = several ? '' : 'none';
+    if (several) {
+      preload(current + 1);
+      preload(current - 1);
+    }
+  }
+
+  function open(trigger: HTMLElement) {
+    items = visibleItems();
+    current = Math.max(0, items.indexOf(trigger));
+    previousFocus = document.activeElement as HTMLElement | null;
+    show();
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    focusWhenVisible();
+  }
+
+  /**
+   * Move focus to the close button. The CSS fade-in keeps the viewer
+   * visibility: hidden for its first frames, and hidden elements can't take
+   * focus, so retry each frame until it shows. Stops if the viewer closes or
+   * focus is already inside it.
+   */
+  function focusWhenVisible() {
+    if (!isOpen() || lightbox.contains(document.activeElement)) return;
+    if (getComputedStyle(closeBtn).visibility === 'visible') closeBtn.focus();
+    else requestAnimationFrame(focusWhenVisible);
+  }
+
+  function close() {
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    previousFocus?.focus();
+  }
+
+  function step(by: number) {
+    current = (current + by + items.length) % items.length;
+    show();
+  }
+
+  document.addEventListener('click', (e) => {
+    const trigger = (e.target as Element).closest<HTMLElement>('[data-lightbox]');
+    if (trigger) open(trigger);
+  });
+  closeBtn.addEventListener('click', close);
+  prevBtn.addEventListener('click', () => step(-1));
+  nextBtn.addEventListener('click', () => step(1));
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox || e.target === content) close();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!isOpen()) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+    else if (e.key === 'Tab') {
+      // Keep focus inside the viewer
+      const buttons = [...lightbox.querySelectorAll<HTMLButtonElement>('button:not([disabled])')].filter(
+        (b) => b.getClientRects().length > 0,
+      );
+      const first = buttons[0];
+      const last = buttons[buttons.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  content.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+  content.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 50) step(diff > 0 ? 1 : -1);
+  }, { passive: true });
+</script>
 
 <style>
   .lightbox {

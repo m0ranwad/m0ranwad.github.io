@@ -94,12 +94,3 @@ export interface FAQItem {
   question: string;
   answer: string;
 }
-
-export interface ContactMethod {
-  icon: string;
-  title: string;
-  description: string;
-  linkText: string;
-  linkUrl: string;
-  external?: boolean;
-}

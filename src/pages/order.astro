@@ -37,6 +37,23 @@ const redirectUrl = new URL(formConfig.thankYouPage, Astro.site ?? 'https://www.
         </DateSwitch>
       </div>
       <div class="cart-items" id="cart-items"></div>
+      <!-- One line of the inquiry list; the script below fills a copy per item -->
+      <template id="cart-item-template">
+        <div class="cart-item">
+          <img src="" alt="" class="cart-item-image" />
+          <div class="cart-item-details">
+            <h4 class="cart-item-name"></h4>
+            <p class="cart-item-menu"></p>
+            <p class="cart-item-price"></p>
+          </div>
+          <div class="cart-item-quantity">
+            <button type="button" class="qty-btn minus" aria-label="Decrease quantity">−</button>
+            <span class="qty-value"></span>
+            <button type="button" class="qty-btn plus" aria-label="Increase quantity">+</button>
+          </div>
+          <button type="button" class="remove-btn" aria-label="Remove item">×</button>
+        </div>
+      </template>
       <div class="cart-actions" id="cart-actions">
         <button type="button" class="clear-cart-btn" id="clear-cart-btn">Clear all</button>
         <DateSwitch date={closeDate}>
@@ -149,29 +166,36 @@ const redirectUrl = new URL(formConfig.thankYouPage, Astro.site ?? 'https://www.
     if (cartActions) cartActions.style.display = 'flex';
     if (itemsSummary) itemsSummary.value = getCartSummary();
     
-    if (cartItems) {
-      // Escape HTML to prevent XSS from localStorage data
-      const esc = (str: string) => str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-      let html = '';
-      for (const item of items) {
-        // A thumbnail saved by an older version of the site may no longer exist
-        const img = item.image ? '<img src="' + esc(item.image) + '" alt="' + esc(item.name) + '" class="cart-item-image" onerror="this.remove()" />' : '';
-        html += '<div class="cart-item" data-id="' + esc(item.id) + '">' +
-          img +
-          '<div class="cart-item-details">' +
-            '<h4>' + esc(item.name) + '</h4>' +
-            '<p class="cart-item-menu">' + esc(item.menu) + '</p>' +
-            '<p class="cart-item-price">' + esc(item.price) + '</p>' +
-          '</div>' +
-          '<div class="cart-item-quantity">' +
-            '<button type="button" class="qty-btn minus" data-id="' + esc(item.id) + '" aria-label="Decrease quantity">−</button>' +
-            '<span class="qty-value">' + item.quantity + '</span>' +
-            '<button type="button" class="qty-btn plus" data-id="' + esc(item.id) + '" aria-label="Increase quantity">+</button>' +
-          '</div>' +
-          '<button type="button" class="remove-btn" data-id="' + esc(item.id) + '" aria-label="Remove item">×</button>' +
-        '</div>';
-      }
-      cartItems.innerHTML = html;
+    const template = document.getElementById('cart-item-template') as HTMLTemplateElement | null;
+    if (cartItems && template) {
+      // Text goes in through textContent and attributes, never as HTML, so
+      // nothing stored in localStorage can inject markup
+      const rows = items.map((item) => {
+        const row = (template.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+        row.dataset.id = item.id;
+        const img = row.querySelector<HTMLImageElement>('.cart-item-image')!;
+        // With no thumbnail, or one saved by an older version of the site
+        // that no longer exists, keep the empty slot so the row's grid
+        // columns stay in place
+        const hide = () => {
+          img.style.visibility = 'hidden';
+          img.alt = '';
+        };
+        if (item.image) {
+          img.addEventListener('error', hide);
+          img.src = item.image;
+          img.alt = item.name;
+        } else {
+          hide();
+        }
+        row.querySelector('.cart-item-name')!.textContent = item.name;
+        row.querySelector('.cart-item-menu')!.textContent = item.menu;
+        row.querySelector('.cart-item-price')!.textContent = item.price;
+        row.querySelector('.qty-value')!.textContent = String(item.quantity);
+        row.querySelectorAll<HTMLElement>('.qty-btn, .remove-btn').forEach((btn) => (btn.dataset.id = item.id));
+        return row;
+      });
+      cartItems.replaceChildren(...rows);
     }
   }
 
