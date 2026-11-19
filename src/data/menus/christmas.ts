@@ -5,8 +5,7 @@ export const christmasMenu: SeasonalMenu = {
   kind: 'seasonal',
   // What the site says about this menu. One of 'coming-soon', 'open',
   // 'sold-out' or 'past'; see SeasonStatus in ../types.ts.
-  status: 'coming-soon',
-  opens: '2026-11-28',
+  status: 'open',
   orderBy: '2026-12-12',
   title: 'Christmas Menu',
   subtitle: 'Festive treats for your holiday celebrations',
