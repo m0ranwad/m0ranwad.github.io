@@ -79,7 +79,7 @@ Page copy for each state (subtitle, intro, the box at the bottom) is in `menuVie
 
 ## Planned work
 
-- [#1](https://github.com/m0ranwad/m0ranwad.github.io/issues/1): tech debt and agent readiness, in eight phases, one pull request each.
-- [#2](https://github.com/m0ranwad/m0ranwad.github.io/issues/2): farm-stand redesign. It adds design guardrails to this file when it starts.
+- [#1](https://github.com/m0ranwad/m0ranwad.github.io/issues/1): tech debt and agent readiness. All eight phases are done; only open decision 1 (`LICENSE`) remains.
+- [#2](https://github.com/m0ranwad/m0ranwad.github.io/issues/2): farm-stand redesign, next. It adds design guardrails to this file when it starts. Its comments record what changed under it since it was written.
 
-**Where to resume:** progress lives in the epics' checkboxes, and decisions and exceptions in their comments. Read the epic, including its comments, before starting a phase, and tick its boxes when the pull request merges. Before starting, check whether a season is taking orders (see Rules): Phases 4–7 of #1 must not merge then.
+**Where to resume:** progress lives in the epics' checkboxes, and decisions and exceptions in their comments. Read the epic, including its comments, before starting a phase, and tick its boxes when the pull request merges. Before merging a code change, check whether a season is taking orders (see Rules).
