@@ -1,0 +1,129 @@
+---
+/**
+ * Design sample B, the kitchen table: the Christmas menu, shown as if orders
+ * were open. Phase 0 of the redesign (#2). A wide photo on top, then the
+ * menu as a list with a photo beside every entry.
+ */
+import SampleShell from '../../../components/directions/SampleShell.astro';
+import InquiryToggle from '../../../components/directions/InquiryToggle.astro';
+import Photo from '../../../components/ui/Photo.astro';
+import DateSwitch from '../../../components/ui/DateSwitch.astro';
+import { menuSample } from '../../../components/directions/copy';
+import { christmasMenu as menu } from '../../../data/menus';
+import { orderBySentence } from '../../../components/directions/menu';
+---
+
+<SampleShell dir="b" title="Christmas" page="christmas/" note="Christmas is shown as if orders were open.">
+  <header class="top">
+    {menu.headerImage && (
+      <Photo class="wide" src={menu.headerImage} alt="" sizes="(min-width: 64rem) 38rem, 100vw" loading="eager" fetchpriority="high" />
+    )}
+    <div class="intro">
+      <p class="label">Seasonal menu</p>
+      <h1>Christmas</h1>
+      <p>{menuSample.intro}</p>
+    </div>
+  </header>
+
+  <p class="deadline">
+    <span><DateSwitch date={menu.orderBy}>{orderBySentence(menu)}<Fragment slot="after">{menuSample.closed}</Fragment></DateSwitch></span>
+  </p>
+
+  <div class="wrap">
+    <ul class="menu">
+      {menu.items.map((item) => (
+        <li>
+          <Photo src={item.image} alt={item.name} sizes="(min-width: 48rem) 11rem, 6.5rem" widths={[400]} loading="lazy" />
+          <div>
+            <h2>{item.name}</h2>
+            <p class="price">{item.soldOut ? menuSample.soldOut : item.price}</p>
+            <p class="desc">{item.description}</p>
+            {!item.soldOut && (
+              <DateSwitch date={menu.orderBy}><InquiryToggle item={item} menuSlug={menu.slug} menuTitle={menu.title} /></DateSwitch>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <p class="after">{menuSample.after}</p>
+    <p><a class="button" href="/order/">Review your inquiry</a></p>
+  </div>
+</SampleShell>
+
+<style>
+  .label {
+    font-family: var(--label);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .top { margin-top: 1.25rem; }
+  .top :global(.wide) { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+  .intro { padding: 1.5rem 1rem 0; max-width: var(--measure); }
+  .intro > * + * { margin-top: 0.75rem; }
+  h1 { font-size: 2.5rem; }
+
+  .deadline {
+    margin-top: 1.75rem;
+    background: var(--wash);
+    padding: 0.875rem 1rem;
+    font-family: var(--label);
+    font-weight: 600;
+  }
+  .deadline span { display: block; max-width: 68rem; margin: 0 auto; }
+
+  .wrap { max-width: 72rem; margin: 0 auto; padding: 0 1rem; }
+  .menu { list-style: none; padding: 0; margin: 0.5rem 0 0; max-width: 46rem; }
+  .menu li {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
+    gap: 1rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .menu li :global(img) { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); }
+  h2 { font-size: 1.3125rem; }
+  .price { font-family: var(--label); font-weight: 600; margin-top: 0.25rem; font-size: 1rem; }
+  .desc { margin-top: 0.375rem; font-size: 1.0625rem; color: var(--muted); }
+  .after { margin-top: 2rem; max-width: var(--measure); }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 1.25rem;
+    margin-top: 1rem;
+    background: var(--accent);
+    color: #fff;
+    border-radius: var(--radius);
+    font-family: var(--label);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .button:hover { background: var(--ink); color: #fff; }
+
+  @media (min-width: 48rem) {
+    .intro { padding-left: 2rem; padding-right: 2rem; }
+    h1 { font-size: 3.25rem; }
+    .deadline { padding: 1rem 2rem; margin-top: 2.5rem; }
+    .wrap { padding: 0 2rem; }
+    .menu li { grid-template-columns: 11rem 1fr; gap: 2rem; padding: 2rem 0; }
+  }
+  @media (min-width: 64rem) {
+    .top {
+      max-width: 68rem;
+      margin: 2rem auto 0;
+      padding: 0 2rem;
+      box-sizing: content-box;
+      display: grid;
+      grid-template-columns: 38rem 1fr;
+      gap: 3rem;
+      align-items: end;
+    }
+    .top :global(.wide) { border-radius: var(--radius); }
+    .intro { padding: 0; }
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+/**
+ * Phase 0 of the redesign (#2): links to the two design samples, for the
+ * owner to compare on her phone. Deleted in Phase 1.
+ */
+import { sampleNames } from '../../components/directions/copy';
+
+const samples = (['a', 'b'] as const).map((dir) => ({ dir, name: sampleNames[dir] }));
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Two design samples | Thymeless Treats Bakery</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  </head>
+  <body>
+    <main>
+      <h1>Two looks for the new site</h1>
+      <p>Each sample has two pages: the home page between seasons, and the Christmas menu as if orders were open. The words are the same in both, so only the look differs. Nothing here is on the live site.</p>
+      {samples.map(({ dir, name }) => (
+        <section>
+          <h2>{dir.toUpperCase()}, {name}</h2>
+          <ul>
+            <li><a href={`/directions/${dir}/`}>Home page</a></li>
+            <li><a href={`/directions/${dir}/christmas/`}>Christmas menu</a></li>
+          </ul>
+        </section>
+      ))}
+    </main>
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 0;
+    background: #faf7f0;
+    color: #2b2722;
+    font: 1.125rem/1.55 Georgia, serif;
+  }
+  main { max-width: 34rem; padding: 2rem 1rem; }
+  h1 { font-size: 1.75rem; font-weight: normal; margin: 0 0 1rem; }
+  h2 { font-size: 1.25rem; font-weight: normal; margin: 2rem 0 0.25rem; }
+  ul { margin: 0; padding: 0; list-style: none; }
+  a { color: #4f6a3e; display: inline-block; padding: 0.5rem 0; }
+</style>

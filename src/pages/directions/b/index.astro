@@ -1,0 +1,132 @@
+---
+/**
+ * Design sample B, the kitchen table: the between-seasons home page.
+ * Phase 0 of the redesign (#2). Serif headings, a plain sans for labels,
+ * large photographs and more sage.
+ */
+import SampleShell from '../../../components/directions/SampleShell.astro';
+import Photo from '../../../components/ui/Photo.astro';
+import { custom, follow, resting, yearRound } from '../../../components/directions/copy';
+import { socialLink } from '../../../data/navigation';
+
+const instagram = socialLink('instagram');
+---
+
+<SampleShell dir="b" title="Home" page="">
+  <section class="resting">
+    <Photo
+      class="hero"
+      src={resting.photo}
+      alt={resting.photoAlt}
+      sizes="(min-width: 64rem) 34rem, 100vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="text">
+      <p class="label">{resting.label}</p>
+      <h1>{resting.heading}</h1>
+      {resting.body.map((p) => <p>{p}</p>)}
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="all-year">
+    <div class="inner">
+      <h2 id="all-year">{yearRound.heading}</h2>
+      <ul>
+        {yearRound.items.map((item) => (
+          <li>
+            <Photo src={item.photo} alt={item.alt} sizes="(min-width: 48rem) 20rem, 7.5rem" widths={[400, 800]} loading="lazy" />
+            <div>
+              <h3><a href={item.href}>{item.name}</a></h3>
+              <p>{item.text}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <section aria-labelledby="custom">
+      <h2 id="custom">{custom.heading}</h2>
+      <p>{custom.body}</p>
+      <p><a class="button" href="/order/">{custom.link}</a></p>
+    </section>
+
+    <section aria-labelledby="follow">
+      <h2 id="follow">{follow.heading}</h2>
+      <p>{follow.body} <a href={instagram.url}>{instagram.label}</a></p>
+    </section>
+  </div>
+</SampleShell>
+
+<style>
+  h1 { font-size: 2.125rem; }
+  h2 { font-size: 1.625rem; }
+  h3 { font-size: 1.25rem; font-weight: 500; }
+  .label {
+    font-family: var(--label);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .resting { margin-top: 1.25rem; }
+  .resting :global(.hero) { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+  .resting .text { padding: 1.5rem 1rem 0; max-width: var(--measure); }
+  .resting .text > * + * { margin-top: 0.875rem; }
+
+  .band { background: var(--wash); margin-top: 3.5rem; padding: 2.5rem 1rem; }
+  .inner { max-width: 68rem; margin: 0 auto; }
+  .band ul { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 1.5rem; }
+  .band li { display: grid; grid-template-columns: 7.5rem 1fr; gap: 1rem; align-items: start; }
+  .band li :global(img) { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); }
+  .band li p { margin-top: 0.375rem; font-size: 1.0625rem; }
+  .band h3 a { color: var(--ink); }
+  .band h3 a:hover { color: var(--accent); }
+
+  .wrap { max-width: 72rem; margin: 0 auto; padding: 0 1rem; }
+  .wrap section { margin-top: 3rem; max-width: var(--measure); }
+  .wrap section > * + * { margin-top: 0.75rem; }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 1.25rem;
+    margin-top: 0.5rem;
+    background: var(--accent);
+    color: #fff;
+    border-radius: var(--radius);
+    font-family: var(--label);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .button:hover { background: var(--ink); color: #fff; }
+
+  @media (min-width: 48rem) {
+    h1 { font-size: 3rem; }
+    .resting .text { padding: 2rem 2rem 0; }
+    .band { margin-top: 5rem; padding: 4rem 2rem; }
+    .band ul { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .band li { grid-template-columns: 1fr; }
+    .wrap { padding: 0 2rem; }
+    .wrap section { margin-top: 4rem; }
+  }
+  @media (min-width: 64rem) {
+    .resting {
+      max-width: 68rem;
+      margin: 2.5rem auto 0;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 34rem 1fr;
+      gap: 3.5rem;
+      align-items: center;
+      box-sizing: content-box;
+    }
+    .resting :global(.hero) { border-radius: var(--radius); }
+    .resting .text { padding: 0; }
+  }
+</style>

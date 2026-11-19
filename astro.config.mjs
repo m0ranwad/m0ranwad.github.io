@@ -58,7 +58,8 @@ export default defineConfig({
     ],
   },
   integrations: [
-    sitemap(),
+    // The redesign's Phase 0 samples (#2) are for the owner, not for search engines
+    sitemap({ filter: (page) => !page.includes('/directions/') }),
     // Fails the build if menu or gallery data names a photo that doesn't exist
     checkImages(),
     // Fails the build if more than one seasonal menu is open, or a status or date is malformed
