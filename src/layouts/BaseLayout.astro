@@ -31,7 +31,7 @@ const socialImage = new URL(await socialUrl(image), siteUrl).href;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {(noindex || __PREVIEW__) && <meta name="robots" content="noindex, nofollow" />}
     
     <!-- Open Graph / Social sharing -->
     <meta property="og:type" content="website" />

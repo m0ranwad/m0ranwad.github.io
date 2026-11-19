@@ -11,9 +11,22 @@ import checkSeasons from './scripts/check-seasons.mjs';
 // get the desktop layout.
 const BROWSERS = ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14'];
 
+// Preview builds for the redesign (epic #2) run on Cloudflare Pages, which
+// sets CF_PAGES=1. They are hidden from search engines on every page, use
+// the preview's own address, and send the order form to a test inbox. A
+// preview build without a test-inbox key fails, so it can never email the
+// owner. GitHub Pages (production) is unaffected.
+const PREVIEW = process.env.CF_PAGES === '1';
+const PREVIEW_FORM_KEY = process.env.PREVIEW_WEB3FORMS_KEY;
+if (PREVIEW && !PREVIEW_FORM_KEY) {
+  throw new Error(
+    'Preview build: set PREVIEW_WEB3FORMS_KEY (a Web3Forms key for a test inbox) in the Cloudflare Pages project settings.',
+  );
+}
+
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://www.thymelesstreatsbakery.com',
+  site: PREVIEW && process.env.CF_PAGES_URL ? process.env.CF_PAGES_URL : 'https://www.thymelesstreatsbakery.com',
   // Output static HTML (default, but explicit for clarity)
   output: 'static',
   build: {
@@ -25,6 +38,10 @@ export default defineConfig({
   // Astro 6's whitespace until the redesign (#2) rewrites this markup.
   compressHTML: true,
   vite: {
+    define: {
+      __PREVIEW__: JSON.stringify(PREVIEW),
+      __PREVIEW_FORM_KEY__: JSON.stringify(PREVIEW ? PREVIEW_FORM_KEY : null),
+    },
     build: {
       cssTarget: [...BROWSERS],
     },
