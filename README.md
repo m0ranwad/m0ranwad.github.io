@@ -20,7 +20,7 @@ You need Node 24 or later, and npm. CI uses the version in `.nvmrc` (Node 26). I
 ```sh
 npm ci            # install exact dependency versions
 npm run dev       # dev server at http://localhost:4321
-npm run check     # type check, build, check every photo path and internal link, and that no image is over 400 KB
+npm run check     # photo privacy, type check, build, every photo path and internal link, and no image over 400 KB
 npm run shots     # screenshot every page at phone and desktop width into shots/
 ```
 
@@ -42,7 +42,7 @@ Avoid risky changes while a season is taking orders. A broken order page then co
 | Change the gallery | `src/data/gallery.ts` |
 | Change contact links, FAQ or About text | `src/data/navigation.ts`, `src/data/content.ts` |
 
-Each step of a season is one change to the menu's `status` field. The steps are in [CLAUDE.md](CLAUDE.md#seasonal-updates).
+Each step of a season is one change to the menu's `status` field. Step-by-step runbooks, written so a person can follow them too, are in [`.claude/skills/`](.claude/skills/): [open a season](.claude/skills/open-season/SKILL.md), [mark items or a menu sold out](.claude/skills/sold-out/SKILL.md), [close a season](.claude/skills/close-season/SKILL.md) and [add photos](.claude/skills/add-photos/SKILL.md).
 
 ## Where things are
 

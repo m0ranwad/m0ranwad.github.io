@@ -7,7 +7,7 @@ Static Astro site for a seasonal cottage bakery. Read [README.md](README.md) for
 ```sh
 npm ci                                   # install (Node version is in .nvmrc)
 npm run dev                              # http://localhost:4321
-npm run check                            # types, build, photo paths, internal links, image sizes
+npm run check                            # photo metadata, types, build, photo paths, internal links, image sizes
 npm run shots                            # every page at 390px and 1280px -> shots/<branch>/
 npm run shots:compare -- main <branch>   # list what changed between two sets of shots
 ```
@@ -31,7 +31,7 @@ Do the routine steps of a task without being asked, then report what you did. Do
 
 - **`main` is production.** Every push to `main` deploys. Work on a branch from `main`, one change per pull request.
 - **GitHub settings are the maintainer's.** Prepare changes to the Pages source, default branch, environments or branch protection, then stop and ask.
-- **Hold risky changes while a season is taking orders.** Orders are open when a seasonal menu has `status: 'open'` and its `orderBy` date, if set, hasn't passed.
+- **Hold risky changes while a season is taking orders.** Orders are open when a seasonal menu has `status: 'open'` and its `orderBy` date, if set, hasn't passed. The hold is for code changes. Seasonal data the owner asks for (opening, sold out, closing, new photos) merges any time: her request is the approval.
 - **Privacy.** This repo and its issues are public. Never add a street address, the owner's surname, or any customer's name or details. The owner's first name and town are already public on the site. The Web3Forms access key in `src/config/forms.ts` is public by design; add no other secrets.
 - **Leave CSS alone** unless the task is about styling. Epic #2 replaces the visual layer, so consolidating CSS now is work done twice.
 
@@ -54,7 +54,8 @@ Do the routine steps of a task without being asked, then report what you did. Do
 | `src/assets/img/` | Every photo the site shows, named in data and pages as `/assets/img/...`. Anything here may be published. |
 | `src/lib/photos.ts`, `src/components/ui/Photo.astro` | The only way photos reach a page: resized AVIF and WebP via `<Photo>`, plus the lightbox, thumbnail, link-preview and background versions. |
 | `public/` | Files served as-is: `CNAME`, `favicon.ico`, `robots.txt`. No photos. |
-| `scripts/` | `check-images.mjs` and `check-seasons.mjs` (build-time data checks), `check-links.mjs` and `check-image-sizes.mjs` (run over `dist/`), `shots.mjs`. |
+| `scripts/` | `check-photo-metadata.mjs` (no GPS or author data in committed photos), `check-images.mjs` and `check-seasons.mjs` (build-time data checks), `check-links.mjs` and `check-image-sizes.mjs` (run over `dist/`), `shots.mjs`. |
+| `.claude/skills/` | Runbooks: `open-season`, `sold-out`, `close-season`, `add-photos`; also `codex-review`. |
 
 ## Known leftovers
 
@@ -66,13 +67,15 @@ Do the routine steps of a task without being asked, then report what you did. Do
 
 Each seasonal menu's state is one field, `status`, in `src/data/menus/<season>.ts`. Every page derives from it through `src/data/season.ts`, so pages can't contradict each other. Run `npm run check` after each change.
 
+**Use the runbooks** in `.claude/skills/` for these tasks: `open-season`, `sold-out`, `close-season` and `add-photos`. Each names the one file to edit and ends with the diff. The summary:
+
 1. **Announce (optional).** `status: 'coming-soon'`, plus `opens: 'YYYY-MM-DD'` for an "orders open in N days" countdown. Items and prices show, without "Add to Inquiry". The home and menus pages feature it.
 2. **Open.** `status: 'open'`, plus `orderBy: 'YYYY-MM-DD'` (the last day to order) for a countdown. Update items and prices, and remove leftover `soldOut` flags. The build fails if two menus are open (open decision 2 in #1). After `orderBy` the pages switch to "orders closed" in the browser, without a redeploy.
 3. **Sell out.** One item: `soldOut: true` on it. Everything: `status: 'sold-out'`. The menu stays featured with a "Sold Out" label.
 4. **Close.** `status: 'past'`. The page shows what was made, without prices or ordering. With nothing open, coming soon or sold out, the home page shows "Between Seasons".
 5. **Redeploy in January.** The footer year is computed at build time.
 
-Page copy for each state (subtitle, intro, the box at the bottom) is in `menuView()`. A menu's own `intro` and `cta` are used while it is open. Runbooks for these tasks will live in `.claude/skills/` (epic #1 Phase 8).
+Page copy for each state (subtitle, intro, the box at the bottom) is in `menuView()`. A menu's own `intro` and `cta` are used while it is open.
 
 ## Planned work
 
