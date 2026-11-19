@@ -12,6 +12,7 @@
     "check": "node scripts/check-photo-metadata.mjs && astro check && astro build && node scripts/check-links.mjs && node scripts/check-image-sizes.mjs",
     "shots": "astro build && node scripts/shots.mjs",
     "shots:compare": "node scripts/shots.mjs --compare",
+    "photo:clean": "node scripts/clean-photo-metadata.mjs",
     "astro": "astro"
   },
   "dependencies": {

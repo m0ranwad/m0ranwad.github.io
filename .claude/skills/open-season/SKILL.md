@@ -34,7 +34,10 @@ Only one seasonal menu may be `'open'`; the build fails otherwise. Search for it
 grep -n "status: 'open'\|status: 'sold-out'" src/data/menus/*.ts
 ```
 
-An earlier season still marked `'open'` or `'sold-out'` gets `status: 'past'` in the same pull request (that is closing it; see `.claude/skills/close-season/`).
+An earlier season still marked `'open'` or `'sold-out'` is closed (`status: 'past'`; see `.claude/skills/close-season/`) in the pull request that **opens** the new season, never earlier:
+
+- Opening today: close it in this pull request.
+- Announcing for later (`'coming-soon'`): leave it alone, so it keeps taking orders or showing "Sold Out" until the new season actually opens. Close it in the step 6 pull request instead. Meanwhile the home page and the menus page feature an **open** current season over the coming-soon one, so the announcement shows only on the new season's own page (coming-soon wording and the "orders open in N days" countdown). A **sold-out** current season gives way: the coming-soon season is featured.
 
 ## 3. Edit the menu file
 
@@ -61,7 +64,7 @@ npm run check
 
 It fails on a mistyped photo path (and suggests the right one), a second open menu, a malformed date, or private photo metadata. Fix what it names.
 
-Then look at the result: `npm run dev` and open http://localhost:4321/, `/holidays/` and `/<season>/` at phone width, or run `npm run shots` and look at `shots/<branch>/home-390.png` and `<season>-390.png`. Check the season is featured, the prices are right, and the countdown shows the date you meant.
+Then look at the result: `npm run dev` and open http://localhost:4321/, `/holidays/` and `/<season>/` at phone width, or run `npm run shots` and look at `shots/<branch>/home-390.png` and `<season>-390.png`. Check the prices are right and the countdown shows the date you meant. The new season is featured on the home page once it's open, or while coming soon if no other season is open or sold out.
 
 ## 5. Ship it
 
@@ -71,7 +74,7 @@ The owner asking for the change is the approval: seasonal data changes merge wit
 
 ## 6. If orders open later
 
-The site can't switch itself from coming soon to open: the status is set by hand. Open a second pull request that changes only `status: 'coming-soon'` to `status: 'open'`, title it with the date (for example "Open Christmas orders on 2026-11-20"), and leave it unmerged. Merging it on that day is the whole opening.
+The site can't switch itself from coming soon to open: the status is set by hand. Open a second pull request that changes `status: 'coming-soon'` to `status: 'open'`, and closes the previous season if step 2 left one open or sold out. Title it with the date (for example "Open Christmas orders on 2026-11-20"), and leave it unmerged. Merging it on that day is the whole opening.
 
 This is the one step that needs a person on the day, so it is not a to-do list in the "Carry work through" sense: state the date and the pull request link plainly at the top of your report. If the owner would rather take orders from today, use `status: 'open'` now and skip this step.
 

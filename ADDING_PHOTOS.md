@@ -10,7 +10,7 @@ The site resizes every photo itself. It makes small AVIF and WebP versions for e
 - Use the **largest copy you have**, at least 2000 pixels on the long side if possible. Smaller photos work, but look soft on large screens.
 - Keep files under about **10 MB**. The site serves only the small versions, but large originals slow down every build and are kept in the repository forever.
 - Give it a clear name in lowercase with dashes: `red-velvet-heart.jpg`, not `IMG_1234.jpg`.
-- **Remove the location.** The original file is public in this repository, and phone photos often record where they were taken. On an iPhone, use Share > Options and turn off Location before saving; in Google Photos, remove the location in the photo's details and download it again. `npm run check` stops a photo that still has a location or an author name in it.
+- **Remove the location.** The original file is public in this repository, and phone photos often record where they were taken. After putting the photo in place (step 2), run `npm run photo:clean -- src/assets/img/<folder>/<name>.jpg`. It removes the location, author and camera details and keeps how the photo looks. `npm run check` stops a photo that still has a location or an author name in it.
 
 ## 2. Put it in the photo folder
 

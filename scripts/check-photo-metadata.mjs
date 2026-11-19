@@ -4,12 +4,12 @@
 // original files are committed to this public repository, so a phone photo
 // with GPS coordinates would publish where it was taken (often the owner's
 // kitchen), and an author field can carry a full name. CLAUDE.md's privacy
-// rule forbids both. Checks EXIF (GPS, Artist), XMP (GPS, creator, artist)
-// and IPTC (by-line).
+// rule forbids both. Checks EXIF and TIFF tags (GPS, Artist), XMP (GPS,
+// creator, artist, creator contact; any namespace prefix) and IPTC (by-line).
 //
 // Usage: node scripts/check-photo-metadata.mjs
 
-import { readdirSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
@@ -46,8 +46,20 @@ function exifTags(exif) {
 
 const GPS_IFD = 0x8825;
 const ARTIST = 0x013b;
-const XMP_GPS = /exif:GPSLatitude/;
-const XMP_AUTHOR = [/<dc:creator\b/, /<tiff:Artist\b/, /tiff:Artist=/];
+
+// XMP fields that hold a location or a person, matched by local name with
+// any namespace prefix (prefixes are only aliases in XML), as an element
+// or as an attribute with a value. GPSLatitude/Longitude are EXIF's,
+// creator is Dublin Core's, Artist is TIFF's, CreatorContactInfo is IPTC
+// Core's (it can hold an address).
+const XMP_GPS_NAMES = 'GPSLatitude|GPSLongitude';
+const XMP_AUTHOR_NAMES = 'creator|Artist|CreatorContactInfo';
+const xmpField = (names) => [
+  new RegExp(String.raw`<(?:[\w.-]+:)?(?:${names})(?=[\s>/])`),
+  new RegExp(String.raw`\s(?:[\w.-]+:)?(?:${names})\s*=\s*("[^"]+"|'[^']+')`),
+];
+const XMP_GPS = xmpField(XMP_GPS_NAMES);
+const XMP_AUTHOR = xmpField(XMP_AUTHOR_NAMES);
 
 const problems = [];
 const photos = walk(assets).filter((f) => /\.(jpe?g|png|webp|tiff?|heic|heif|avif)$/i.test(f));
@@ -61,16 +73,20 @@ for (const file of photos) {
     continue;
   }
   const found = [];
-  if (meta.exif) {
-    const tags = exifTags(meta.exif);
-    if (tags.has(GPS_IFD)) found.push('GPS location');
-    if (tags.has(ARTIST)) found.push('author (EXIF Artist)');
-  }
-  if (meta.xmp) {
-    const xmp = meta.xmp.toString('utf8');
-    if (XMP_GPS.test(xmp)) found.push('GPS location (XMP)');
-    if (XMP_AUTHOR.some((re) => re.test(xmp))) found.push('author (XMP)');
-  }
+  const raw = readFileSync(file);
+  // EXIF from sharp; a TIFF file is itself a TIFF structure, and sharp
+  // doesn't expose its IFD0 tags, so read those from the file
+  const ifd0 = new Set([
+    ...(meta.exif ? exifTags(meta.exif) : []),
+    ...(/\.tiff?$/i.test(file) ? exifTags(raw) : []),
+  ]);
+  if (ifd0.has(GPS_IFD)) found.push('GPS location');
+  if (ifd0.has(ARTIST)) found.push('author (EXIF Artist)');
+  // XMP is plain XML text wherever it is stored, so also search the file's
+  // bytes: that covers containers sharp doesn't expose XMP for (TIFF)
+  const xmpText = (meta.xmp ? meta.xmp.toString('utf8') : '') + '\n' + raw.toString('latin1');
+  if (XMP_GPS.some((re) => re.test(xmpText))) found.push('GPS location (XMP)');
+  if (XMP_AUTHOR.some((re) => re.test(xmpText))) found.push('author (XMP)');
   // IPTC record 2, dataset 80 is the by-line (author)
   if (meta.iptc && meta.iptc.includes(Buffer.from([0x1c, 0x02, 0x50]))) found.push('author (IPTC by-line)');
   if (found.length) problems.push(`${name}: ${[...new Set(found)].join(', ')}`);
@@ -80,10 +96,12 @@ if (problems.length) {
   console.error(`\nPhotos with private metadata (${problems.length}):\n`);
   for (const p of problems) console.error(`  ${p}`);
   console.error(`
-The original file is public in this repository. Replace it with a copy that has
-no location or author: on an iPhone, Share > Options > turn off Location, then
-save; in Google Photos, remove the location in the photo's details and download
-it again. Then run npm run check again. See ADDING_PHOTOS.md.
+The original file is public in this repository. Remove the metadata (the photo
+keeps how it looks):
+
+  npm run photo:clean -- <photo>
+
+Then run npm run check again. See ADDING_PHOTOS.md.
 `);
   process.exit(1);
 }
