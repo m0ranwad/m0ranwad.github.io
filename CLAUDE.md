@@ -59,7 +59,7 @@ Do the routine steps of a task without being asked, then report what you did. Do
 
 ## Known leftovers
 
-- **`LICENSE`** is still the old Jekyll theme's MIT licence, naming the theme's author. Replacing it is the owner's decision; don't edit it.
+- **No licence file, on purpose.** The old Jekyll theme's MIT licence was removed (maintainer's decision, 2026-11-18): the repository is all rights reserved, so the owner's photos and text aren't licensed for reuse. Don't add one.
 - **Unused photos kept on purpose.** `src/assets/brand/` holds `logo.png`, `logo.jpg`, `thymeless.jpg` and `404.jpg` for the redesign (#2). They sit outside `src/assets/img/` so they aren't published. Don't delete them as unused.
 - **Photos.** The build resizes every photo (Phase 6); originals of any size can go in `src/assets/img/`. See [ADDING_PHOTOS.md](ADDING_PHOTOS.md). A new place that shows a photo uses `<Photo>` or a helper in `src/lib/photos.ts`, never a `/assets/img/` URL: that path is not served.
 
@@ -79,7 +79,7 @@ Page copy for each state (subtitle, intro, the box at the bottom) is in `menuVie
 
 ## Planned work
 
-- [#1](https://github.com/m0ranwad/m0ranwad.github.io/issues/1): tech debt and agent readiness. All eight phases are done; only open decision 1 (`LICENSE`) remains.
+- [#1](https://github.com/m0ranwad/m0ranwad.github.io/issues/1): tech debt and agent readiness. Done: all eight phases merged, every open decision answered.
 - [#2](https://github.com/m0ranwad/m0ranwad.github.io/issues/2): farm-stand redesign, next. It adds design guardrails to this file when it starts. Its comments record what changed under it since it was written.
 
 **Where to resume:** progress lives in the epics' checkboxes, and decisions and exceptions in their comments. Read the epic, including its comments, before starting a phase, and tick its boxes when the pull request merges. Before merging a code change, check whether a season is taking orders (see Rules).
