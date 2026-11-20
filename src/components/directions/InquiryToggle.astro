@@ -1,0 +1,75 @@
+---
+/**
+ * The quiet "Add to inquiry" control on each menu line of the design
+ * samples. It adds to and removes from the same stored inquiry list the
+ * order page reads (src/scripts/inquiry-store.ts), and says which it did as
+ * plain text: no icon, no animation.
+ */
+import type { MenuItem } from '../../data/types';
+import { createItemId } from '../../scripts/inquiry-store';
+import { thumbUrl } from '../../lib/photos';
+import { menuSample } from './copy';
+
+interface Props {
+  item: MenuItem;
+  menuSlug: string;
+  menuTitle: string;
+}
+
+const { item, menuSlug, menuTitle } = Astro.props;
+const thumb = await thumbUrl(item.image);
+---
+
+<button
+  type="button"
+  class="inquiry-toggle"
+  data-id={createItemId(menuSlug, item.name)}
+  data-name={item.name}
+  data-price={item.price}
+  data-image={thumb}
+  data-menu={menuTitle}
+  data-add={menuSample.add}
+  data-remove={menuSample.remove}
+  aria-label={`${menuSample.add}: ${item.name}`}
+>{menuSample.add}</button>
+
+<script>
+  import { addItem, hasItem, removeItem } from '../../scripts/inquiry-store';
+
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>('.inquiry-toggle')];
+  const show = (b: HTMLButtonElement) => {
+    const on = hasItem(b.dataset.id!);
+    const text = on ? b.dataset.remove! : b.dataset.add!;
+    b.dataset.on = String(on);
+    b.textContent = text;
+    b.setAttribute('aria-label', `${text}: ${b.dataset.name}`);
+  };
+  for (const b of buttons) {
+    show(b);
+    b.addEventListener('click', () => {
+      const { id, name, price, image, menu } = b.dataset as Record<string, string>;
+      if (hasItem(id)) removeItem(id);
+      else addItem({ id, name, price, image, menu });
+      show(b);
+    });
+  }
+  window.addEventListener('storage', () => buttons.forEach(show));
+</script>
+
+<style>
+  .inquiry-toggle {
+    background: none;
+    border: 0;
+    padding: 0;
+    min-height: 44px;
+    color: var(--accent);
+    font-family: var(--label);
+    font-size: 1rem;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+    cursor: pointer;
+  }
+  .inquiry-toggle:hover { color: var(--ink); }
+  .inquiry-toggle[data-on="true"] { color: var(--muted); }
+</style>

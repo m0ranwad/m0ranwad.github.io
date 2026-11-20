@@ -1,0 +1,227 @@
+---
+/**
+ * Page shell for the Phase 0 design samples (#2): A, the printed card, and
+ * B, the kitchen table. Each sample is a complete page with its own fonts
+ * and tokens, and none of the current site's global styles. A strip at the
+ * top says it is a sample and links to the same page in the other sample.
+ *
+ * Fonts come from Google Fonts for now; Phase 1 self-hosts the chosen pair.
+ */
+import { mainNavLinks, siteInfo, socialLink } from '../../data/navigation';
+import { footer, sampleNames, type Direction } from './copy';
+
+interface Props {
+  dir: Direction;
+  title: string;
+  /** Path after /directions/<dir>/, e.g. '' or 'christmas/'. */
+  page: string;
+  note?: string;
+}
+
+const { dir, title, page, note } = Astro.props;
+const other: Direction = dir === 'a' ? 'b' : 'a';
+const fonts = {
+  a: 'https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap',
+  b: 'https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Source+Sans+3:wght@400;600&display=swap',
+}[dir];
+// The four links the redesign's header keeps: Menus, Order, Gallery, About.
+const nav = [
+  ...mainNavLinks.filter((l) => l.label !== 'Contact'),
+  { label: 'About', href: '/about/' },
+];
+const instagram = socialLink('instagram');
+const email = socialLink('email');
+const year = new Date().getFullYear();
+---
+
+<!DOCTYPE html>
+<html lang="en" class={`dir-${dir}`}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{`${title} · Sample ${dir.toUpperCase()} | ${siteInfo.name}`}</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href={fonts} rel="stylesheet" />
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to the page</a>
+    <p class="sample">
+      Design sample {dir.toUpperCase()}, {sampleNames[dir]}. Not the live site.{note && ` ${note}`}
+      <a href={`/directions/${other}/${page}`}>See sample {other.toUpperCase()}</a>
+    </p>
+    <header class="site-header">
+      <a class="name" href={`/directions/${dir}/`}>Thymeless Treats</a>
+      <nav aria-label="Main">
+        <ul>
+          {nav.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+          <li><a href="/order/" data-inquiry-link>Inquiry <span data-inquiry-count></span></a></li>
+        </ul>
+      </nav>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>{footer.line}</p>
+      <p>
+        <a href={email.url}>{email.label}</a><br />
+        <a href={instagram.url}>Instagram, {instagram.label}</a>
+      </p>
+      <p class="small">© {year} {siteInfo.name}</p>
+    </footer>
+  </body>
+</html>
+
+<script>
+  import { getCount } from '../../scripts/inquiry-store';
+
+  // "Inquiry" in the header, with the number of items once there are any.
+  const show = () => {
+    const count = getCount();
+    for (const el of document.querySelectorAll<HTMLElement>('[data-inquiry-count]')) {
+      el.textContent = count ? `(${count})` : '';
+    }
+  };
+  show();
+  window.addEventListener('inquiry-cart-updated', show);
+  window.addEventListener('storage', show);
+</script>
+
+<style is:global>
+  /* Tokens. A: one serif, ink on paper, sage only on links, square corners.
+     B: serif headings with a plain sans for labels, sage more present. */
+  html.dir-a {
+    --paper: #faf7f0;
+    --ink: #2b2722;
+    --muted: #5e574e;
+    --rule: #d6cebf;
+    --accent: #4f6a3e;
+    --wash: transparent;
+    --radius: 0;
+    --serif: 'EB Garamond', Garamond, 'Times New Roman', serif;
+    --label: var(--serif);
+    --text-size: 1.1875rem;
+    --measure: 34rem;
+  }
+  html.dir-b {
+    --paper: #fbf9f4;
+    --ink: #262420;
+    --muted: #5e574e;
+    --rule: #dcd6ca;
+    --accent: #4f6a3e;
+    --wash: #e9eee2;
+    --radius: 2px;
+    --serif: 'Newsreader', Georgia, serif;
+    --label: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+    --text-size: 1.125rem;
+    --measure: 36rem;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: var(--text-size);
+    line-height: 1.55;
+  }
+  img { display: block; max-width: 100%; height: auto; }
+  h1, h2, h3 { font-weight: 500; line-height: 1.2; margin: 0; }
+  p { margin: 0; }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  a:hover { color: var(--ink); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  button { font: inherit; }
+
+  .skip {
+    position: absolute;
+    left: -9999px;
+  }
+  .skip:focus { left: 1rem; top: 1rem; background: var(--paper); padding: 0.5rem 0.75rem; z-index: 2; }
+
+  .sample {
+    font-family: var(--label);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: var(--muted);
+    padding: 0.625rem 1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .sample a { white-space: nowrap; }
+
+  .site-header {
+    padding: 1.25rem 1rem 0;
+    max-width: 72rem;
+    margin: 0 auto;
+  }
+  .site-header .name {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 1.625rem;
+    line-height: 1.2;
+  }
+  .dir-a .site-header .name { font-style: italic; }
+  .site-header ul {
+    list-style: none;
+    margin: 0.25rem 0 0 -0.625rem;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .site-header nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 0.625rem;
+    font-family: var(--label);
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .dir-b .site-header nav a { font-size: 1rem; }
+  .site-header nav a:hover { color: var(--accent); text-decoration: underline; }
+  .site-header nav a span { margin-left: 0.25em; }
+
+  @media (min-width: 48rem) {
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 2rem 2rem 0;
+    }
+    .site-header ul { margin: 0; }
+  }
+
+  main { display: block; }
+
+  .site-footer {
+    max-width: 72rem;
+    margin: 4rem auto 0;
+    padding: 1.5rem 1rem 2.5rem;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    gap: 0.75rem;
+    color: var(--muted);
+    font-size: 1rem;
+  }
+  .dir-b .site-footer {
+    max-width: none;
+    border-top: 0;
+    background: var(--wash);
+    font-family: var(--label);
+  }
+  .site-footer a { display: inline-block; padding: 0.375rem 0; }
+  .site-footer .small { font-size: 0.875rem; }
+  @media (min-width: 48rem) {
+    .site-footer { padding-left: 2rem; padding-right: 2rem; }
+    .dir-b .site-footer { padding-left: max(2rem, calc((100% - 68rem) / 2)); padding-right: max(2rem, calc((100% - 68rem) / 2)); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { scroll-behavior: auto !important; transition: none !important; }
+  }
+</style>

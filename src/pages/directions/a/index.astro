@@ -1,0 +1,103 @@
+---
+/**
+ * Design sample A, the printed card: the between-seasons home page.
+ * Phase 0 of the redesign (#2). One serif, ink on paper, one small photo.
+ */
+import SampleShell from '../../../components/directions/SampleShell.astro';
+import Photo from '../../../components/ui/Photo.astro';
+import { custom, follow, resting, yearRound } from '../../../components/directions/copy';
+import { socialLink } from '../../../data/navigation';
+
+const instagram = socialLink('instagram');
+---
+
+<SampleShell dir="a" title="Home" page="">
+  <div class="wrap">
+    <section class="resting">
+      <div class="text">
+        <p class="label">{resting.label}</p>
+        <h1>{resting.heading}</h1>
+        {resting.body.map((p) => <p>{p}</p>)}
+      </div>
+      <Photo
+        class="photo"
+        src={resting.photo}
+        alt={resting.photoAlt}
+        sizes="(min-width: 48rem) 18rem, 14rem"
+        widths={[400, 800]}
+        loading="eager"
+      />
+    </section>
+
+    <section class="card" aria-labelledby="all-year">
+      <h2 id="all-year">{yearRound.heading}</h2>
+      <ul>
+        {yearRound.items.map((item) => (
+          <li>
+            <a href={item.href}>{item.name}</a>
+            <p>{item.text}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section aria-labelledby="custom">
+      <h2 id="custom">{custom.heading}</h2>
+      <p>{custom.body}</p>
+      <p><a href="/order/">{custom.link}</a></p>
+    </section>
+
+    <section aria-labelledby="follow">
+      <h2 id="follow">{follow.heading}</h2>
+      <p>{follow.body} <a href={instagram.url}>{instagram.label}</a></p>
+    </section>
+  </div>
+</SampleShell>
+
+<style>
+  .wrap {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  section { margin-top: 3rem; max-width: var(--measure); }
+  section > * + * { margin-top: 0.75rem; }
+  h1 { font-size: 2.125rem; }
+  h2 { font-size: 1.5rem; }
+  .label { font-style: italic; color: var(--muted); }
+  .resting { margin-top: 2.5rem; max-width: none; }
+  .resting .text > * + * { margin-top: 0.875rem; }
+  .resting .text { max-width: var(--measure); }
+  .resting :global(.photo) {
+    width: 14rem;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    margin-top: 1.75rem;
+  }
+
+  .card ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    border-top: 1px solid var(--rule);
+  }
+  .card li {
+    padding: 0.875rem 0 1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .card li a { font-size: 1.3125rem; }
+  .card li p { color: var(--muted); margin-top: 0.125rem; }
+
+  @media (min-width: 48rem) {
+    .wrap { padding: 0 2rem; }
+    h1 { font-size: 2.75rem; }
+    .resting {
+      margin-top: 4rem;
+      display: flex;
+      gap: 4rem;
+      align-items: flex-start;
+    }
+    .resting :global(.photo) { width: 18rem; margin-top: 0; flex: none; }
+    section { margin-top: 4rem; }
+  }
+</style>
